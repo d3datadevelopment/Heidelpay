@@ -1,0 +1,51 @@
+{
+  "name": "d3/heidelpay",
+  "description": "Heidelpay client module for oxid eShop v6",
+  "type": "oxideshop-module",
+  "authors": [
+    {
+      "name": "D3 Data Development (Inh. Thomas Dartsch)",
+      "email": "info@shopmodule.com",
+      "homepage": "http://www.oxidmodule.com",
+      "role": "Owner"
+    }
+  ],
+  "support": {
+    "email": "support@shopmodule.com"
+  },
+  "keywords": [
+    "oxid",
+    "modules",
+    "eShop",
+    "d3",
+    "heidelpay",
+    "creditcard",
+    "debitcard",
+    "payment"
+  ],
+  "homepage": "https://www.oxidmodule.com/",
+  "license": [
+    "proprietary"
+  ],
+  "extra": {
+    "oxideshop": {
+      "source-directory": "/src",
+      "target-directory": "d3/heidelpay"
+    }
+  },
+  "require": {
+    "php": "7.1 - 7.2", 
+    "ext-ionCube-Loader": "*",
+    "lib-curl": ">=7.34.0",
+    "lib-openssl": ">=1.0.1",
+    "ext-curl": "*",
+    "ext-openssl": "*",
+    "oxid-esales/oxideshop-ce": "~6.1.0",
+    "d3/modcfg": "~5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "D3\\Heidelpay\\": "../../../source/modules/d3/heidelpay"
+    }
+  }
+}

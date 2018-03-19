@@ -1,0 +1,43 @@
+#d3HeidelpayWait { font-size : 20px; text-align : center; }
+
+#d3HeidelpayOutOfTime .d3HeidelpayInfoTable, #d3HeidelpayWait .d3HeidelpayInfoTable { height : 107px; width : 100%; }
+
+#d3HeidelpayOutOfTime .d3HeidelpayInfoCell, #d3HeidelpayWait .d3HeidelpayInfoCell { text-align : center; vertical-align : middle; }
+
+.d3HeidelaySameAddressNotice, #d3HeidelayPostfinanceNotice,#d3HeidelayIDealNotice, #d3HeidelayPrzelewy24Notice, #d3HeidelayEasycreditNotice {font-size: 10px; color: darkred; display:inline-block;}
+
+#paymentFrameIframe{
+ width:  290px;
+ height: 290px;
+ display: block;
+ margin: 0 auto;
+}
+
+.d3timeOut {
+ text-align: center;
+ padding: 20px 0;
+ font-size: 16px;
+}
+.d3timeOut .timer {
+ display: inline;
+}
+.d3timeOut .minutes, .d3timeOut .seconds {
+ display: inline;
+}
+.d3timeOut .hours {
+ display:none;
+}
+
+.d3EasyCreditNotes a {
+ text-decoration: underline;
+ color: #a94442;
+}
+.d3EasyCreditNotesAzure a {
+ color: #1d7e96;
+}
+
+.d3EasyCreditNotesMobile a {
+ font-weight: bold;
+ color: #1d7e96;
+ text-decoration: none;
+}

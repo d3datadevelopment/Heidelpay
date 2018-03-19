@@ -1,0 +1,24 @@
+---- IDENT ----
+d3_hp_vorkassemail_owner_text
+
+---- TITEL ----
+Heidelpay Vorkasseinfomail Shopinhaber Text
+
+---- LANGTEXT ----
+Hallo,<br/><br/>
+
+Soeben konnte für Bestellung Nr. [{$order->oxorder__oxordernr->value}] ein
+Zahlungseingang verbucht werden.<br/><br/>
+
+[{if $order->blDifferentAmount}]
+  <div style="color: red; font-weight: bold">
+  Achtung, der überwiesene Betrag ([{$order->fPayAmount}] [{$order->oxorder__oxcurrency->value}])
+  stimmt NICHT mit dem Gesamtbetrag der Bestellung
+  ([{$order->getTotalOrderSum()}] [{$order->oxorder__oxcurrency->value}]) überein!
+  </div><br/>
+[{else}]
+  <div style="color: #123123; font-weight: bold">
+  Der überwiesene Betrag ([{$order->getTotalOrderSum()}] [{$order->oxorder__oxcurrency->value}]) stimmt mit
+  der Bestellsumme überein. Die Bestellung kann versandt werden.
+  </div><br/>
+[{/if}]

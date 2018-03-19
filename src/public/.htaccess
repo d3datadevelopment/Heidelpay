@@ -1,0 +1,12 @@
+# enabling file access
+<FilesMatch .*>
+	<IfModule mod_authz_core.c>
+		Require all granted
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		order allow,deny
+		allow from all
+	</IfModule>
+</FilesMatch>
+
+Options -Indexes
