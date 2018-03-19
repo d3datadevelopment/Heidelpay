@@ -1,0 +1,8 @@
+---- IDENT ----
+d3_hp_vorkassemail_cust_subject
+
+---- TITEL ----
+Heidelpay Vorkasseinfomail Kunde Betreff
+
+---- LANGTEXT ----
+Zahlungseingang zu Ihrer Bestellung [{$order->oxorder__oxordernr->value}] in unserem Online Shop

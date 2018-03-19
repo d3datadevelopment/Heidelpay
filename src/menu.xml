@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<OX>
+    <OXMENU id="NAVIGATION_ESHOPADMIN">
+        <MAINMENU id="mxorders">
+            <SUBMENU id="mxdisplayorders" cl="admin_order" list="order_list">
+                <TAB id="d3_heidelpay_controllers_admin_order_heidelpay" cl="d3_heidelpay_controllers_admin_order_heidelpay"/>
+            </SUBMENU>
+        </MAINMENU>
+    </OXMENU>
+    <OXMENU id="d3mxd3modules">
+        <MAINMENU id="d3mxheidelpay">
+            <SUBMENU id="d3mxheidelpay_settings" cl="d3_heidelpay_controllers_admin_base" list="d3_heidelpay_controllers_admin_adminlist" rights="malladmin">
+                <TAB id="d3tbclheidelpay_settings" cl="d3_heidelpay_controllers_admin_settings"/>
+                <TAB id="d3tbclheidelpay_support" cl="d3_heidelpay_controllers_admin_support"/>
+            </SUBMENU>
+            <SUBMENU id ="d3mxheidelpaylog" cl="d3_heidelpay_controllers_admin_log" list="d3_heidelpay_controllers_admin_loglist">
+                <TAB id="d3tbcllog_main" cl="d3_cfg_log_main" />
+            </SUBMENU>
+            <SUBMENU id ="d3mxheidelpaytransactionlog" cl="d3_heidelpay_controllers_admin_transactionloglist" />
+        </MAINMENU>
+    </OXMENU>
+</OX>

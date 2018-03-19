@@ -1,0 +1,95 @@
+#paymentBackStepBottom {
+    border: 0 none;
+    cursor: pointer;
+    display: block;
+    font-size: 1.111em;
+    font-weight: bold;
+    position: relative;
+    text-transform: uppercase;
+    width: 100%;
+    padding: 10px 12px;
+    vertical-align: middle;
+    white-space: nowrap;
+    background: #cccccc;
+    color: #666666;
+}
+
+button#paymentNextStepBottom{
+    background-color: #50a9be;
+    border: 0 none;
+    color: #ffffff;
+    cursor: pointer;
+    display: block;
+    font-size: 1.111em;
+    font-weight: bold;
+    position: relative;
+    text-transform: uppercase;
+    width: 100%;
+    padding: 10px 12px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.alert.alert-error.d3heidelpay {
+    padding: 8px 15px 8px 30px;
+}
+
+.payment-row form.payment .payment-option .form label, #payform .payment-row .form label {
+    font-weight: bold;
+    color: gray;
+}
+
+ul.storeduid {
+    border: 2px solid #ffe7e3;
+    list-style: none outside none;
+    margin-left: 0;
+    padding: 5px;
+}
+ul.storeduid li{
+    margin: 5px 0 0 0;
+}
+ul.storeduid li.head{
+    margin: 0 0 10px;
+}
+ul.storeduid li  div{
+    float: left;
+    width: 110px;
+    font-weight: bold;
+}
+ul.storeduid li  span{}
+ul.storeduid li  span:first-child{width: 50px;}
+
+.btn.storeduid{
+    font-size: 0.9em;
+    padding: 6px;
+
+}
+
+#paymentFrameIframe{
+    width:  290px;
+    height: 290px;
+    display: block;
+    margin: 0 auto;
+}
+
+#d3HeidelpayWait { font-size : 20px; text-align : center; }
+
+#d3HeidelpayOutOfTime .d3HeidelpayInfoTable, #d3HeidelpayWait .d3HeidelpayInfoTable { height : 107px; width : 100%; }
+
+#d3HeidelpayOutOfTime .d3HeidelpayInfoCell, #d3HeidelpayWait .d3HeidelpayInfoCell { text-align : center; vertical-align : middle; }
+
+.d3timeOut {
+ text-align: center;
+ padding: 20px 0;
+ font-size: 16px;
+}
+.d3timeOut .timer {
+ display: inline;
+}
+.d3timeOut .minutes, .d3timeOut .seconds {
+ display: inline;
+}
+
+.d3timeOut .hours {
+    display:none;
+}

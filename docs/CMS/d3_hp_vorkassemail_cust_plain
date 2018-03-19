@@ -1,0 +1,25 @@
+---- IDENT ----
+d3_hp_vorkassemail_cust_plain
+
+---- TITEL ----
+Heidelpay Vorkasseinfomail Kunde Plain
+
+---- LANGTEXT ----
+Sehr geehrter Kunde,
+
+Sie haben bei Ihrer Bestellung die Bezahlart "Vorkasse" oder "Rechnung" gewählt.
+Wir konnten heute Ihren Zahlungseingang verbuchen.
+
+[{if $order->blDifferentAmount}]
+Achtung, der von Ihnen überwiesene Betrag ([{$order->fPayAmount}] [{$order->oxorder__oxcurrency->value}])
+stimmt nicht mit dem Gesamtbetrag der Bestellung ([{$order->getTotalOrderSum()}] [{$order->oxorder__oxcurrency->value}])
+überein!
+Bitte kontaktieren Sie uns umgehend per eMail oder Telefon.
+[{else}]
+Ihre Bestellung wird nun umgehend von uns bearbeitet und versandt.
+[{/if}]
+
+Vielen Dank.
+
+Beste Grüße
+Ihr Shop Team
