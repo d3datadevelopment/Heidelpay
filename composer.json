@@ -34,13 +34,13 @@
     }
   },
   "require": {
-    "php": "7.1 - 7.2", 
+    "php": "7.1 - 7.2",
     "ext-ionCube-Loader": "*",
     "lib-curl": ">=7.34.0",
     "lib-openssl": ">=1.0.1",
     "ext-curl": "*",
     "ext-openssl": "*",
-    "oxid-esales/oxideshop-ce": "~6.1.0",
+    "oxid-esales/oxideshop-metapackage-ce": "~6.0.1",
     "d3/modcfg": "~5.1"
   },
   "autoload": {
