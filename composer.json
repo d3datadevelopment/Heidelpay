@@ -41,7 +41,7 @@
     "ext-curl": "*",
     "ext-openssl": "*",
     "oxid-esales/oxideshop-metapackage-ce": "~6.0.1",
-    "d3/modcfg": "~5.1.0.1"
+    "d3/modcfg": "~5.1.0.156"
   },
   "autoload": {
     "psr-4": {
