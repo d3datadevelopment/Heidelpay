@@ -43,7 +43,7 @@ class requConfig
 
     public $sModId   = 'd3heidelpay';
 
-    public $sModVersion = '6.0.0.0';
+    public $sModVersion = '6.0.0.1';
 
     /********************** check configuration section ************************/
 
@@ -164,7 +164,7 @@ class requConfig
                 'aParams' => array(
                     'id'      => 'd3modcfg_lib',
                     'name'    => 'Modul-Connector',
-                    'version' => '5.1.0.0',
+                    'version' => '5.1.0.1',
                 ),
             ),
         ),

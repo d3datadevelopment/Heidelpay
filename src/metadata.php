@@ -8,7 +8,7 @@ use D3\Heidelpay\Modules\Application\Controller;
 use D3\Heidelpay\Modules\Application\Model;
 use D3\Heidelpay\Modules\Core;
 use D3\Heidelpay\Setup\InstallRoutine;
-use D3\ModCfg\Application\Model\D3Counter;
+use D3\ModCfg\Application\Model\d3counter;
 use D3\ModCfg\Application\Model\d3utils;
 use D3\ModCfg\Application\Model\Install\d3install;
 use OxidEsales\Eshop\Application\Controller as OxidController;
@@ -26,7 +26,7 @@ $aModule = array(
         'en' => '',
     ),
     'thumbnail'      => 'picture.png',
-    'version'        => '6.0.0.0',
+    'version'        => '6.0.0.1',
     'author'         => 'D&sup3; Data Development, Inh. Thomas Dartsch',
     'email'          => 'support@shopmodule.com',
     'url'            => 'http://www.oxidmodule.com/',
@@ -37,7 +37,7 @@ $aModule = array(
         InstallRoutine::class,
     ),
     'extend'         => array(
-        D3Counter::class                         => Core\Counter::class,
+        d3counter::class                         => Core\Counter::class,
         OxidCore\Email::class                    => Core\Email::class,
         OxidCore\InputValidator::class           => Core\InputValidator::class,
         OxidController\OrderController::class    => Controller\OrderController::class,

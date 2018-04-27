@@ -1,5 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 6.0.0.1
+0007418: fixed d3/modcfg::d3counter calls have to be case sensitive     
 
 ## 6.0.0.0
 0000000: migration to oxid-esales/oxideshop-ce v6.1.0 | dropping support below v6.1.0  
