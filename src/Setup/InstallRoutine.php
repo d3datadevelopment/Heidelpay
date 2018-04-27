@@ -38,26 +38,26 @@ class InstallRoutine extends d3install_updatebase
     /**
      * @var string
      */
-    public $sModVersion = '6.0.0.0';
+    public $sModVersion = '6.0.0.1';
 
     /**
      * @var string
      */
-    public $sMinModCfgVersion = '5.1.0.0';
+    public $sMinModCfgVersion = '5.1.0.1';
 
     /** @var string @deprecated since 2016-04-13 */
-    public $sModRevision = '1225';
+    public $sModRevision = '1226';
 
     /**
      * @var string
      */
     public $sBaseConf = '--------------------------------------------------------------------------------
-hwzv2==RzAwMStWVk9ZUmpCYXQrdzFGWDQ1WUY2V0dDaGxYa2VXKzdxTTZYZEJGU3RyTmVUS1RNNWRoS
-jd2WEVYY3ZOMEluUVZIakNOalYxMUxyZkxUbmFEY2k5YWRCcnZZYVBaTm9tQ3o2MFROYkM3ckJWRk15W
-llURWx0d1Z2OS9yeE4ycitrbkdrYnFXMThHM0N6NjIxR09EbzNDSGdDM1lGUHg5RDFXd2IxODN4NmN3b
-mRJZXdwa0pqT1RMM1Ard2dmdG9TZ2tnZisvc1ZmRGFWeWlhTDFqeGN0dmVjSVVXTDJBRjM2RW1oeTdkS
-3RGYXhIZDRuQk5YT0U0MFgyQ0hTNXdybHg2R2VPYWlCUTVvckNJMVUwYk53V0F4Q2NUbkY5QVlLd0p6b
-EJJUFVXU3RjbG00SzZ4ZUM2b200a1lkdERGVmN0WVNTWitwR0Q2MEFPcm5JMzJBPT0=
+7zIv2==MGp1WHpPSmZjeW40NVRTSFVpME12ZW14TUw0bWJtbGk3NlpubDgxMk52YTFZTndYUGcxT3g0R
+29FbE9SZUhtaW1RdmRBOXp6Mng5di9TSWJ6REJ6VjJ4QWRuUGRBOHY0WW1lTjlkNkFPOERWUzFBYkpia
+FgwWDUxNW1jcHUxWi9ZRGhJbW56VjdqeHo4YUxHRzNyblI5QmF0czZBLzJDRHp3NWx2T20wWTVVR3d2R
+25LbTFZTWNxaG1ST1gvTVd1TGZONitmVnByNHRSMFhPTUgrVWFBWFdOZmp6THBybXZSN2EwSldrUE1vQ
+WdoY3B4YUFnelRsN091MW1TdFlhcGFvYzFaZEYzc0NNakxWYTJicFM5UEg5RlRvd2NkV0dObTNzYVNCT
+k85VVhNd2wxL0srcm90bUlqZE5rQjhZMDdIYUp1OVo5RHFzQjc1YTB3WVM5MXFBPT0=
 --------------------------------------------------------------------------------';
 
     /**
