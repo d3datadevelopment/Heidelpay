@@ -1,5 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+
+## 6.0.0.2
+0005802: Postfinance Integration  
+0007283: EasyCredit Korrekturen  
+0007214: d3hpprepaymentdata::getTransaction selektiert falsch bei gesichert. Rechnungskauf  
+0007328: Chargeback entfernen  
+0007422: Fehlertexte werden teilweise allgemein ausgegeben  
+0007388: Umfirmierung der Heidelberger Payment GmbH  
+0000000: extended logging of initial ngw requests  
+
 ## 6.0.0.1
 0007418: fixed d3/modcfg::d3counter calls have to be case sensitive     
 
@@ -13,7 +23,7 @@ All notable changes to this project will be documented in this file.
 0000000: Giropay doesn't provide bank/account information in a PA  
 0000000: language files in utf-8  
 0000000: using oxids metadata version 2.0  
-0000000: using namespaces
+0000000: using namespaces  
 0000000: using composer installation
 
 ## 5.3.0.0
@@ -25,7 +35,7 @@ All notable changes to this project will be documented in this file.
 0006384: Altlasten-Mehrsprachigkeit können zu mehreren Fehlverhalten führen  
 0006626: 3D Secure Prüfung wird bei gespeicherten Daten übersprungen  
 
-####5.2.3.3
+#### 5.2.3.3
 0006552: Geburtsdatum bei gesicherter Lastschrift ergänzen.  
 0006396: fehlende (zweite) Bonitätsprufung bei Rechnungskauf  
 0006441: Heidelpay metadata.php enthäl ö im Klassennamen - v5.2.3.2  
@@ -33,15 +43,15 @@ All notable changes to this project will be documented in this file.
 0000000: fixed bug in mobile theme on error message, wrong template name was loaded  
 0000000 set "no reference but heidelpay payment" warning to error level  
 
-####5.2.3.2
+#### 5.2.3.2
 0000000: var_dump Ausgabe entfernt (copy_this/modules/d3/d3heidelpay/views/flow/tpl/payment/debitnote.tpl)  
 0000000: (iDeal/Przelewy24) wenn oxorderdate 0 ist oder nicht interpretiert wird, kann die Bestellung storniert/gelöscht werden  
 
-####5.2.3.1
+#### 5.2.3.1
 0006291: DOMDocument::loadXML im Modul überprüfen  
 0000000: hp_response.php ermöglicht kein redirect mehr
 
-###5.2.3.0
+### 5.2.3.0
 0000000: Support für 4.7.x und 4.8.x ist eingestellt  
 0000000: Parameter name.company in Standard-Parameteriste aufgenommen  
 0000000: erweitertes Exception-Handling in d3_hp_response bei nicht-Heidelpay-Zahlungsarten  
@@ -60,7 +70,7 @@ All notable changes to this project will be documented in this file.
 0005157: Kunden-IP statt Heidelpay-IP bei Paypal-Zahlungen an oxorder hinterlegen  
 0002678: Einstellung "Kontodaten vollständig speichern?" entfernen  
 
-###5.2.2.0
+### 5.2.2.0
 0004201: Button "Reversal (REV)" im Shopbackend ergänzen  
 0005030: Anpassung des Moduls auf das Flow-Theme  
 0005590: Bankdaten und Shortid an Endkunden weiterreichen  
@@ -113,7 +123,7 @@ die Template Struktur wurde in der metadata.php geändert (von -> zu) :
 <tr><td>heidelpay_order_iframe_mobile.tpl</td><td>-></td><td>d3_d3heidelpay_views_mobile_tpl_order_iframe.tpl</td></tr>
 </table>
 
-####5.2.1.1
+#### 5.2.1.1
 0005524: mehrfach gespeicherte Daten anzeigen  
 0005235: es wird kein PA/DB bei gespeicherten Daten genutzt  
 0005419: XML Query wird im paymentcollector nicht korrekt übergeben  
@@ -124,7 +134,7 @@ die Template Struktur wurde in der metadata.php geändert (von -> zu) :
 0000000: fixed memcache bug in collectpayments process  
 0000000: payment model not found causes exception in admin  
 
-###5.2.1.0
+### 5.2.1.0
 0002681: Kunden die während Formulareingaben in ein Session timeout kommen  
 0000000: Bestellbenutzer wird bei Admin Aktionen nicht gesetzt  
 0005301: Abgebrochene Bestellabwicklungen an den Händler melden    
@@ -141,7 +151,7 @@ die Template Struktur wurde in der metadata.php geändert (von -> zu) :
 0005188: falsche Rücksprungbehandlung bei erfolgreichen Billsafe Bezahlungen  
 0005103: Heidelpay iFrame wird zerschossen angezeigt
 
-####5.2.0.1  
+#### 5.2.0.1  
 Installationsroutine kann nicht abgeschlossen werden  
 neue Debitkarten hinzufügen  
 NGW geladene Icons sollen in eigene Templates (für Azure und Mobile ausgelagert werden)  
@@ -154,7 +164,7 @@ Mobile theme lauffähig machen
 Geburtstdatum übergeben  
 Inkorrektes Handling mit Gutscheinen
 
-##5.2.0.0  
+## 5.2.0.0  
 Implementierung PCI3 (Kartenzahlung via iFrame)  
 Umstellung von SGW/XML auf NGW/POST  
 neue Option "Registierung für Karten nutzen (Kreditkarte, Debitkarte)" hinzugefügt  
@@ -165,7 +175,7 @@ Auflösung der Formularstruktur im Bestellschritt 3 (Versand & Zahlung)
 generelle Weiterleitung bei 3DSecure  
 Bankeinzug Kundendaten werden nun im Shop gespeichert
 
-####5.1.1.2  
+#### 5.1.1.2  
 neue Zahlungsart Przelewy24  
 Updateassistent startet nicht bei Update von 5.1.1.0 auf 5.1.1.1  
 Erweiterung für Pflichtfelder bei einem Update  
@@ -174,12 +184,12 @@ NGW-Informationen für "nach Schritt 4"
 Anpassung des Mobile-Themes für NGW  
 5.1.0.0 ist nicht in der 4.7 einsetzbar
 
-####5.1.1.1  
+#### 5.1.1.1  
 Pflichtfelder für den Bestellabschluss  
 Installationsanleitung aktualisieren  
 Changelog nachtragen
 
-###5.1.1.0  
+### 5.1.1.0  
 Integration der NGW-Schnittstelle  
 Zahlart T-Pay Online Überweisung aus Heidelpay-Modul entfernen (5er-Version)  
 Aktive Brands(Kartentypen, etc..) von der NGW-Response nutzen  
@@ -190,53 +200,53 @@ Umlaute an Zahlarten bei Installation Fehlerhaft
 Bei ELV mit DE-Konto soll das BIC-Feld ausgeblendet werden.  
 5.1.0.0 ist nicht in der 4.7 einsetzbar
 
-##5.1.0.0  
+## 5.1.0.0  
 Anpassung für Oxid Mobile Theme  
 kleiner Bug im Zusammenhang mit Billpay  
 Übermittlung abweichende Lieferadresse an PayPal
 
-####5.0.0.4  
+#### 5.0.0.4  
 Bugfix für automatische Installation  
 Sprachdateien unverschlüsselt belasst  
 neues Logo Billsafe  
 Anpassung der Ausgabe bei gespeicherten Daten und dem SEPA-Modus  
 Test auf 4.9 / 5.2
 
-####5.0.0.3  
+#### 5.0.0.3  
 Kompatilität mit Modul Amazon Payments hergestellt  
 Templates angepasst damit es bei einer Deaktivierung des Moduls nicht zu Fehlermeldungen kommt
 
-####5.0.0.2  
+#### 5.0.0.2  
 Bugfix: im Shop aktives Modul, über Modul-Connector inaktiv, kann im Bestellschritt 3 nicht abgesendet werden  
 fehlende sh-Datei nachgetragen  
 Dokumentation überarbeitet
 
-####5.0.0.1  
+#### 5.0.0.1  
 Bugfix: Während eines Update wurden die Zuordnungen zwischen Shop und Heidelpay-Modul nicht übernommen  
 Kompatibilität zu PHP 5.2 wieder hergestellt
 
-#5.0.0.0  
+# 5.0.0.0  
 Refactoring zur Oxid Zertifizierung
 
-###4.0.6.0  
+### 4.0.6.0  
 Kompatilität mit Skrill-Modul hergestellt #2465  
 Update der Systmprüfung (d3precheck.php) #2480
 
-####4.0.5.4  
+#### 4.0.5.4  
 alte Moduleinstellungen von 3.x werden beim Update auf 4.x migriert  
 Bugfix: Bei Bezahlung mit Billsafe kam im Shop eine Fehlermeldung, wenn mehr als 7 Artikel in den Warenkorb gelegt wurden
 
-####4.0.5.3  
+#### 4.0.5.3  
 Hinweis auf Umstellung des Händlerkontos (nur bei Sofortüberweisung) in die Installationsanleitung eingefügt  
 Bugfix: Bei Nutzung von Sofortüberweisung konnte es im Zusammenhang mit SEPA zu Fehlermeldungen kommen
 
-####4.0.5.2  
+#### 4.0.5.2  
 Bugfix: Wichtige Sicherheitslücke in der Modulkonfiguration geschlossen
 
-####4.0.5.1  
+#### 4.0.5.1  
 Bugfix: In BS4 wurde unter bestimmten Situationen eine Exception geworfen, wenn andere Module ebenfalls die Klasse 'order' erweitern
 
-###4.0.5.0  
+### 4.0.5.0  
 SEPA-Modus integriert
   - im Adminbereich kann nun SEPA aktiviert werden (Schaltet bei Lastschrift, Giropay, Rechnungskauf und Vorkasse auf IBAN/BIC um)
   - Überweisungsdaten für BillSAFE, Rechnungskauf und Vorkasse zeigen nun IBAN/BIC in BS5 und EMails
@@ -247,11 +257,11 @@ iDeal Bankenliste aktualisiert
 Bugfix: Sind Kontodaten mit * maskiert, werden sie nicht mehr in BS3 bei Bestandskunden vorausgefüllt  
 Bugfix: fehlende Buchungsaktionen an den Bestellungen hinzugefügt
 
-####4.0.4.1  
+#### 4.0.4.1  
 Fehler in automatischer Installation behoben  
 Precheck aktualisiert
 
-###4.0.4.0  
+### 4.0.4.0  
 Anpassung für OXID eShop 4.8.x / 5.1.x  
 Integration Transaktionslog  
 Integration Neues Admin Interface (unter Bestellungen, Tab "Heidelpay")  
@@ -262,17 +272,17 @@ Bugfix: Bei Zahlungsart Billsafe werden die Überweisungsdaten nun korrekt nach 
 Bugfix: Bei einigen Zahlungsarten gab es Probleme mit Umlauten in UTF8-Shops  
 Install-PDF überarbeitet, PreCheck v3.0 integriert
 
-####4.0.3.3  
+#### 4.0.3.3  
 Bugfix: automatische Installation des Moduls reagierte nicht
 
-####4.0.3.2  
+#### 4.0.3.2  
 php5.4 STRICT_STANDARDS-Fehler wurden behoben  
 BillSafe UTF-8 Problem (doppeltes encoding als UTF-8 String bei UTF-8 Shops) wurde behoben
 
-####4.0.3.1  
+#### 4.0.3.1  
 Zahlungsart Paypal ist auch im Basic-Modul konfigurierbar
 
-###4.0.3.0  
+### 4.0.3.0  
 Zahlungsart Billsafe hinzugefügt  
 Zahlungsart Rechnungskauf hinzugefügt  
 Zahlungsart PayPal hinzugefügt  
@@ -280,44 +290,44 @@ Integration der Automatischen Installation
 Fehler bei Basic/Premium im Admin gefixt  
 Zahlungsart T-Pay entfernt
 
-###4.0.2.0  
+### 4.0.2.0  
 Integration Basic / Premium Unterscheidung
 
-###4.0.1.0  
+### 4.0.1.0  
 Debitkarte "Dankort" hinzugefügt  
 Fehlertexte der Fehlercodes werden nun aus lang-Dateien geholt (damit kann die normale Mehrsprachigkeit des Shops genutzt werden)  
 Umstellung aller buchungsrelevanten TransaktionIdents auf einen eigenen Nummernkreis  
 ShopId wird nun mit an die Response-Url übergeben
 
-#4.0.0.0  
+# 4.0.0.0  
 komplette Überarbeitung des Moduls für die neue Shopstruktur EE5/PE47
 
-####3.2.3.1  
+#### 3.2.3.1  
 Bugfix: bei nicht 3DSecure Karten und Einstellung "nach Schritt" 4
 
-###3.2.3  
+### 3.2.3  
 Dummy Kreditkarten für 4.6.x entfernt  
 checkout.css aus der payment_ext.tpl entfernt
 
-###3.2.2  
+### 3.2.2  
 Änderungen für Shopversion ab 4.6.0 integriert  
 kleinerer JS-Fehler in payment-Template behoben  
 NOK-Rückmeldungen werden nun als "response error" geloggt  
 neue Testdaten für Sofortüberweisung integriert  
 mod_cfg -> Requirements eingebaut
 
-###3.2.1  
+### 3.2.1  
 neue Admineinstellungen (Curl-Timeout, Unmask) eingebaut  
 div. Fehler bei der Nutzung der Basic-Templates (4.5) behoben  
 Version kann nun auch uneingeschränkt in Shopversionen < 4.5 genutzt werden
 
-##3.2.0  
+## 3.2.0  
 Version für OXID ab 4.5.0
 
-###3.1.1  
+### 3.1.1  
 Änderung der Sprache nach einer Heidelpaytransaktion
 
-##3.1  
+## 3.1  
 Einbau neuer Zahlmethoden
 - Sofortüberweisung
 - Giropay
@@ -336,19 +346,19 @@ Aktualisierung der Heidelpay-Fehlercodes
 Admin-Interface mit eigener language-Datei  
 Aktualisierung menu.xml
 
-###3.0.4  
+### 3.0.4  
 Anpassung des Moduls an neue Sicherheitsstruktur des OXID Version 4.3.0 (TrustIPs, sToken)  
 Timeout beim Aufrufen der 3DS-Fehlerseite mit "KK-Eingabe nach Schritt4"  
 Problem mit mehrfachen 3DS Aufrufen bei "KK-Eingabe nach Schritt4" behoben  
 3DS-Fehlerseite für "KK-Eingabe nach Schritt4" und "KK-Eingabe in Schritt3" optimiert
 
-###3.0.2  
+### 3.0.2  
 Heidelpaytransaktionen konnten in den Shopfolgesprachen (Language 1 etc.) nicht abgeschlossen werden  
 Sproradischer Verlust der Session nach Rücksprung vom Heidelpay-Server ab OXID 4.1.3
   - Behebung durch zusätzlichen config-Parameter  
 Teilweise Probleme mit Shoprücksprung nach fehlerhafter 3DSecure-Eingabe
 
-###3.0.1
+### 3.0.1
 neu  
 Multilang-Platzhalter eingebaut
 
@@ -356,11 +366,11 @@ Fix
 Korrektur der order-Erweiterung, da mit Shopversion 4.1.1 die Prüfung zum Widerrufsrecht geändert wurde  
 Änderung der Prüfungsparameter für 3DSecure
 
-#3.0
+# 3.0
 Kompletter Neuaufbau des Moduls für den Einsatz unter OXID 4.
 Optimierung aller Modulteile. Dadurch u.a. schnellere Abarbeitung der Heidelpay-Daten.
 
-##2.1
+## 2.1
 ####neue Funktionen:  
 - Einbau einer alternativen Bezahlung mit Kreditkarte nach Schritt 4 im Bestellvorgang (Aktivierung im Admin)
   Damit wird die zusätzliche "Registierung" des Kunden bei Heidelpay nicht genutzt und der Shopinhaber hat nur 1x Transaktionsgebühren pro Bestellung  
@@ -376,21 +386,21 @@ Korrektur der 3DS-Funktionalität. Es konnte unter bestimmten Voraussetzungen pa
 Behebung einer Smarty-Fehlermeldung im 3DS-iFrame  
 Es wurden einige "onclick" in der payment_ext.tpl entfernt, da dadurch teilweise Kunden versehentlich andere Zahlartenangeklickt hatten
 
-#2.0  
+# 2.0  
 Integration von 3DSecure
 
-##1.2
+## 1.2
 Kleinere Korrekturen. u.a. Behebung eines Sprachproblems (Domainzuordnung)
 
-##1.1  
+## 1.1  
 Einbau der kompletten Heidelpay-Systemcodes und Ausgabe in Schritt3 als deutsche Fehlermeldung  
 Speicherung des Heidelpay-Registrationcodes für Folgebestellungen ohne erneute Registration des Kunden  
 Korrektur kleinerer Bugs im Modul und tpl-Dateien  
 TransactionID zusätzlich mit Timestamp belegt, um mehrfache Bestellversuche zu ermöglichen
 
-#1.0  
+# 1.0  
 Korrektur des formulars der payment_ext.tpl für ELV
 
-#1.0 beta:  
+# 1.0 beta:  
 Rückgabe in hp_response.php per curl  
 Einbau ELV

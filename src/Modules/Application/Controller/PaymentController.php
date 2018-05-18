@@ -15,6 +15,7 @@ use D3\Heidelpay\Models\Payment\Invoice\Secured;
 use D3\Heidelpay\Models\Payment\Invoice\Unsecured;
 use D3\Heidelpay\Models\Payment\Masterpass;
 use D3\Heidelpay\Models\Payment\Paypal;
+use D3\Heidelpay\Models\Payment\Postfinance;
 use D3\Heidelpay\Models\Payment\Przelewy24;
 use D3\Heidelpay\Models\Payment\Sofortueberweisung;
 use D3\Heidelpay\Models\Settings\Heidelpay;
@@ -307,8 +308,8 @@ class PaymentController extends PaymentController_parent
                 $return = "d3_heidelpay_views_{$sTemplate}_tpl_payment_billsafe.tpl";
             } elseif ($oHeidelPayment instanceof Paypal) {
                 $return = "d3_heidelpay_views_{$sTemplate}_tpl_payment_paypal.tpl";
-//            } elseif ($oHeidelPayment instanceof Postfinance) {
-//                $return = "d3_heidelpay_views_{$sTemplate}_tpl_payment_postfinance.tpl";
+            } elseif ($oHeidelPayment instanceof Postfinance) {
+                $return = "d3_heidelpay_views_{$sTemplate}_tpl_payment_postfinance.tpl";
             } elseif ($oHeidelPayment instanceof Przelewy24) {
                 $return = "d3_heidelpay_views_{$sTemplate}_tpl_payment_przelewy24.tpl";
             } elseif ($oHeidelPayment instanceof Masterpass) {
@@ -611,25 +612,39 @@ class PaymentController extends PaymentController_parent
      * @param Basket $oxBasket
      *
      * @return bool
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
      */
     public function isHeidelpayEasycreditAllowed(Basket $oxBasket)
     {
-        $oxPrice = $oxBasket->getPrice();
-        $price   = $oxPrice->getPrice();
+        if (false == $this->isPaymentAllowedForCountryAndCurrency('DE', 'EUR')) {
+            return false;
+        }
+
+        /** @var Easycredit $easyCreditPayment */
+        $easyCreditPayment = oxNew(Easycredit::class);
+        $oxPrice  = $oxBasket->getPrice();
+        $price    = $oxPrice->getPrice();
+        $minPrice          = $easyCreditPayment->getMinimumLimit();
+        $maxPrice          = $easyCreditPayment->getMaximumLimit();
+
+        if (false == ($price >= $minPrice && $maxPrice >= $price)) {
+            return false;
+        }
 
         $basketUser = $oxBasket->getBasketUser();
         $possiblePSFields = array('oxfname', 'oxlname', 'oxstreet', 'oxstreetnr', 'oxcity');
 
-        $isNotPackstation = true;
         foreach ($possiblePSFields as $field) {
             if (false === stristr(strtolower($basketUser->getFieldData($field)), 'packstation')) {
                 continue;
             }
-            $isNotPackstation = false;
+
+            return false;
         }
 
-        return ($this->isPaymentAllowedForCountryAndCurrency('DE', 'EUR')
-            && ($price >= 200 && 3000 >= $price) && $isNotPackstation);
+        return true;
     }
 
     /**
@@ -650,7 +665,7 @@ class PaymentController extends PaymentController_parent
             if ($oTransAction instanceof d3transactionlog) {
                 /** @var ReaderHeidelpay $reader */
                 $reader = $oTransAction->getTransactiondata();
-                if ($reader->getResult() != "ACK" && $reader->getReturncode()) {
+                if ($reader->getResult() === "NOK" && $reader->getReturncode()) {
                     $string      = 'd3heidelpay_' . $reader->getReturncode();
                     $translation = Registry::getLang()->translateString($string);
 

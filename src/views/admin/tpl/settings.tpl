@@ -273,21 +273,19 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        [{*
                                                         <td class="edittext [{$blBasicRestriction}]">
-                                                                [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_POSTFINANCE"}]
-                                                            </td>
-                                                            <td class="edittext [{$blBasicRestriction}]">
-                                                            [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_POSTFINANCE"}]
-                                                                <input type="text"
-                                                                       class="editinput"
-                                                                       style="width:220px;"
-                                                                       name="value[d3_cfg_mod__d3heidelpay_sChannel__postfinance]"
-                                                                       value="[{$edit->getValue('d3heidelpay_sChannel__postfinance')}]" [{$blBasicRestriction}]>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                        *}]
+                                                            [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_POSTFINANCE"}]
+                                                        </td>
+                                                        <td class="edittext [{$blBasicRestriction}]">
+                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_POSTFINANCE"}]
+                                                            <input type="text"
+                                                                   class="editinput"
+                                                                   style="width:220px;"
+                                                                   name="value[d3_cfg_mod__d3heidelpay_sChannel__postfinance]"
+                                                                   value="[{$edit->getValue('d3heidelpay_sChannel__postfinance')}]" [{$blBasicRestriction}]>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td class="edittext">
                                                             [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_BILLSAFE"}]
                                                         </td>
@@ -406,131 +404,161 @@
                             <dl>
                                 <dd>
                                     <table cellspacing="5" cellpadding="0" border="0" width="100%">
-                            <tr>
-                                <td class="edittext">
-                                    [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE"}]
-                                </td>
-                                <td class="edittext">
-                                    [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE"}]
-                                    <select class="edittext" name="value[d3_cfg_mod__d3heidelpay_sTransType]"
-                                            title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE"}]">
-                                        <option value="auth">[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_DIRECT"}]</option>
-                                        <option value="preauth"
-                                                [{if ($edit->getValue("d3heidelpay_sTransType") == "preauth")}]selected[{/if}]>
-                                            [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_RESERVE"}]
-                                        </option>
-                                        <option value="auth_but_foreign_preauth"
-                                                [{if ($edit->getValue("d3heidelpay_sTransType") == "auth_but_foreign_preauth")}]selected[{/if}]>
-                                            [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_FOREIGNRESERVE"}]
-                                        </option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="edittext">
-                                    <label for="d3_cfg_mod__d3heidelpay_blCardsUseRG">
-                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CARDS_USE_RG"}]
-                                    </label>
-                                </td>
-                                <td class="edittext">
-                                    [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CARDS_USE_RG"}]
-                                    <input type="hidden" name="value[d3_cfg_mod__d3heidelpay_blCardsUseRG]" value="0">
-                                    <input type="checkbox"
-                                           class="editinput"
-                                           id="d3_cfg_mod__d3heidelpay_blCardsUseRG"
-                                           name="value[d3_cfg_mod__d3heidelpay_blCardsUseRG]"
-                                           value="1"
-                                           [{if $edit->getValue('d3heidelpay_blCardsUseRG') == 1}]checked[{/if}]>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="edittext">
-                                    [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_DIRECTDEBIT"}]
-                                </td>
-                                <td class="edittext">
-                                    [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_DIRECTDEBIT"}]
-                                    <select class="edittext" name="value[d3_cfg_mod__d3heidelpay_sDDTransType]"
-                                            title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE"}]">
-                                        <option value="auth">[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_DIRECT"}]</option>
-                                        <option value="preauth"
-                                                [{if ($edit->getValue("d3heidelpay_sDDTransType") == "preauth")}]selected[{/if}]>
-                                            [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_RESERVE"}]
-                                        </option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="edittext">
-                                    [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_PAYPAL"}]
-                                </td>
-                                <td class="edittext">
-                                    [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_PAYPAL"}]
-                                    <select class="edittext" name="value[d3_cfg_mod__d3heidelpay_sVATransType]"
-                                            title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_PAYPAL"}]">
-                                        <option value="auth">[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_DIRECT"}]</option>
-                                        <option value="preauth"
-                                                [{if ($edit->getValue("d3heidelpay_sVATransType") == "preauth")}]selected[{/if}]>
-                                            [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_RESERVE"}]
-                                        </option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="edittext [{$blBasicRestriction}]">
-                                    [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_MASTERPASS"}]
-                                </td>
-                                <td class="edittext [{$blBasicRestriction}]">
-                                    [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_MASTERPASS"}]
-                                    <select class="edittext" name="value[d3_cfg_mod__d3heidelpay_sWTTransType]"
-                                            title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_MASTERPASS"}]" [{$blBasicRestriction}]>
-                                        <option value="auth">[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_DIRECT"}]</option>
-                                        <option value="preauth"
-                                                [{if ($edit->getValue("d3heidelpay_sWTTransType") == "preauth")}]selected[{/if}]>
-                                            [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_RESERVE"}]
-                                        </option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="edittext">
-                                    [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_STOREDDATA"}]
-                                </td>
-                                <td class="edittext">
-                                    [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_STOREDDATA"}]
-                                    <input type="hidden" name="value[d3_cfg_mod__d3heidelpay_blShowStoredHPData]" value="0">
-                                    <input type="checkbox"
-                                           class="editinput"
-                                           name="value[d3_cfg_mod__d3heidelpay_blShowStoredHPData]"
-                                           value="1"
-                                           title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_STOREDDATA"}]"
-                                           [{if ($edit->getValue('d3heidelpay_blShowStoredHPData'))}]checked[{/if}]>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="edittext" colspan="2">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td class="edittext">
-                                    [{oxmultilang ident="D3DYN_HEIDELPAY_ORDER_EXECUTE_POST_FIELDS"}]
-                                </td>
-                                <td class="edittext" style="vertical-align: top;">
-                                    [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_ORDER_EXECUTE_POST_FIELDS"}]
-                                    <textarea rows="5" cols="40"
-                                              name="value[d3_cfg_mod__d3heidelpay_orderExecutePostFields]"
-                                              title="[{oxmultilang ident="D3DYN_HEIDELPAY_ORDER_EXECUTE_POST_FIELDS"}]">[{$edit->getValue('d3_cfg_mod__d3heidelpay_orderExecutePostFields')}]</textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="edittext">
-                                    [{oxmultilang ident="D3DYN_HEIDELPAY_ADDITIONAL_URL_PARAMETER"}]
-                                </td>
-                                <td class="edittext" style="vertical-align: top;">
-                                    [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_ADDITIONAL_URL_PARAMETER"}]
-                                    <textarea rows="5" cols="40"
-                                              name="value[d3_cfg_mod__d3heidelpay_additionalUrlParameter]"
-                                              title="[{oxmultilang ident="D3DYN_HEIDELPAY_ADDITIONAL_URL_PARAMETER"}]">[{$edit->getValue('d3_cfg_mod__d3heidelpay_additionalUrlParameter')}]</textarea>
-                                </td>
-                            </tr>
+                                        <tr>
+                                            <td class="edittext">
+                                                [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE"}]
+                                            </td>
+                                            <td class="edittext">
+                                                [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE"}]
+                                                <select class="edittext" name="value[d3_cfg_mod__d3heidelpay_sTransType]"
+                                                        title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE"}]">
+                                                    <option value="auth">[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_DIRECT"}]</option>
+                                                    <option value="preauth"
+                                                            [{if ($edit->getValue("d3heidelpay_sTransType") == "preauth")}]selected[{/if}]>
+                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_RESERVE"}]
+                                                    </option>
+                                                    <option value="auth_but_foreign_preauth"
+                                                            [{if ($edit->getValue("d3heidelpay_sTransType") == "auth_but_foreign_preauth")}]selected[{/if}]>
+                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_FOREIGNRESERVE"}]
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edittext">
+                                                <label for="d3_cfg_mod__d3heidelpay_blCardsUseRG">
+                                                    [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CARDS_USE_RG"}]
+                                                </label>
+                                            </td>
+                                            <td class="edittext">
+                                                [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CARDS_USE_RG"}]
+                                                <input type="hidden" name="value[d3_cfg_mod__d3heidelpay_blCardsUseRG]" value="0">
+                                                <input type="checkbox"
+                                                       class="editinput"
+                                                       id="d3_cfg_mod__d3heidelpay_blCardsUseRG"
+                                                       name="value[d3_cfg_mod__d3heidelpay_blCardsUseRG]"
+                                                       value="1"
+                                                       [{if $edit->getValue('d3heidelpay_blCardsUseRG') == 1}]checked[{/if}]>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edittext">
+                                                [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_DIRECTDEBIT"}]
+                                            </td>
+                                            <td class="edittext">
+                                                [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_DIRECTDEBIT"}]
+                                                <select class="edittext" name="value[d3_cfg_mod__d3heidelpay_sDDTransType]"
+                                                        title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE"}]">
+                                                    <option value="auth">[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_DIRECT"}]</option>
+                                                    <option value="preauth"
+                                                            [{if ($edit->getValue("d3heidelpay_sDDTransType") == "preauth")}]selected[{/if}]>
+                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_RESERVE"}]
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edittext">
+                                                [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_PAYPAL"}]
+                                            </td>
+                                            <td class="edittext">
+                                                [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_PAYPAL"}]
+                                                <select class="edittext" name="value[d3_cfg_mod__d3heidelpay_sVATransType]"
+                                                        title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_PAYPAL"}]">
+                                                    <option value="auth">[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_DIRECT"}]</option>
+                                                    <option value="preauth"
+                                                            [{if ($edit->getValue("d3heidelpay_sVATransType") == "preauth")}]selected[{/if}]>
+                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_RESERVE"}]
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edittext [{$blBasicRestriction}]">
+                                                [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_MASTERPASS"}]
+                                            </td>
+                                            <td class="edittext [{$blBasicRestriction}]">
+                                                [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_MASTERPASS"}]
+                                                <select class="edittext" name="value[d3_cfg_mod__d3heidelpay_sWTTransType]"
+                                                        title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_MASTERPASS"}]" [{$blBasicRestriction}]>
+                                                    <option value="auth">[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_DIRECT"}]</option>
+                                                    <option value="preauth"
+                                                            [{if ($edit->getValue("d3heidelpay_sWTTransType") == "preauth")}]selected[{/if}]>
+                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_RESERVE"}]
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edittext">
+                                                [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_STOREDDATA"}]
+                                            </td>
+                                            <td class="edittext">
+                                                [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_STOREDDATA"}]
+                                                <input type="hidden" name="value[d3_cfg_mod__d3heidelpay_blShowStoredHPData]" value="0">
+                                                <input type="checkbox"
+                                                       class="editinput"
+                                                       name="value[d3_cfg_mod__d3heidelpay_blShowStoredHPData]"
+                                                       value="1"
+                                                       title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_STOREDDATA"}]"
+                                                       [{if ($edit->getValue('d3heidelpay_blShowStoredHPData'))}]checked[{/if}]>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edittext">
+                                                [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMINIMUM"}]
+                                            </td>
+                                            <td class="edittext">
+                                                [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMINIMUM"}]
+                                                [{assign var="easyCreditLimitMinimum" value=$edit->getValue('easyCreditLimitMinimum')}]
+                                                <input type="text"
+                                                       class="editinput"
+                                                       style="width:100px;"
+                                                       name="value[d3_cfg_mod__easyCreditLimitMinimum]"
+                                                       title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMINIMUM"}]"
+                                                       value="[{$easyCreditLimitMinimum|default:"200"}]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edittext">
+                                                [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMAXIMUM"}]
+                                            </td>
+                                            <td class="edittext">
+                                                [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMAXIMUM"}]
+                                                [{assign var="easyCreditLimitMaximum" value=$edit->getValue('easyCreditLimitMaximum')}]
+                                                <input type="text"
+                                                       class="editinput"
+                                                       style="width:100px;"
+                                                       name="value[d3_cfg_mod__easyCreditLimitMaximum]"
+                                                       title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMAXIMUM"}]"
+                                                       value="[{$easyCreditLimitMaximum|default:"5000"}]">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edittext" colspan="2">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edittext">
+                                                [{oxmultilang ident="D3DYN_HEIDELPAY_ORDER_EXECUTE_POST_FIELDS"}]
+                                            </td>
+                                            <td class="edittext" style="vertical-align: top;">
+                                                [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_ORDER_EXECUTE_POST_FIELDS"}]
+                                                <textarea rows="5" cols="40"
+                                                          name="value[d3_cfg_mod__d3heidelpay_orderExecutePostFields]"
+                                                          title="[{oxmultilang ident="D3DYN_HEIDELPAY_ORDER_EXECUTE_POST_FIELDS"}]">[{$edit->getValue('d3_cfg_mod__d3heidelpay_orderExecutePostFields')}]</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edittext">
+                                                [{oxmultilang ident="D3DYN_HEIDELPAY_ADDITIONAL_URL_PARAMETER"}]
+                                            </td>
+                                            <td class="edittext" style="vertical-align: top;">
+                                                [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_ADDITIONAL_URL_PARAMETER"}]
+                                                <textarea rows="5" cols="40"
+                                                          name="value[d3_cfg_mod__d3heidelpay_additionalUrlParameter]"
+                                                          title="[{oxmultilang ident="D3DYN_HEIDELPAY_ADDITIONAL_URL_PARAMETER"}]">[{$edit->getValue('d3_cfg_mod__d3heidelpay_additionalUrlParameter')}]</textarea>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td class="edittext">
                                                 [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CURLTIMEOUT"}]
@@ -561,7 +589,7 @@
                                                 <a class="editinput" href="[{$oHeidelpayViewConfig->getIFrameCSSFileURL()}]" target="d3heidelpaycssfile">[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CSSPATH_LINK"}]</a>
                                             </td>
                                         </tr>
-                        </table>
+                                    </table>
                                 </dd>
                             </dl>
                         </div>

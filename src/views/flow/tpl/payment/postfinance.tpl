@@ -2,8 +2,6 @@
 [{assign var='oHeidelPaySettings' value=$oHeidelpayViewConfig->getSettings()}]
 [{assign var='oHeidelPayment' value=$oHeidelPaySettings->getPayment($paymentmethod)}]
 [{assign var="aBrands" value=$oHeidelpayViewConfig->getHeidelpayNgwBrands($paymentmethod, $oHeidelPayment, $oxcmp_user)}]
-[{assign var="sBrandIdent" value=$aBrands.POSTFINANCE|lower}]
-[{assign var="sFullImageUrl" value=$sImageUrl|cat:'logo_'|cat:$sBrandIdent|cat:'.png'}]
 
 [{block name="heidelpay_postfinance"}]
     <dl>
@@ -20,13 +18,27 @@
             >
             <label for="payment_[{$sPaymentID}]">
                 <b>[{$paymentmethod->oxpayments__oxdesc->value}]</b>
-                [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sFullImageUrl sBrandIdent=$sBrandIdent}]
+                [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sImageUrl|cat:'logo_postfinance.png' sBrandIdent=$sBrandIdent}]
             </label>
             [{if false == $blD3HeidelpayAllowPostFinance}]
                 <sup id="d3HeidelayPostfinanceNotice">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_POSTFINANCE_NOTICE"}]</sup>
             [{/if}]
         </dt>
         <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
+            [{if $blD3HeidelpayAllowPostFinance}]
+                <div class="form-group">
+                    <label class="control-label col-sm-4"
+                           for="payment_[{$sPaymentID}]_1">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_POSTFINANCE_PAYMENTS"}]</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="payment_[{$sPaymentID}]_1" name="dynvalue[lsbankname]">
+                            [{foreach from=$aBrands item='sBrandName' key='sBrandIdent'}]
+                                <option value="[{$sBrandIdent}]"
+                                        [{if ($dynvalue.lsbankname == $sBrandIdent)}]selected[{/if}]>[{$sBrandName}]</option>
+                            [{/foreach}]
+                        </select>
+                    </div>
+                </div>
+            [{/if}]
             [{if $paymentmethod->oxpayments__oxlongdesc->value}]
                 <div class="alert alert-info desc">
                     [{$paymentmethod->oxpayments__oxlongdesc->value}]

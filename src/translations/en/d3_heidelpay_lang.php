@@ -149,8 +149,8 @@ $aLang     = array(
     'D3HEIDELPAY_PAYMENT_POSTFINANCE_NOTICE'                       => 'This payment method require Austria (CH) as invoice Country and CHF as currency .',
     'D3HEIDELPAY_PAYMENT_PRZELEWY24_NOTICE'                        => 'This payment method require Poland (PL) as invoice Country and PLN as currency.',
     'D3HEIDELPAY_PAYMENT_IDEAL_NOTICE'                             => 'This payment method require Nederlands (NL) as invoice Country and EUR as currency.',
-    'D3HEIDELPAY_PAYMENT_EASYCREDIT_NOTICE'                        => 'This payment method require Germany (DE) as invoice Country and EUR as currency, also a total basket amount between 200,- and 3000,- Euro.',
-    "D3_Heidelpay_REDIRECT_NOSCRIPT"                             => "Click here if you are not redirected.",
+    'D3HEIDELPAY_PAYMENT_EASYCREDIT_NOTICE'                        => 'This payment method require Germany (DE) as invoice Country and EUR as currency, also a total basket amount between %s and %s Euro.',
+    "D3_Heidelpay_REDIRECT_NOSCRIPT"                               => "Click here if you are not redirected.",
     'D3PAYMENT_EXT_STOREDUID_NEW_CARD'                             => 'use a new card',
     'D3HEIDELPAY_TIMEOUT_TIMER'                                    => 'The input time ends with inactivity in: ',
     'D3HEIDELPAY_OUTOFTIME_FORMULAR'                               => 'They were inactive for %s minutes.<br>The card data entry has been deactivated for your safety.<br>Please follow the link below and log in again if necessary.',
@@ -163,4 +163,5 @@ $aLang     = array(
     'D3HEIDELPAY_ORDER_EASYCREDIT_LINK'                            => 'you can read here the pre-contractual informations of the hire-purchase',
     'D3HEIDELPAY_ORDER_EASYCREDIT_ACCRUINGINTEREST'                => 'interest of installment payment',
     'D3HEIDELPAY_ORDER_EASYCREDIT_TOTALAMOUNT'                     => 'total amount incl. installment payment',
+    'D3HEIDELPAY_PAYMENT_POSTFINANCE_PAYMENTS'                     => 'PostFinance payment methods',
 );

@@ -71,7 +71,7 @@ class Order extends Order_parent
     /**
      * Returns bank transfer data if available
      *
-     * @return \stdClass|null
+     * @return \stdClass|false
      * @throws PaymentNotReferencedToHeidelpayException
      * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
      * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
@@ -83,7 +83,7 @@ class Order extends Order_parent
     public function getHeidelpayBankTransferData()
     {
         if (false == d3_cfg_mod::get('d3heidelpay')->isActive()) {
-            return null;
+            return false;
         }
 
         /** @var Heidelpay $oSettings */
@@ -92,7 +92,7 @@ class Order extends Order_parent
         $oPayment  = oxNew(OxidPayment::class);
         $oPayment->load($this->getFieldData('oxpaymenttype'));
         if (false == $oSettings->isAssignedToHeidelPayment($oPayment)) {
-            return null;
+            return false;
         }
 
         $oHeidelpayment = $oSettings->getPayment($oPayment);
@@ -106,10 +106,10 @@ class Order extends Order_parent
             /** @var PrepaymentData $oPrePaymentData */
             $oPrePaymentData = oxNew(PrepaymentData::class);
 
-            return $oPrePaymentData->getBankTransferData($this);
+            return $oPrePaymentData->getBankTransferData($this, $oHeidelpayment->getPaymentCode().'.PA');
         }
 
-        return null;
+        return false;
     }
 
     /**

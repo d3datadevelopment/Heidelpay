@@ -22,25 +22,28 @@
             <label for="payment_[{$sPaymentID}]"><b>[{$paymentmethod->oxpayments__oxdesc->value}]</b></label>
             [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sFullImageUrl sBrandIdent=$sBrandIdent}]
             [{if false == $blD3HeidelpayAllowEasyCredit}]
+                [{assign_adv var="d3EasycreditLimits" value='array("'|cat:$oHeidelPayment->getMinimumLimit()|cat:'", "'|cat:$oHeidelPayment->getMaximumLimit()|cat:'")'}]
                 <sup id="d3HeidelayEasycreditNotice"
-                     class="alert alert-danger desc">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_EASYCREDIT_NOTICE"}]</sup>
+                     class="alert alert-danger desc">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_EASYCREDIT_NOTICE" args=$d3EasycreditLimits}]</sup>
             [{/if}]
             [{if false == $blD3HeidelpayHasSameAdresses}]
                 <sup class="d3HeidelaySameAddressNotice">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_NOTSAMEADDRESS_NOTICE"}]</sup>
             [{/if}]
         </dt>
         <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
-            [{if $blD3HeidelpayEasycreditNotChecked}]
-                <div class="d3HeidelaySameAddressNotice desc">
-                    [{oxmultilang ident="D3HEIDELPAY_PAYMENT_EASYCREDIT_CHECKBOX_NOT_CHECKED"}]
+            [{if $blD3HeidelpayAllowEasyCredit && $blD3HeidelpayHasSameAdresses}]
+                [{if $blD3HeidelpayEasycreditNotChecked}]
+                    <div class="d3HeidelaySameAddressNotice desc">
+                        [{oxmultilang ident="D3HEIDELPAY_PAYMENT_EASYCREDIT_CHECKBOX_NOT_CHECKED"}]
+                    </div>
+                [{/if}]
+                <div class="desc">
+                    <input type="hidden" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]" value="0"/>
+                    <input type="checkbox" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]"
+                           value="[{$responseParameter.d3transactionlogid}]"/>
+                    [{$responseParameter.configoptintext}]
                 </div>
             [{/if}]
-            <div class="desc">
-                <input type="hidden" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]" value="0"/>
-                <input type="checkbox" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]"
-                       value="[{$responseParameter.d3transactionlogid}]"/>
-                [{$responseParameter.configoptintext}]
-            </div>
             [{if $paymentmethod->oxpayments__oxlongdesc->value}]
                 <div class="desc">
                     [{$paymentmethod->oxpayments__oxlongdesc->value}]
