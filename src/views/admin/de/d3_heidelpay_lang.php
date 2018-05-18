@@ -101,7 +101,6 @@ $aLang     = array(
     'D3_HEIDELPAY_METHOD_RF'                                            => 'Refund',
     'D3_HEIDELPAY_METHOD_RB'                                            => 'Rebill',
     'D3_HEIDELPAY_METHOD_CP'                                            => 'Capture',
-    'D3_HEIDELPAY_METHOD_CB'                                            => 'Chargeback',
     'D3_HEIDELPAY_METHOD_RC'                                            => 'Receipt',
     'D3_HEIDELPAY_METHOD_RV'                                            => 'Reversal',
     'D3_HEIDELPAY_METHOD_FI'                                            => 'Finalize',
@@ -239,4 +238,6 @@ $aLang     = array(
     'D3DYN_HEIDELPAY_PARAM_REMOVEMULTIPLELANGUAGES'                       => 'mehrsprachige Konfigurationen entfernen',
     'D3DYN_HEIDELPAY_HASMULTILANGCONFIGBUTNOSETTING'                      => 'Es wurde eine Konfiguration in einer anderen Sprache gefunden!<br>Soll/en die Konfiguration/en entfernt werden?',
     'D3HEIDELPAY_MULTIPLE_LANGUAGECONFIGURATIONS_FOUND'                   => 'Heidelpay: Es wurde eine Konfiguration in einer anderen Sprache gefunden!<br>Bitte gehen im Admin Sie unter /Heidelpay/Einstellungen/Stamm/ und folgen Sie der Anweisung.<br>Dieser Schritt wird Ihnen erst angezeigt, wenn die Heidelpay-Modul Installation fertig ist.',
+    'D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMINIMUM'                       => 'Mindest-Bestellwert für EasyCredit',
+    'D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMAXIMUM'                       => 'Höchst-Bestellwert für EasyCredit',
 );

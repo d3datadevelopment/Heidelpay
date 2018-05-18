@@ -7,7 +7,7 @@ $order = oxNew(\OxidEsales\Eshop\Application\Model\Order::class);
 $order->load('88e7da68e5a6bf8ac7d5299f317869ed');
 
 $order->getHeidelpayBankTransferData();
-/* returns:
+/* returns false or :
 stdClass::__set_state(array(
     'Type' => 'd3_d3heidelpay_models_payment_invoice_unsecured',
     'Currency' => 'EUR',
@@ -17,7 +17,7 @@ stdClass::__set_state(array(
     'TransactionID' => '4387__@@2016-12-15 09:00:36',
     'Bank' => '37040044',
     'Number' => '5320130',
-    'Holder' => 'Heidelberger Payment GmbH',
+    'Holder' => 'heidelpay GmbH',
     'Iban' => 'DE89370400440532013000',
     'Bic' => 'COBADEFFXXX',
     'Country' => 'DE',

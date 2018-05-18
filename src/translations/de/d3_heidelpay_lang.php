@@ -150,7 +150,7 @@ $aLang     = array(
     'D3HEIDELPAY_PAYMENT_PRZELEWY24_NOTICE'                        => 'Diese Zahlungsart benötigt als Rechnungsland Polen (PL) und PLN als Währung.',
     'D3HEIDELPAY_PAYMENT_IDEAL_NOTICE'                             => 'Diese Zahlungsart benötigt als Rechnungsland Niederlande (NL) und EUR als Währung.',
     'D3HEIDELPAY_PAYMENT_NOTSAMEADDRESS_NOTICE'                    => 'Keine abweichende Lieferadresse möglich, bitte prüfen Sie Ihre Angaben zur Lieferadresse.',
-    'D3HEIDELPAY_PAYMENT_EASYCREDIT_NOTICE'                        => 'Diese Zahlungsart benötigt als Rechnungsland Deutschland (DE) und EUR als Währung, sowie einen Gesamtbetrag zwischen 200,- und 3000,- Euro und darf nicht in Kombination mit Packstation verwendet werden.',
+    'D3HEIDELPAY_PAYMENT_EASYCREDIT_NOTICE'                        => 'Diese Zahlungsart benötigt als Rechnungsland Deutschland (DE) und EUR als Währung, sowie einen Gesamtbetrag zwischen %s und %s Euro und darf nicht in Kombination mit Packstation verwendet werden.',
     'D3_Heidelpay_REDIRECT_NOSCRIPT'                               => 'Bitte klicken Sie hier um zum Zahlungsanbieter weitergeleitet zu werden.',
     'D3PAYMENT_EXT_STOREDUID_NEW_CARD'                             => 'neue Karte verwenden',
     'D3HEIDELPAY_TIMEOUT_TIMER'                                    => 'Die Eingabezeit endet bei Inaktivität in: ',
@@ -164,4 +164,5 @@ $aLang     = array(
     'D3HEIDELPAY_ORDER_EASYCREDIT_LINK'                            => 'Rufen Sie vorvertragliche Informationen zum Ratenkauf hier ab',
     'D3HEIDELPAY_ORDER_EASYCREDIT_ACCRUINGINTEREST'                => 'Zinsen für Ratenzahlung',
     'D3HEIDELPAY_ORDER_EASYCREDIT_TOTALAMOUNT'                     => 'Gesamtbetrag inkl. Ratenzahlung',
+    'D3HEIDELPAY_PAYMENT_POSTFINANCE_PAYMENTS'                     => 'PostFinance-Zahlungsarten',
 );

@@ -43,7 +43,7 @@ class requConfig
 
     public $sModId   = 'd3heidelpay';
 
-    public $sModVersion = '6.0.0.1';
+    public $sModVersion = '6.0.0.2';
 
     /********************** check configuration section ************************/
 

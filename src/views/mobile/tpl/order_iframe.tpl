@@ -24,15 +24,6 @@
 
     [{*<input type="hidden" name="PROCESSING.RECOVERABLE" value="TRUE"/>*}]
 
-    [{assign var="hppayerror" value=$oHeidelpayViewConfig->getNgwError($payment)}]
-    [{if $hppayerror}]
-        <div class="status error">
-            <div>[{oxmultilang ident="D3HEIDELPAY_CC_INPUT_ERROR"}]</div>
-            <div>[{$hppayerror}]</div>
-        </div>
-    [{/if}]
-
-
     [{if $iframeUrl}]
         <iframe id="paymentFrameIframe" src="[{$iframeUrl}]" frameborder="0" scrolling="no">
             Your Browser doesn\'t support iFrames

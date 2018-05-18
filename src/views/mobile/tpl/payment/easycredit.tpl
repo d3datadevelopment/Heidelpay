@@ -26,8 +26,9 @@
             </li>
             [{if false == $blD3HeidelpayHasSameAdresses || false == $blD3HeidelpayAllowEasyCredit}]
                 [{if false == $blD3HeidelpayAllowEasyCredit}]
+                    [{assign_adv var="d3EasycreditLimits" value='array("'|cat:$oHeidelPayment->getMinimumLimit()|cat:'", "'|cat:$oHeidelPayment->getMaximumLimit()|cat:'")'}]
                     <sup id="d3HeidelayEasycreditNotice"
-                         class="alert alert-danger desc">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_EASYCREDIT_NOTICE"}]</sup>
+                     class="alert alert-danger desc">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_EASYCREDIT_NOTICE" args=$d3EasycreditLimits}]</sup>
                 [{/if}]
                 [{if false == $blD3HeidelpayHasSameAdresses}]
                     <sup class="alert alert-danger d3HeidelaySameAddressNotice">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_NOTSAMEADDRESS_NOTICE"}]</sup>

@@ -28,4 +28,3 @@ class Counter extends Counter_parent
         return $sSuffixString;
     }
 }
-
