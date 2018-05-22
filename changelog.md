@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 6.0.0.2
+## 6.0.1.0
 0005802: Postfinance Integration  
 0007283: EasyCredit Korrekturen  
 0007214: d3hpprepaymentdata::getTransaction selektiert falsch bei gesichert. Rechnungskauf  
