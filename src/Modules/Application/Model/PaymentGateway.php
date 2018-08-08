@@ -17,7 +17,19 @@ class PaymentGateway extends PaymentGateway_parent
 
     /**
      * executes heidelpay paymentgateway
-     * {@inheritdoc}
+     *
+     * @param float  $dAmount
+     * @param object $oOrder
+     *
+     * @return bool|int|string
+     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseException
+     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
      */
     public function executePayment($dAmount, &$oOrder)
     {

@@ -45,23 +45,34 @@
                 [{/if}]
             [{/if}]
             [{if $blD3HeidelpayAllowEasyCredit && $blD3HeidelpayHasSameAdresses}]
-                [{if $blD3HeidelpayEasycreditNotChecked}]
-                    <div class="alert alert-danger desc">
-                        [{oxmultilang ident="D3HEIDELPAY_PAYMENT_EASYCREDIT_CHECKBOX_NOT_CHECKED"}]
+            <div class="row">
+                <div class="col-xs-12 col-lg-9 col-lg-offset-3">
+                    [{if $blD3HeidelpayEasycreditNotChecked}]
+                        <div class="alert alert-danger desc">
+                            [{oxmultilang ident="D3HEIDELPAY_PAYMENT_EASYCREDIT_CHECKBOX_NOT_CHECKED"}]
+                        </div>
+                    [{/if}]
+                    <div class="alert alert-info desc">
+                        <input type="hidden" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]" value="0"/>
+                        <input type="checkbox" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]"
+                               value="[{$responseParameter.d3transactionlogid}]"/>
+                        [{$responseParameter.configoptintext}]
+                    </div>
+                </div>
+            </div>
+            [{/if}]
+
+            [{block name="checkout_payment_longdesc"}]
+                [{if $paymentmethod->oxpayments__oxlongdesc->value}]
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-9 col-lg-offset-3">
+                            <div class="alert alert-info desc">
+                                [{$paymentmethod->oxpayments__oxlongdesc->getRawValue()}]
+                            </div>
+                        </div>
                     </div>
                 [{/if}]
-                <div class="alert alert-info desc">
-                    <input type="hidden" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]" value="0"/>
-                    <input type="checkbox" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]"
-                           value="[{$responseParameter.d3transactionlogid}]"/>
-                    [{$responseParameter.configoptintext}]
-                </div>
-            [{/if}]
-            [{if $paymentmethod->oxpayments__oxlongdesc->value}]
-                <div class="alert alert-info desc">
-                    [{$paymentmethod->oxpayments__oxlongdesc->value}]
-                </div>
-            [{/if}]
+            [{/block}]
         </dd>
     </dl>
 [{/block}]

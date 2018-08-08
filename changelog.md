@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 6.0.1.1
+0007756: EPS - Ablehnung da falsches Land übertragen wurde - ACCOUNT.COUNTRY
+0007812: Änderungen Flow 3.0.2 übernehmen (OXID Compilation 6.1.0)
+0007820: Freigabe 6.1.0
+0007817: Mobile theme Unterstützung entfernen
+ 
 ## 6.0.1.0
 0005802: Postfinance Integration  
 0007283: EasyCredit Korrekturen  

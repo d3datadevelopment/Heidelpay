@@ -11,7 +11,18 @@ class InputValidator extends InputValidator_parent
 {
 
     /**
-     * {@inheritdoc}
+     * @param string $sPaymentId
+     * @param array  $aDynvalue
+     *
+     * @return bool|string
+     * @throws \D3\Heidelpay\Models\Payment\Exception\PaymentNotReferencedToHeidelpayException
+     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
      */
     public function validatePaymentInputData($sPaymentId, &$aDynvalue)
     {

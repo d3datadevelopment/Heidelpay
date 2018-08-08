@@ -6,7 +6,7 @@
     [{assign var="oPrePaymentData" value=$order->getHeidelpayBankTransferData()}]
     [{assign var="easyCreditInformations" value=$order->getHeidelpayEasyCreditInformations()}]
 
-    [{if isset($oPrePaymentData)}]
+    [{if $oPrePaymentData}]
         [{include file=$oView->d3GetBankTransferDataTemplateName()}]
     [{/if}]
 

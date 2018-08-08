@@ -26,7 +26,7 @@ $aModule = array(
         'en' => '',
     ),
     'thumbnail'      => 'picture.png',
-    'version'        => '6.0.1.0',
+    'version'        => '6.0.1.1',
     'author'         => 'D&sup3; Data Development, Inh. Thomas Dartsch',
     'email'          => 'support@shopmodule.com',
     'url'            => 'http://www.oxidmodule.com/',
@@ -93,28 +93,7 @@ $aModule = array(
         'd3_heidelpay_views_azure_tpl_shippingandpayment.tpl'             => 'd3/heidelpay/views/azure/tpl/shippingandpayment.tpl',
         'd3_heidelpay_views_azure_tpl_thankyou_easycreditcriterions.tpl'  => 'd3/heidelpay/views/azure/tpl/thankyou/easycreditcriterions.tpl',
         'd3_heidelpay_views_azure_tpl_order_easycreditcriterions.tpl'     => 'd3/heidelpay/views/azure/tpl/order/easycreditcriterions.tpl',
-        ##mobile-theme
-        'd3_heidelpay_views_mobile_tpl_cc_input.tpl'                  => 'd3/heidelpay/views/mobile/tpl/cc_input.tpl',
-        'd3_heidelpay_views_mobile_tpl_order_3ds_iframe.tpl'          => 'd3/heidelpay/views/mobile/tpl/order_3ds_iframe.tpl',
-        'd3_heidelpay_views_mobile_tpl_storeduid.tpl'                 => 'd3/heidelpay/views/mobile/tpl/storeduid.tpl',
-        'd3_heidelpay_views_mobile_tpl_payment_cards.tpl'             => 'd3/heidelpay/views/mobile/tpl/payment/cards.tpl',
-        'd3_heidelpay_views_mobile_tpl_payment_sofort.tpl'            => 'd3/heidelpay/views/mobile/tpl/payment/sofort.tpl',
-        'd3_heidelpay_views_mobile_tpl_payment_debitnote.tpl'         => 'd3/heidelpay/views/mobile/tpl/payment/debitnote.tpl',
-        'd3_heidelpay_views_mobile_tpl_payment_eps.tpl'               => 'd3/heidelpay/views/mobile/tpl/payment/eps.tpl',
-        'd3_heidelpay_views_mobile_tpl_payment_giropay.tpl'           => 'd3/heidelpay/views/mobile/tpl/payment/giropay.tpl',
-        'd3_heidelpay_views_mobile_tpl_payment_ideal.tpl'             => 'd3/heidelpay/views/mobile/tpl/payment/ideal.tpl',
-        'd3_heidelpay_views_mobile_tpl_payment_billsafe.tpl'          => 'd3/heidelpay/views/mobile/tpl/payment/billsafe.tpl',
-        'd3_heidelpay_views_mobile_tpl_payment_paypal.tpl'            => 'd3/heidelpay/views/mobile/tpl/payment/paypal.tpl',
-        'd3_heidelpay_views_mobile_tpl_payment_przelewy24.tpl'        => 'd3/heidelpay/views/mobile/tpl/payment/przelewy24.tpl',
-        'd3_heidelpay_views_mobile_tpl_payment_masterpass.tpl'        => 'd3/heidelpay/views/mobile/tpl/payment/masterpass.tpl',
-        'd3_heidelpay_views_mobile_tpl_payment_invoice.tpl'           => 'd3/heidelpay/views/mobile/tpl/payment/invoice.tpl',
-        'd3_heidelpay_views_mobile_tpl_payment_postfinance.tpl'        => 'd3/heidelpay/views/mobile/tpl/payment/postfinance.tpl',
-        'd3_heidelpay_views_mobile_tpl_order_iframe.tpl'              => 'd3/heidelpay/views/mobile/tpl/order_iframe.tpl',
-        'd3_heidelpay_views_tpl_messages.tpl'                         => 'd3/heidelpay/views/tpl/messages.tpl',
-        'd3_heidelpay_views_mobile_tpl_banktransferdata.tpl'          => 'd3/heidelpay/views/mobile/tpl/banktransferdata.tpl',
-        'd3_heidelpay_views_mobile_tpl_shippingandpayment.tpl'            => 'd3/heidelpay/views/mobile/tpl/shippingandpayment.tpl',
-        'd3_heidelpay_views_mobile_tpl_thankyou_easycreditcriterions.tpl' => 'd3/heidelpay/views/mobile/tpl/thankyou/easycreditcriterions.tpl',
-        'd3_heidelpay_views_mobile_tpl_order_easycreditcriterions.tpl'    => 'd3/heidelpay/views/mobile/tpl/order/easycreditcriterions.tpl',
+        'd3_heidelpay_views_azure_tpl_messages.tpl'                       => 'd3/heidelpay/views/azure/tpl/messages.tpl',
         ##flow-theme
         'd3_heidelpay_views_flow_tpl_payment_debitnote.tpl'           => 'd3/heidelpay/views/flow/tpl/payment/debitnote.tpl',
         'd3_heidelpay_views_flow_tpl_payment_cards.tpl'               => 'd3/heidelpay/views/flow/tpl/payment/cards.tpl',
@@ -158,24 +137,13 @@ $aModule = array(
             'file'     => '/views/blocks/select_payment.tpl'
         ),
 
-        ##mobile
         array(
             'template' => 'layout/base.tpl',
             'block'    => 'base_style',
             'file'     => '/views/blocks/base_style.tpl'
         ),
-        array(
-            'template' => 'page/checkout/payment.tpl',
-            'block'    => 'mb_select_payment',
-            'file'     => '/views/blocks/mb_select_payment.tpl'
-        ),
-        array(
-            'template' => 'page/checkout/payment.tpl',
-            'block'    => 'mb_select_payment_list',
-            'file'     => '/views/blocks/mb_select_payment_list.tpl'
-        ),
 
-        ##azure+mobile+flow
+        ##azure+flow
         array(
             'template' => 'email/html/order_cust.tpl',
             'block'    => 'email_html_order_cust_paymentinfo',
