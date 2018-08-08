@@ -24,6 +24,9 @@ use OxidEsales\Eshop\Core\Counter;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Email;
 use OxidEsales\Eshop\Core\Exception\ArticleException;
+use OxidEsales\Eshop\Core\Exception\ArticleInputException;
+use OxidEsales\Eshop\Core\Exception\NoArticleException;
+use OxidEsales\Eshop\Core\Exception\OutOfStockException;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\UtilsObject;
 
@@ -33,13 +36,23 @@ class Order extends Order_parent
 {
 
     /**
-     * {@inheritdoc}
+     * @param string $sStatus
+     *
+     * @return void
+     * @throws PaymentNotReferencedToHeidelpayException
+     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
      */
     protected function _setOrderStatus($sStatus)
     {
         if (false == d3_cfg_mod::get('d3heidelpay')->isActive()) {
             parent::_setOrderStatus($sStatus);
-            return null;
+            return;
         }
 
         $oDB = DatabaseProvider::getDb();
@@ -57,7 +70,7 @@ class Order extends Order_parent
 
         if (false == $oSettings->isAssignedToHeidelPayment($oPayment)) {
             parent::_setOrderStatus($sStatus);
-            return null;
+            return;
         }
 
         $blIsPrepayment = $oSettings->getPayment($oPayment) instanceof Prepayment;
@@ -114,13 +127,20 @@ class Order extends Order_parent
 
     /**
      * @return null
+     * @throws PaymentNotReferencedToHeidelpayException
+     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
      * @throws \Doctrine\DBAL\DBALException
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
      */
     public function getHeidelpayEasyCreditInformations()
     {
+        /** @var Heidelpay $oSettings */
         $oSettings = oxNew(Heidelpay::class, d3_cfg_mod::get('d3heidelpay'));
+        /** @var OxidPayment $oPayment */
         $oPayment  = oxNew(OxidPayment::class);
         $oPayment->load($this->getFieldData('oxpaymenttype'));
         if (false == $oSettings->isAssignedToHeidelPayment($oPayment)) {
@@ -154,6 +174,9 @@ class Order extends Order_parent
      *
      * @return int|null
      * @throws \Doctrine\DBAL\DBALException
+     * @throws ArticleInputException
+     * @throws NoArticleException
+     * @throws OutOfStockException
      * @throws \Exception
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
@@ -248,6 +271,7 @@ class Order extends Order_parent
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
      * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @throws \Exception
      */
     public function d3FinalizeTemporaryOrder(Basket $oBasket, User $oUser)
     {
@@ -266,7 +290,9 @@ class Order extends Order_parent
         if (!$this->oxorder__oxordernr->value) {
             $this->_setNumber();
         } else {
-            oxNew(Counter::class)->update($this->_getCounterIdent(), $this->oxorder__oxordernr->value);
+            /** @var Counter $counter */
+            $counter = oxNew(Counter::class);
+            $counter->update($this->_getCounterIdent(), $this->oxorder__oxordernr->value);
         }
 
         // deleting remark info only when order is finished

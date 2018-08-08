@@ -11,7 +11,7 @@ use D3\Heidelpay\Models\Settings\Heidelpay;
 use D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay as ReaderHeidelpay;
 use D3\Heidelpay\Models\Verify\Exception\AgbNotAcceptedException;
 use D3\Heidelpay\Models\Verify\Exception\CheckSessionChallengeException;
-use D3\Heidelpay\Models\Verify\Exception\CustomerinformationNotAcceptedException;
+//use D3\Heidelpay\Models\Verify\Exception\CustomerinformationNotAcceptedException;
 use D3\Heidelpay\Models\Verify\Exception\NotLoggedInException;
 use D3\Heidelpay\Models\Viewconfig;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
@@ -204,18 +204,18 @@ class OrderController extends OrderController_parent
             $this->_blConfirmAGBError = 1;
 
             return '';
-        } catch (CustomerinformationNotAcceptedException $oEx) {
-            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-                d3log::INFO,
-                __CLASS__,
-                __FUNCTION__,
-                __LINE__,
-                'exception handling',
-                get_class($oEx) . PHP_EOL . $oEx->getMessage() . PHP_EOL . $oEx->getTraceAsString()
-            );
-//            $this->_blConfirmCustInfoError = 1;
-
-            return '';
+//        } catch (CustomerinformationNotAcceptedException $oEx) {
+//            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
+//                d3log::INFO,
+//                __CLASS__,
+//                __FUNCTION__,
+//                __LINE__,
+//                'exception handling',
+//                get_class($oEx) . PHP_EOL . $oEx->getMessage() . PHP_EOL . $oEx->getTraceAsString()
+//            );
+////            $this->_blConfirmCustInfoError = 1;
+//
+//            return '';
         } catch (PaymentNotReferencedToHeidelpayException $oEx) {
             d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
                 d3log::INFO,
@@ -257,7 +257,17 @@ class OrderController extends OrderController_parent
     }
 
     /**
-     * {@inheritdoc}
+     * @param int $mSuccess
+     *
+     * @return mixed|string
+     * @throws EmptyPaymentlistException
+     * @throws PaymentNotReferencedToHeidelpayException
+     * @throws StandardException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
      */
     protected function _getNextStep($mSuccess)
     {
@@ -276,9 +286,6 @@ class OrderController extends OrderController_parent
 
         if ($mSuccess === 'Show3DSecureFrame') {
             $sTemplateFor3DSecure = 'd3_heidelpay_views_azure_tpl_order_3ds_iframe.tpl';
-            if ($this->d3CheckForMobileTheme()) {
-                $sTemplateFor3DSecure = 'd3_heidelpay_views_mobile_tpl_order_3ds_iframe.tpl';
-            }
 
             d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
                 d3log::INFO,
@@ -319,7 +326,13 @@ class OrderController extends OrderController_parent
     }
 
     /**
-     * {@inheritdoc}
+     * @return mixed|string
+     * @throws StandardException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
      */
     public function render()
     {
@@ -412,23 +425,6 @@ class OrderController extends OrderController_parent
         );
 
         return $sReturn;
-    }
-
-    /**
-     * @deprecated since 2017-09-11 KH, use d3_cfg_mod::isThemeIdMappedTo method
-     *
-     * @return bool
-     */
-    public function d3CheckForMobileTheme()
-    {
-        $blIsMobile = false;
-        if (class_exists('oeThemeSwitcherThemeManager') == true) {
-            /** @var oeThemeSwitcherThemeManager $oThemeManager */
-            $oThemeManager = new oeThemeSwitcherThemeManager();
-            $blIsMobile    = $oThemeManager->isMobileThemeRequested();
-        }
-
-        return $blIsMobile;
     }
 
     /**
@@ -714,6 +710,11 @@ class OrderController extends OrderController_parent
 
     /**
      * @return null
+     * @throws EmptyPaymentlistException
+     * @throws PaymentNotReferencedToHeidelpayException
+     * @throws StandardException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
      * @throws \Doctrine\DBAL\DBALException
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException

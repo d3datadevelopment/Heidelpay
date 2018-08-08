@@ -30,10 +30,16 @@ $sPath = realpath(dirname(__FILE__) . "/../../../../bootstrap.php");
 require_once $sPath;
 
 // initializes singleton config class
-$myConfig = OxidEsales\Eshop\Core\Registry::getConfig();
+$config = OxidEsales\Eshop\Core\Registry::getConfig();
 
 // executing maintenance tasks..
-oxNew(\D3\Heidelpay\Controllers\PaymentCollector::class)->setStartParameters($aParams)->execute();
+try {
+    oxNew(\D3\Heidelpay\Controllers\PaymentCollector::class)->setStartParameters($aParams)->execute();
+} catch (\OxidEsales\Eshop\Core\Exception\StandardException $e) {
+    echo $e->getMessage();
+} catch (\Doctrine\DBAL\DBALException $e) {
+    echo $e->getMessage();
+}
 
 // closing page, writing cache and so on..
-$myConfig->pageClose();
+$config->pageClose();

@@ -46,11 +46,18 @@
                     </select>
                 </div>
             </div>
-            [{if $paymentmethod->oxpayments__oxlongdesc->value}]
-                <div class="alert alert-info desc">
-                    [{$paymentmethod->oxpayments__oxlongdesc->value}]
-                </div>
-            [{/if}]
+
+            [{block name="checkout_payment_longdesc"}]
+                [{if $paymentmethod->oxpayments__oxlongdesc->value}]
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-9 col-lg-offset-3">
+                            <div class="alert alert-info desc">
+                                [{$paymentmethod->oxpayments__oxlongdesc->getRawValue()}]
+                            </div>
+                        </div>
+                    </div>
+                [{/if}]
+            [{/block}]
         </dd>
     </dl>
 [{/block}]

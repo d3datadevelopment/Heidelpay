@@ -1,10 +1,10 @@
 [{if $easyCreditInformations}]
-    <div class="alert alert-info">
-        <p>
-            [{oxmultilang ident="D3HEIDELPAY_ORDER_EASYCREDIT_ACCRUINGINTEREST"}] [{oxprice price=$easyCreditInformations.criterion_easycredit_accruinginterest currency=$currency}]<br/>
-            [{oxmultilang ident="D3HEIDELPAY_ORDER_EASYCREDIT_TOTALAMOUNT"}] [{oxprice price=$easyCreditInformations.criterion_easycredit_totalamount currency=$currency}]<br/>
-            <a href="[{$easyCreditInformations.criterion_easycredit_precontractinformationurl}]" target="easyCredit"
-               class="btn">[{oxmultilang ident="D3HEIDELPAY_ORDER_EASYCREDIT_LINK"}]</a>
-        </p>
-    </div>
+    <tr>
+        <th>[{oxmultilang ident="D3HEIDELPAY_ORDER_EASYCREDIT_ACCRUINGINTEREST"}]</th>
+        <td>[{oxprice price=$easyCreditInformations.criterion_easycredit_accruinginterest currency=$currency}]</td>
+    </tr>
+    <tr>
+        <th>[{oxmultilang ident="D3HEIDELPAY_ORDER_EASYCREDIT_TOTALAMOUNT"}]</th>
+        <td>[{oxprice price=$easyCreditInformations.criterion_easycredit_totalamount currency=$currency}]</td>
+    </tr>
 [{/if}]

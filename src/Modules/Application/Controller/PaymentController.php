@@ -111,45 +111,9 @@ class PaymentController extends PaymentController_parent
             d3_cfg_mod::get('d3heidelpay')
         );
 
-        try {
-            if ($oHeidelPaySettings->isAssignedToHeidelPayment($payment)) {
-                Registry::getSession()->deleteVariable('sess_challenge');
-            }
-        } catch (PaymentNotReferencedToHeidelpayException $exception) {
-            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-                d3log::INFO,
-                __CLASS__,
-                __FUNCTION__,
-                __LINE__,
-                'payment is not referenced to heidelpay',
-                'paymentid: ' . $paymentId . PHP_EOL . 'Exception: ' . $exception->getMessage()
-            );
+        if ($oHeidelPaySettings->isAssignedToHeidelPayment($payment)) {
+            Registry::getSession()->deleteVariable('sess_challenge');
         }
-    }
-
-    /**
-     * Injects the Trusted Shops Excellence protection into the current session
-     *
-     * @return bool true if TSprotection is set, false if it was removed
-     */
-    public function setTsProtection()
-    {
-        $oBasket = $this->getSession()->getBasket();
-        if(false == method_exists($oBasket,'setTsProductId')) {
-            return false;
-        }
-
-        if (Registry::get(Request::class)->getRequestParameter('bltsprotection')) {
-            $sTsProductId = Registry::get(Request::class)->getRequestParameter('stsprotection');
-            $oBasket->setTsProductId($sTsProductId);
-            Registry::getSession()->setVariable('stsprotection', $sTsProductId);
-
-            return true;
-        }
-        Registry::getSession()->deleteVariable('stsprotection');
-        $oBasket->setTsProductId(null);
-
-        return false;
     }
 
     /**
@@ -382,22 +346,10 @@ class PaymentController extends PaymentController_parent
     }
 
     /**
-     * @return bool
-     */
-    public function d3CheckForMobileTheme()
-    {
-        $blIsMobile = false;
-        if (class_exists('oeThemeSwitcherThemeManager') == true) {
-            /** @var oeThemeSwitcherThemeManager $oThemeManager */
-            $oThemeManager = new oeThemeSwitcherThemeManager();
-            $blIsMobile    = $oThemeManager->isMobileThemeRequested();
-        }
-
-        return $blIsMobile;
-    }
-
-    /**
      * @return string
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
      */
     public function render()
     {
@@ -496,14 +448,9 @@ class PaymentController extends PaymentController_parent
      */
     public function d3GetMessageTemplateName()
     {
-        $sTheme    = 'd3_heidelpay_views_tpl_messages.tpl';
         $sTemplate = d3_cfg_mod::get('d3heidelpay')->getMappedThemeId();
 
-        if ($sTemplate != 'azure' && $sTemplate != 'mobile') {
-            $sTheme = "d3_heidelpay_views_{$sTemplate}_tpl_messages.tpl";
-        }
-
-        return $sTheme;
+        return "d3_heidelpay_views_{$sTemplate}_tpl_messages.tpl";
     }
 
     /**

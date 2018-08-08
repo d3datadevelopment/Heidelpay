@@ -5,11 +5,7 @@
 
 [{if $oViewConf->getActiveClassName() == 'payment' || $oViewConf->getActiveClassName() == 'order'}]
     [{if $mod_d3heidelpay}]
-        [{if $oView->d3CheckForMobileTheme() == true}]
-            [{oxstyle include=$oViewConf->getModuleUrl('d3heidelpay', 'out/src/css/d3heidelpay_mobile.css')}]
-        [{else}]
-            [{oxstyle include=$oViewConf->getModuleUrl('d3heidelpay', 'out/src/css/d3heidelpay.css')}]
-        [{/if}]
+        [{oxstyle include=$oViewConf->getModuleUrl('d3heidelpay', 'out/src/css/d3heidelpay.css')}]
     [{/if}]
 [{/if}]
 
