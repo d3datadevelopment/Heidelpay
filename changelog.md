@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 6.0.1.2
+0007856: 6.0.3 / 6.1.0 veraltete obsolete dynvalues wurden validiert (Bankeinzug + Giropay)
+
 ## 6.0.1.1
 0007756: EPS - Ablehnung da falsches Land übertragen wurde - ACCOUNT.COUNTRY
 0007812: Änderungen Flow 3.0.2 übernehmen (OXID Compilation 6.1.0)
