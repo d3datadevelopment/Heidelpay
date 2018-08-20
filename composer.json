@@ -34,8 +34,7 @@
     }
   },
   "require": {
-    "php": "5.6 - 7.0",
-    "ext-ionCube-Loader": "*",
+    "php": "5.6 - 7.0", "ext-ionCube-Loader": "*",
     "lib-curl": ">=7.34.0",
     "lib-openssl": ">=1.0.1",
     "ext-curl": "*",
