@@ -38,26 +38,26 @@ class InstallRoutine extends d3install_updatebase
     /**
      * @var string
      */
-    public $sModVersion = '6.0.1.2';
+    public $sModVersion = '6.0.1.3';
 
     /**
      * @var string
      */
-    public $sMinModCfgVersion = '5.1.0.1';
+    public $sMinModCfgVersion = '5.1.1.5';
 
     /** @var string @deprecated since 2016-04-13 */
-    public $sModRevision = '6012';
+    public $sModRevision = '6013';
 
     /**
      * @var string
      */
     public $sBaseConf = '--------------------------------------------------------------------------------
-Stwv2==bHlnZ3gwNGtKNHFDUFErcFZkaDl0a09RU0VzeUQyY3ErK1JIUFJ2ZTQybC9SRnQ2MGtRdDU1Q
-nQ0OGxZaFdtYWoyVkZnY3lUdzBqNVk3eUdTeVA5YlY0VUlNRWZYbmlRNE5EZ3pjbjBmeWl6L2p3eEZtO
-HhQOHFPVlpuZ1RZc09NTWhKVFFkYmY5dUYzTEtTck5Vd01DbjV6Wm8wQ096T0tDMW8vR1JHUjBxL1JQW
-TB1YUd5TDdRNXFlV1VMeFdmaGN0WnIzbU05dDZtTG9Tbk04eGM5VFJWS05xQndmVk5aTEFqaGtXR2pLK
-2ttdUUvMDdscGpDZHE5NFEvR2lRMHd5TW5BU0swVHd3SThyUEdXYnUxdEU4ZmhibkQvUGFIZ1cvTHB6d
-nhmbmdlRHBnTVF2N041UHZEQ0taZWlkVnF4T3VlQ0RHSjRkV1BGZFhITDNmQnRRPT0=
+8YVv2==M3A2cDhuZUxiK0UyYUMwOUoxNm9qKzF3ak1sUUpIUk9OaEpaR1FsMnBHY3RacUtpZEZaNmNzZ
+lIzYWc5eHE4bjFNTzVnVDgydEJZMmgrNUI4S0RBYnhEYW54aEx3MWdySVFwV0k1dlJuVGIyaFByM2FZc
+llDQnlDclBhckhJbzZxeno2S0JoSGRoQ2UyRG5lYkRWZTdTYnRvM2RyT0VWUTBpZEJEU1dWQ3pBS0hkd
+DQ3SXpkbVErZUVsZVo4eGc1cmJqYjU5UTlsajBkODJmalFHQmhiNjl5ZDd3cjhuTHNpZUIrUFRDSUpRT
+UpJZStaMEUrM2syc05RbUdnTUVQaFdlNVdqODVxeVpOc0d5bDVJRmMxMWNGS29FeHNubTJpYklZdHpqQ
+mU1U3FTNHhCSERkRnFiVTh3RjlyVmN0T0Z0UittVkxRVTRqam9hcUR4VDUzOHB3PT0=
 --------------------------------------------------------------------------------';
 
     /**
@@ -965,6 +965,9 @@ MYSQL;
             }
 
             $oModuleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
+            if(false === $oModuleConfiguration) {
+                continue;
+            }
             $this->_convertOldAssignmentsToSettings($aOldAssigments, $oModuleConfiguration);
 
             $aInsertFields = array(
@@ -1005,7 +1008,11 @@ MYSQL;
         foreach ($this->getShopList() as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
-            $aOldPayments = (array)unserialize(d3_cfg_mod::getNoCache($this->sModKey)->getValue('d3heidelpay_aPaymentList'));
+            $modulConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
+            if(false === $modulConfiguration ) {
+                continue;
+            }
+            $aOldPayments = (array)unserialize($modulConfiguration->getValue('d3heidelpay_aPaymentList'));
 
             foreach ($aOldPayments as $sOldValue) {
                 if (in_array(
@@ -1053,6 +1060,9 @@ MYSQL;
             $this->_changeToShop($oShop->getId());
 
             $oModuleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
+            if(false === $oModuleConfiguration ) {
+                continue;
+            }
             $aOldPayments = (array)unserialize($oModuleConfiguration->getValue('d3heidelpay_aPaymentList'));
             $aMapPayments = array(
                 'IV__billsafe'    => 'D3_Heidelpay_models_payment_billsafe',
@@ -1117,8 +1127,11 @@ MYSQL;
         foreach ($this->getShopList() as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
-
-            if (false == version_compare(d3_cfg_mod::getNoCache($this->sModKey)->getModVersion(), '4.0.0.0', '<')) {
+            $modulConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
+            if(false === $modulConfiguration ) {
+                continue;
+            }
+            if (false == version_compare($modulConfiguration->getModVersion(), '4.0.0.0', '<')) {
                 continue;
             }
 
@@ -1178,6 +1191,9 @@ MYSQL;
             }
 
             $oModuleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
+            if(false === $oModuleConfiguration ) {
+                continue;
+            }
             $this->_convertOldSettingsToModuleConfiguration($aOldSettings, $oModuleConfiguration);
 
             $aInsertFields = array(
@@ -1362,8 +1378,11 @@ MYSQL;
         foreach ($this->getShopList() as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
-
-            $oldVersionNumber = (int)d3_cfg_mod::getNoCache($this->sModKey)->getFieldData('oxversionnum');
+            $oModuleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
+            if(false === $oModuleConfiguration ) {
+                continue;
+            }
+            $oldVersionNumber = (int)$oModuleConfiguration->getFieldData('oxversionnum');
 
             //check if old module version is new installation or older than 4.0.5.0
             if ($oldVersionNumber <= 0 || $oldVersionNumber >= 67110144) {
@@ -1425,10 +1444,15 @@ MYSQL;
         foreach ($this->getShopList() as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
+            $oModuleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
+            if(false === $oModuleConfiguration ) {
+                continue;
+            }
+
             if (false == is_string(
-                    d3_cfg_mod::getNoCache($this->sModKey)->getValue('d3heidelpay_orderExecutePostFields')
+                    $oModuleConfiguration->getValue('d3heidelpay_orderExecutePostFields')
                 ) || strlen(
-                    d3_cfg_mod::getNoCache($this->sModKey)->getValue('d3heidelpay_orderExecutePostFields')
+                    $oModuleConfiguration->getValue('d3heidelpay_orderExecutePostFields')
                 ) == 0
             ) {
                 $blReturn = true;
@@ -1459,6 +1483,13 @@ MYSQL;
             /** @var $oShop BaseModel */
             /** @var d3_cfg_mod $oModCfg */
             $oModCfg = d3_cfg_mod::getNoCache($this->sModKey);
+            if(false === $oModCfg ) {
+                continue;
+            }
+            if(false === $oModCfg ) {
+                continue;
+            }
+
             $oModCfg->setValue(
                 'd3heidelpay_orderExecutePostFields',
                 $aDefaultConfig->d3_cfg_mod__d3heidelpay_orderExecutePostFields
@@ -1504,7 +1535,10 @@ MYSQL;
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
 
-            $modConfig = d3_cfg_mod::getNoCache('d3heidelpay');
+            $modConfig = d3_cfg_mod::getNoCache($this->sModKey);
+            if(false === $modConfig ) {
+                continue;
+            }
             $config = $oShop->getConfig();
 
             if($config->getShopConfVar('d3HeidelpayNoteStoredDataWithoutRG')) {
@@ -1543,7 +1577,10 @@ MYSQL;
         foreach ($this->getShopList() as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
-            $modConfig = d3_cfg_mod::getNoCache('d3heidelpay');
+            $modConfig = d3_cfg_mod::getNoCache($this->sModKey);
+            if(false === $modConfig ) {
+                continue;
+            }
             $config = $oShop->getConfig();
 
             if($config->getShopConfVar('d3HeidelpayNoteStoredDataWithoutRG')) {
@@ -1653,10 +1690,14 @@ MYSQL;
                 return false;
             }
 
+            $modConfig = d3_cfg_mod::getNoCache($this->sModKey);
+            if(false === $modConfig ) {
+                continue;
+            }
             $moduleConfig = oxNew(d3_cfg_mod::class);
             $moduleConfig->setEnableMultilang(false);
             $moduleConfig->init();
-            $moduleConfig->load(d3_cfg_mod::getNoCache('d3heidelpay')->getId());
+            $moduleConfig->load($modConfig->getId());
             $languageCount = count((array)$config->getShopConfVar('aLanguages'));
 
             for ($i = 1; $languageCount > $i; $i++) {

@@ -26,7 +26,7 @@
             [{/if}]
         </dt>
         <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
-            [{if false == $blD3HeidelpayAllowIdeal}]
+            [{if $blD3HeidelpayAllowIdeal}]
                 <ul class="form">
                     <li>
                         <label for="payment_[{$sPaymentID}]_1">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK"}]</label>
