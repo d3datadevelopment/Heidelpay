@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 6.0.1.3
+0008030: IBAN Anfangsbuchstaben müssen immer groß geschrieben werden  
+0007945: Doppelklick führt zu doppelten Bestellungen/Abbuchungen
+0007906: Endlosschleife in automatischer Installation
+
 ## 6.0.1.2
 0007856: 6.0.3 / 6.1.0 veraltete obsolete dynvalues wurden validiert (Bankeinzug + Giropay)
 

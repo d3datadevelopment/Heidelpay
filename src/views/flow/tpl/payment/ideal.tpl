@@ -39,7 +39,7 @@
                     ([{oxprice price=$oPaymentPrice->getBruttoPrice() currency=$currency}])
                 [{/if}]
             [{/if}]
-            [{if false == $blD3HeidelpayAllowIdeal}]
+            [{if $blD3HeidelpayAllowIdeal}]
                 <div class="form-group">
                     <label class="req control-label col-lg-3"
                            for="payment_[{$sPaymentID}]_1">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK"}]</label>
