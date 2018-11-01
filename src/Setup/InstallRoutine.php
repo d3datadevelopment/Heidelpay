@@ -1441,7 +1441,7 @@ MYSQL;
 
         $blReturn       = false;
         $sCurrentShopid = $this->getConfig()->getShopId();
-        foreach ($this->getShopList() as $oShop) {
+        foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
             $oModuleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
@@ -1477,7 +1477,7 @@ MYSQL;
         $aDefaultConfig = unserialize(rawurldecode(base64_decode($this->sBaseValue)));
 
         $sCurrentShopid = $this->getConfig()->getShopId();
-        foreach ($this->getShopList() as $oShop) {
+        foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
             /** @var $oShop BaseModel */
