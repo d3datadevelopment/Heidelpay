@@ -1,4 +1,5 @@
 <?php
+
 namespace D3\Heidelpay\Modules\Application\Controller;
 
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;

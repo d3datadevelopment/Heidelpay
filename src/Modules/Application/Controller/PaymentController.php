@@ -1,5 +1,7 @@
 <?php
+
 namespace D3\Heidelpay\Modules\Application\Controller;
+
 use D3\Heidelpay\Models\Factory;
 use D3\Heidelpay\Models\Payment\Billsafe;
 use D3\Heidelpay\Models\Payment\Creditcard;
@@ -28,7 +30,6 @@ use OxidEsales\Eshop\Application\Model\Address;
 use OxidEsales\Eshop\Application\Model\Basket;
 use OxidEsales\Eshop\Application\Model\Country;
 use OxidEsales\Eshop\Application\Model\Payment;
-use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Exception\StandardException;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\Request;
@@ -80,7 +81,7 @@ class PaymentController extends PaymentController_parent
         Registry::set(Heidelpay::class, $settings);
 
         /** @var Factory $oFactory */
-        $oFactory         = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+        $oFactory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
         $this->d3HeidelpaySetErrorMessage($oFactory);
         $oFactory->initReferenceNumber();
 
@@ -113,6 +114,47 @@ class PaymentController extends PaymentController_parent
 
         if ($oHeidelPaySettings->isAssignedToHeidelPayment($payment)) {
             Registry::getSession()->deleteVariable('sess_challenge');
+        }
+    }
+
+    /**
+     * @param Factory $oFactory
+     *
+     * @throws StandardException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     */
+    protected function d3HeidelpaySetErrorMessage(Factory $oFactory)
+    {
+        $oldReference = $oFactory->getReferenceNumber();
+        if ($oldReference) {
+            $oTransAction = $oFactory->getLatestTransactionByReference($oldReference);
+            if ($oTransAction instanceof d3transactionlog) {
+                /** @var ReaderHeidelpay $reader */
+                $reader = $oTransAction->getTransactiondata();
+                if ($reader->getResult() === "NOK" && $reader->getReturncode()) {
+                    $string      = 'd3heidelpay_' . $reader->getReturncode();
+                    $translation = Registry::getLang()->translateString($string);
+
+                    if ($translation === $string) {
+                        d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
+                            d3log::ERROR,
+                            __CLASS__,
+                            __FUNCTION__,
+                            __LINE__,
+                            'Translation not found: ' . $string,
+                            $string
+                        );
+                        $translation = Registry::getLang()->translateString('d3heidelpay_execute_error');
+                    }
+
+                    $exception = oxNew(StandardException::class, $translation);
+                    Registry::get(UtilsView::class)->addErrorToDisplay($exception);
+                }
+            }
         }
     }
 
@@ -201,22 +243,97 @@ class PaymentController extends PaymentController_parent
     }
 
     /**
-     * Returns id of user stored payment data
-     *
-     * @param $sPaymentId
-     *
-     * @return string
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @return mixed
      */
-    public function getUserHPStoreID($sPaymentId)
+    protected function getD3PaymentId()
     {
-        if (false == ($sUserID = $this->getSession()->getVariable("usr"))) {
-            return '';
+        $paymentId = Registry::get(Request::class)->getRequestParameter('paymentid');
+        if (empty($paymentId)) {
+            $paymentId = $this->getSession()->getVariable('paymentid');
         }
 
-        return DatabaseProvider::getDb()->getOne(
-            "SELECT `oxid` FROM `d3hpuid` WHERE `oxuserid` = '$sUserID' AND `oxpaymentid` = '$sPaymentId'"
+        return $paymentId;
+    }
+
+    /**
+     * @param $birthdate
+     * @param $paymentId
+     *
+     * @return bool
+     */
+    protected function d3ValidateBirthdateInput($birthdate, $paymentId)
+    {
+        return empty($birthdate)
+            || empty($birthdate[$paymentId])
+            || empty($birthdate[$paymentId]['day'])
+            || empty($birthdate[$paymentId]['month'])
+            || empty($birthdate[$paymentId]['year']);
+    }
+
+    /**
+     * @param $paymentId
+     *
+     * @return string
+     * @throws StandardException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     */
+    protected function handleD3HeidelpayEasyCredit($paymentId)
+    {
+        $easycreditTransactionIds = Registry::get(Request::class)->getRequestParameter(
+            'd3heidelpayEasycreditTransactionLogid'
         );
+
+        if (false == is_array($easycreditTransactionIds) || empty($easycreditTransactionIds[$paymentId])) {
+            return 'payment?d3heidelpayeasycreditnotchecked=1';
+        }
+
+        $transactionlog = oxNew(d3transactionlog::class, oxNew(ReaderHeidelpay::class));
+        if (false == $transactionlog->load($easycreditTransactionIds[$paymentId])) {
+            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
+                d3log::ERROR,
+                __CLASS__,
+                __FUNCTION__,
+                __LINE__,
+                'could not load d3transactionlog',
+                'd3transactionlogid: ' . var_export($easycreditTransactionIds[$paymentId], true)
+            );
+
+            return 'payment?paymenterror=-99';
+        }
+
+        /** @var ReaderHeidelpay $response */
+        $response    = $transactionlog->getTransactiondata();
+        $redirectUrl = $response->getRedirecturl();
+
+        if (empty($redirectUrl)) {
+            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
+                d3log::ERROR,
+                __CLASS__,
+                __FUNCTION__,
+                __LINE__,
+                'redirect url is empty:' . $redirectUrl,
+                var_export($response, true)
+            );
+
+            return 'payment?paymenterror=-99';
+        }
+
+        d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
+            d3log::INFO,
+            __CLASS__,
+            __FUNCTION__,
+            __LINE__,
+            'redirect customer to url:' . $redirectUrl,
+            $redirectUrl
+        );
+        Registry::getConfig()->pageClose();
+        Registry::getUtils()->redirect($redirectUrl, false, 302);
+
+        return '';
     }
 
     /**
@@ -364,8 +481,59 @@ class PaymentController extends PaymentController_parent
         $this->addTplParam('blD3HeidelpayAllowPrzelewy24', $this->isPaymentAllowedForCountryAndCurrency('PL', 'PLN'));
         $this->addTplParam('blD3HeidelpayAllowIdeal', $this->isPaymentAllowedForCountryAndCurrency('NL', 'EUR'));
         $this->addTplParam('blD3HeidelpayHasSameAdresses', $this->d3HeidelpayHasSameAdresses());
+        $this->addTplParam(
+            'blD3HeidelpayAllowInvoiceSecured',
+            $this->isHeidelpayInvoiceSecuredAllowed(Registry::getSession()->getBasket())
+        );
 
         return $mReturn;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isEasyCreditConsentNotConfirmed()
+    {
+        return (bool)Registry::get(Request::class)->getRequestParameter('d3heidelpayeasycreditnotchecked');
+    }
+
+    /**
+     * @param Basket $oxBasket
+     *
+     * @return bool
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     */
+    public function isHeidelpayEasycreditAllowed(Basket $oxBasket)
+    {
+        if (false == $this->isPaymentAllowedForCountryAndCurrency('DE', 'EUR')) {
+            return false;
+        }
+
+        /** @var Easycredit $easyCreditPayment */
+        $easyCreditPayment = oxNew(Easycredit::class);
+        $oxPrice           = $oxBasket->getPrice();
+        $price             = $oxPrice->getPrice();
+        $minPrice          = $easyCreditPayment->getMinimumLimit();
+        $maxPrice          = $easyCreditPayment->getMaximumLimit();
+
+        if (false == ($price >= $minPrice && $maxPrice >= $price)) {
+            return false;
+        }
+
+        $basketUser       = $oxBasket->getBasketUser();
+        $possiblePSFields = array('oxfname', 'oxlname', 'oxstreet', 'oxstreetnr', 'oxcity');
+
+        foreach ($possiblePSFields as $field) {
+            if (false === stristr(strtolower($basketUser->getFieldData($field)), 'packstation')) {
+                continue;
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -441,6 +609,34 @@ class PaymentController extends PaymentController_parent
     }
 
     /**
+     * @param Basket $oxBasket
+     *
+     * @return bool
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     */
+    public function isHeidelpayInvoiceSecuredAllowed(Basket $oxBasket)
+    {
+        if (false == $this->d3HeidelpayHasSameAdresses()) {
+            return false;
+        }
+
+        /** @var Secured $InvoicePayment */
+        $InvoicePayment = oxNew(Secured::class);
+        $oxPrice        = $oxBasket->getPrice();
+        $price          = $oxPrice->getPrice();
+        $minPrice       = $InvoicePayment->getMinimumLimit();
+        $maxPrice       = $InvoicePayment->getMaximumLimit();
+
+        if (false == ($price >= $minPrice && $maxPrice >= $price)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @return string
      * @throws \Doctrine\DBAL\DBALException
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
@@ -451,187 +647,5 @@ class PaymentController extends PaymentController_parent
         $sTemplate = d3_cfg_mod::get('d3heidelpay')->getMappedThemeId();
 
         return "d3_heidelpay_views_{$sTemplate}_tpl_messages.tpl";
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getD3PaymentId()
-    {
-        $paymentId = Registry::get(Request::class)->getRequestParameter('paymentid');
-        if (empty($paymentId)) {
-            $paymentId = $this->getSession()->getVariable('paymentid');
-        }
-
-        return $paymentId;
-    }
-
-    /**
-     * @param $birthdate
-     * @param $paymentId
-     *
-     * @return bool
-     */
-    protected function d3ValidateBirthdateInput($birthdate, $paymentId)
-    {
-        return empty($birthdate)
-            || empty($birthdate[$paymentId])
-            || empty($birthdate[$paymentId]['day'])
-            || empty($birthdate[$paymentId]['month'])
-            || empty($birthdate[$paymentId]['year']);
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isEasyCreditConsentNotConfirmed()
-    {
-        return (bool)Registry::get(Request::class)->getRequestParameter('d3heidelpayeasycreditnotchecked');
-    }
-
-    /**
-     * @param $paymentId
-     *
-     * @return string
-     * @throws StandardException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     */
-    protected function handleD3HeidelpayEasyCredit($paymentId)
-    {
-        $easycreditTransactionIds = Registry::get(Request::class)->getRequestParameter(
-            'd3heidelpayEasycreditTransactionLogid'
-        );
-
-        if (false == is_array($easycreditTransactionIds) || empty($easycreditTransactionIds[$paymentId])) {
-            return 'payment?d3heidelpayeasycreditnotchecked=1';
-        }
-
-        $transactionlog = oxNew(d3transactionlog::class, oxNew(ReaderHeidelpay::class));
-        if (false == $transactionlog->load($easycreditTransactionIds[$paymentId])) {
-            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-                d3log::ERROR,
-                __CLASS__,
-                __FUNCTION__,
-                __LINE__,
-                'could not load d3transactionlog',
-                'd3transactionlogid: ' . var_export($easycreditTransactionIds[$paymentId], true)
-            );
-
-            return 'payment?paymenterror=-99';
-        }
-
-        /** @var ReaderHeidelpay $response */
-        $response    = $transactionlog->getTransactiondata();
-        $redirectUrl = $response->getRedirecturl();
-
-        if (empty($redirectUrl)) {
-            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-                d3log::ERROR,
-                __CLASS__,
-                __FUNCTION__,
-                __LINE__,
-                'redirect url is empty:' . $redirectUrl,
-                var_export($response, true)
-            );
-
-            return 'payment?paymenterror=-99';
-        }
-
-        d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-            d3log::INFO,
-            __CLASS__,
-            __FUNCTION__,
-            __LINE__,
-            'redirect customer to url:' . $redirectUrl,
-            $redirectUrl
-        );
-        Registry::getConfig()->pageClose();
-        Registry::getUtils()->redirect($redirectUrl, false, 302);
-
-        return '';
-    }
-
-    /**
-     * @param Basket $oxBasket
-     *
-     * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     */
-    public function isHeidelpayEasycreditAllowed(Basket $oxBasket)
-    {
-        if (false == $this->isPaymentAllowedForCountryAndCurrency('DE', 'EUR')) {
-            return false;
-        }
-
-        /** @var Easycredit $easyCreditPayment */
-        $easyCreditPayment = oxNew(Easycredit::class);
-        $oxPrice  = $oxBasket->getPrice();
-        $price    = $oxPrice->getPrice();
-        $minPrice          = $easyCreditPayment->getMinimumLimit();
-        $maxPrice          = $easyCreditPayment->getMaximumLimit();
-
-        if (false == ($price >= $minPrice && $maxPrice >= $price)) {
-            return false;
-        }
-
-        $basketUser = $oxBasket->getBasketUser();
-        $possiblePSFields = array('oxfname', 'oxlname', 'oxstreet', 'oxstreetnr', 'oxcity');
-
-        foreach ($possiblePSFields as $field) {
-            if (false === stristr(strtolower($basketUser->getFieldData($field)), 'packstation')) {
-                continue;
-            }
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param Factory $oFactory
-     *
-     * @throws StandardException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     */
-    protected function d3HeidelpaySetErrorMessage(Factory $oFactory)
-    {
-        $oldReference = $oFactory->getReferenceNumber();
-        if ($oldReference) {
-            $oTransAction = $oFactory->getLatestTransactionByReference($oldReference);
-            if ($oTransAction instanceof d3transactionlog) {
-                /** @var ReaderHeidelpay $reader */
-                $reader = $oTransAction->getTransactiondata();
-                if ($reader->getResult() === "NOK" && $reader->getReturncode()) {
-                    $string      = 'd3heidelpay_' . $reader->getReturncode();
-                    $translation = Registry::getLang()->translateString($string);
-
-                    if ($translation === $string) {
-                        d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-                            d3log::ERROR,
-                            __CLASS__,
-                            __FUNCTION__,
-                            __LINE__,
-                            'Translation not found: ' . $string,
-                            $string
-                        );
-                        $translation = Registry::getLang()->translateString('d3heidelpay_execute_error');
-                    }
-
-                    $exception = oxNew(StandardException::class, $translation);
-                    Registry::get(UtilsView::class)->addErrorToDisplay($exception);
-                }
-            }
-        }
     }
 }

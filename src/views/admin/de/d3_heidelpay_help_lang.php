@@ -192,6 +192,8 @@ z.B. "Kartenummer nicht korrekt".<br><br><b>Hinweis: Sicherheitsrelevante Meldun
         . '<br>Um Fehler zu vermeiden, darf alleine die Konfiguration in der <b>Sprache 0</b> aktiv sein.<br><br>'
         . '<ol><li>Drücken Sie auf <b style="color:#1db11a;">"mehrsprachige Konfigurationen entfernen"</b> um Konfigurationen aus anderen Sprachen zu löschen.</li>'
         . '<li>Wählen Sie <b style="color:#ff1212;">"mehrsprachige Konfigurationen wieder aktivieren"</b> um die Option <i>"mehrsprachige Konfigurationen erlauben"</i> wieder aktiv zu schalten. Die Konfigurationen in den anderen Sprachen bleiben erhalten.</li></ol>',
-    'HELP_D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMINIMUM'             => 'Geben Sie hier den Mindest-Bestellwert für EasyCredit Anfragen an.<br>Der Standardwert sind 200 Euro.',
-    'HELP_D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMAXIMUM'             => 'Geben Sie hier den Höchst-Bestellwert für EasyCredit Anfragen an.<br>Der Standardwert sind 5000 Euro.',
+    'HELP_D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMINIMUM'     => 'Geben Sie hier den Mindest-Bestellwert für EasyCredit Anfragen an.<br>Der Standardwert sind 200 Euro.',
+    'HELP_D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMAXIMUM'     => 'Geben Sie hier den Höchst-Bestellwert für EasyCredit Anfragen an.<br>Der Standardwert sind 5000 Euro.',
+    'HELP_D3DYN_HEIDELPAY_PARAM_INVOICESECUREDLIMITMINIMUM' => 'Geben Sie hier den Mindest-Bestellwert für gesichert. Rechnungskauf Anfragen an.<br>Der Standardwert sind 10 Euro.',
+    'HELP_D3DYN_HEIDELPAY_PARAM_INVOICESECUREDLIMITMAXIMUM' => 'Geben Sie hier den Höchst-Bestellwert für gesichert. Rechnungskauf Anfragen an.<br>Der Standardwert sind 1000 Euro.',
 );

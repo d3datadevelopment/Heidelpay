@@ -159,4 +159,5 @@ $aLang     = array(
     'D3HEIDELPAY_ORDER_EASYCREDIT_ACCRUINGINTEREST'                => 'Zinsen für Ratenzahlung',
     'D3HEIDELPAY_ORDER_EASYCREDIT_TOTALAMOUNT'                     => 'Gesamtbetrag inkl. Ratenzahlung',
     'D3HEIDELPAY_PAYMENT_POSTFINANCE_PAYMENTS'                     => 'PostFinance-Zahlungsarten',
+    'D3HEIDELPAY_PAYMENT_INVOICESECURED_NOTICE'                    => 'Diese Zahlungsart benötigt einen Gesamtbetrag zwischen %s und %s Euro.',
 );

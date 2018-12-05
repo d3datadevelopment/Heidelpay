@@ -9,7 +9,8 @@
         </h3>
         <div>
             <div>[{$d3HPEASYCREDIT_AMORTISATIONTEXT}]</div>
-            <a href="[{$d3HPEASYCREDIT_PRECONTRACTINFORMATIONURL}]" target="easyCredit">[{oxmultilang ident="D3HEIDELPAY_ORDER_EASYCREDIT_LINK"}]</a>
+            <a href="[{$d3HPEASYCREDIT_PRECONTRACTINFORMATIONURL}]"
+               target="easyCredit">[{oxmultilang ident="D3HEIDELPAY_ORDER_EASYCREDIT_LINK"}]</a>
         </div>
     </div>
 [{/if}]

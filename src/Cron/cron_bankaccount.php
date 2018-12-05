@@ -41,9 +41,9 @@ $oResponse->setStartParameters($aParams);
 try {
     $oResponse->checkBankAccount();
 } catch (\OxidEsales\Eshop\Core\Exception\StandardException $e) {
-    echo 'Error occurred: ', $e->getMessage(),PHP_EOL, $e->getTraceAsString();
+    echo 'Error occurred: ', $e->getMessage(), PHP_EOL, $e->getTraceAsString();
 } catch (\Doctrine\DBAL\DBALException $e) {
-    echo 'DB Error occurred: ', $e->getMessage(),PHP_EOL, $e->getTraceAsString();
+    echo 'DB Error occurred: ', $e->getMessage(), PHP_EOL, $e->getTraceAsString();
 }
 
 \OxidEsales\Eshop\Core\Registry::getConfig()->pageClose();

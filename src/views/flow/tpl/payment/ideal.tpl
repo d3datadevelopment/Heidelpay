@@ -10,21 +10,22 @@
     <dl>
         <dt>
             <input type="radio"
-            [{if $blD3HeidelpayAllowIdeal}]
-                id="payment_[{$sPaymentID}]"
-                   name="paymentid"
-                   value="[{$sPaymentID}]"
-                [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]
-            [{else}]
-                disabled
-            [{/if}]
+                    [{if $blD3HeidelpayAllowIdeal}]
+                        id="payment_[{$sPaymentID}]"
+                        name="paymentid"
+                        value="[{$sPaymentID}]"
+                        [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]
+                    [{else}]
+                        disabled
+                    [{/if}]
             >
             <label for="payment_[{$sPaymentID}]">
                 <b>[{$paymentmethod->oxpayments__oxdesc->value}]</b>
                 [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sFullImageUrl sBrandIdent=$sBrandIdentIdeal}]
             </label>
             [{if false == $blD3HeidelpayAllowIdeal}]
-                <sup id="d3HeidelayPrzelewy24Notice" class="alert alert-danger">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_IDEAL_NOTICE"}]</sup>
+                <sup id="d3HeidelayPrzelewy24Notice"
+                     class="alert alert-danger">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_IDEAL_NOTICE"}]</sup>
             [{/if}]
         </dt>
         <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
@@ -45,7 +46,8 @@
                            for="payment_[{$sPaymentID}]_1">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK"}]</label>
                     <input type="hidden" name="dynvalue[lsland]" value="NL">
                     <div class="col-lg-9">
-                        <select class="form-control js-oxValidate js-oxValidate_notEmpty" id="payment_[{$sPaymentID}]_1" name="dynvalue[lsbankname]">
+                        <select class="form-control js-oxValidate js-oxValidate_notEmpty" id="payment_[{$sPaymentID}]_1"
+                                name="dynvalue[lsbankname]">
                             <option>[{oxmultilang ident="D3PAYMENT_EXT_SELECTPLEASE"}]</option>
                             [{foreach from=$aBrands item='sBrandName' key='sBrandIdent'}]
                                 <option value="[{$sBrandIdent}]"

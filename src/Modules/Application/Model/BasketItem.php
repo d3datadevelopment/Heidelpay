@@ -11,6 +11,7 @@
  * @author        D3 Data Development <support@shopmodule.com>
  * @link          http://www.oxidmodule.com
  */
+
 namespace D3\Heidelpay\Modules\Application\Model;
 
 use OxidEsales\Eshop\Application\Model\Article;
@@ -24,7 +25,7 @@ class BasketItem extends BasketItem_parent
      *
      * @param Article $oArticle
      */
-    public function d3SetArticle(Article $oArticle )
+    public function d3SetArticle(Article $oArticle)
     {
         $this->_oArticle = $oArticle;
     }

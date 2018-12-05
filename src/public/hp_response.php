@@ -59,7 +59,7 @@ try {
 /** @var Response $oResponse */
 $oResponse = oxNew(Response::class);
 try {
-    $sReturn = $oResponse->init();
+    $sReturn      = $oResponse->init();
     $urlParameter = $oResponse->d3GetHeidelpayURLParameter();
 } catch (\Exception $e) {
     writeToLog($e->getMessage());

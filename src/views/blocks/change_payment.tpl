@@ -9,7 +9,7 @@
             <script type="text/javascript">
                 [{capture name="d3JavaScriptForHeidelpay"}]
                 $('#payment').find('dl dd').not('.activePayment').find('input, select, textarea').attr('disabled', 'disabled');
-                $('#payment dl dt input[type=radio]').click(function(){
+                $('#payment dl dt input[type=radio]').click(function () {
                     $('#payment').find('dd').find('input, select, textarea').attr('disabled', 'disabled');
                     $(this).parents('dl').find('input, select, textarea').removeAttr('disabled');
                 });

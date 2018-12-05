@@ -67,6 +67,7 @@
             } else if (paymentFrameForm.attachEvent) { // IE DOM
                 paymentFrameForm.attachEvent('onsubmit', sendMessage);
             }
+
             // A function to handle sending messages.
             function sendMessage(e) {
                 // Prevent any default browser behaviour.
@@ -107,6 +108,7 @@
             } else if (window.attachEvent) { // IE DOM
                 window.attachEvent('onmessage', receiveMessage);
             }
+
             // ### Receiving postMessages ###
             function receiveMessage(e) {
 // Check to make sure that this message came from the correct domain.

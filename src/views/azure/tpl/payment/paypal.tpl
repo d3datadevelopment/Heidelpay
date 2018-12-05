@@ -9,15 +9,15 @@
     <dl>
         <dt>
             <input type="radio"
-                [{if $blD3HeidelpayHasSameAdresses}]
-                    id="payment_[{$sPaymentID}]"
-                    name="paymentid"
-                    value="[{$sPaymentID}]"
-                    [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]
-                [{else}]
-                    disabled
-                [{/if}]
-                >
+                    [{if $blD3HeidelpayHasSameAdresses}]
+                        id="payment_[{$sPaymentID}]"
+                        name="paymentid"
+                        value="[{$sPaymentID}]"
+                        [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]
+                    [{else}]
+                        disabled
+                    [{/if}]
+            >
             <label for="payment_[{$sPaymentID}]"><b>[{$paymentmethod->oxpayments__oxdesc->value}]</b></label>
             [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sFullImageUrl sBrandIdent=$sBrandIdent}]
             [{if false == $blD3HeidelpayHasSameAdresses}]

@@ -10,14 +10,14 @@
     <dl>
         <dt>
             <input type="radio"
-            [{if $blD3HeidelpayAllowIdeal}]
-                id="payment_[{$sPaymentID}]"
-                name="paymentid"
-                value="[{$sPaymentID}]"
-                [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]
-            [{else}]
-                disabled
-            [{/if}]
+                    [{if $blD3HeidelpayAllowIdeal}]
+                        id="payment_[{$sPaymentID}]"
+                        name="paymentid"
+                        value="[{$sPaymentID}]"
+                        [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]
+                    [{else}]
+                        disabled
+                    [{/if}]
             >
             <label for="payment_[{$sPaymentID}]"><b>[{$paymentmethod->oxpayments__oxdesc->value}]</b></label>
             [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sFullImageUrl sBrandIdent=$sBrandIdentIdeal}]
@@ -34,7 +34,8 @@
                         <select id="payment_[{$sPaymentID}]_1" name="dynvalue[lsbankname]">
                             <option value="">[{oxmultilang ident="D3PAYMENT_EXT_SELECTPLEASE"}]</option>
                             [{foreach from=$aBrands item='sBrandName' key='sBrandIdent'}]
-                                <option value="[{$sBrandIdent}]" [{if ($dynvalue.lsbankname == $sBrandIdent)}]selected[{/if}]>[{$sBrandName}]</option>
+                                <option value="[{$sBrandIdent}]"
+                                        [{if ($dynvalue.lsbankname == $sBrandIdent)}]selected[{/if}]>[{$sBrandName}]</option>
                             [{/foreach}]
                         </select>
                     </li>

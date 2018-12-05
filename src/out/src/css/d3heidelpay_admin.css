@@ -1,3 +1,4 @@
+body{height:auto}
 .edittext li{ background:none repeat scroll 0 0 transparent; padding:2px; }
 .edittext li button{ min-width:150px; }
 .hpactions{ float:left; width:auto; }
@@ -7,7 +8,7 @@
 #liste .d3hptransactions .d3hphidden td{ border-bottom:1px double #d3d3d3 }
 .d3hpclose, .d3hpopen{ cursor:pointer; display:block; }
 .d3hpdisplay{ display:block; height:15px; width:25px; cursor:pointer; }
-#liste .d3hptransactions{ width:100%; border:1px solid #d3d3d3; }
+#liste .d3hptransactions{ width:99%; border:1px solid #d3d3d3; margin:5px; }
 #liste .d3hptransactions th{ background:none repeat scroll 0 0 #f5f5f5; border:1px solid; }
 #liste .d3hptransactions td{ border-bottom:1px solid #d3d3d3; text-align:center; }
 #liste .d3transactionData td{ text-align:left; }
@@ -15,6 +16,6 @@
 #liste .d3transactionData .odd > td,
 #liste .d3hptransactions .odd > td{ background:repeat scroll 0 0 #e2f5ff; }
 .d3hplabel{ float:left; padding-right:15px; }
-.d3hpopen  .fa{ font-size:18px; }
-.d3hpopen  .fa.fa-sign-in{ color:#007fff; }
-.d3hpopen  .fa.fa-sign-out{ color:#ff7f00; }
+.d3hpopen .fas{ font-size:18px; }
+.d3hpopen .svg-inline--fa.fa-sign-in-alt{ color:#007fff; }
+.d3hpopen .svg-inline--fa.fa-sign-out-alt{ color:#ff7f00; }

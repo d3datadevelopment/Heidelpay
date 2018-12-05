@@ -12,22 +12,22 @@
 [{/if}]
 
 [{capture name="doNotShow"}]
-<script type="text/javascript">
-    [{capture name="javaScript"}]
-    $('#sCountrySelected_[{$sPaymentID}]').on('change', function (e) {
-        var valueSelected = this.value;
-        var hideableLi    = $('#sBIC_[{$sPaymentID}]').first();
+    <script type="text/javascript">
+        [{capture name="javaScript"}]
+        $('#sCountrySelected_[{$sPaymentID}]').on('change', function (e) {
+            var valueSelected = this.value;
+            var hideableLi = $('#sBIC_[{$sPaymentID}]').first();
 
-        if (valueSelected == 'DE') {
-            hideableLi.hide()
-            hideableLi.find('input').attr('disabled', 'disabled');
-        } else {
-            hideableLi.show()
-            hideableLi.find('input').removeAttr('disabled');
-        }
-    });
-    [{/capture}]
-</script>
+            if (valueSelected == 'DE') {
+                hideableLi.hide()
+                hideableLi.find('input').attr('disabled', 'disabled');
+            } else {
+                hideableLi.show()
+                hideableLi.find('input').removeAttr('disabled');
+            }
+        });
+        [{/capture}]
+    </script>
 [{/capture}]
 [{oxscript add=$smarty.capture.javaScript}]
 
@@ -43,19 +43,18 @@
             [{assign var="iBirthdayYear" value=$oxcmp_user->oxuser__oxbirthdate->value|regex_replace:'/[-]([0-9]{1,2})[-]([0-9]{1,2})$/':""}]
         [{/if}]
     [{/if}]
-
     <dl>
         <dt>
             <input type="radio"
-                [{if $blShowPaymentMethod}]
-                    id="payment_[{$sPaymentID}]"
-                   name="paymentid"
-                   value="[{$sPaymentID}]"
-                    [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]
-                [{else}]
-                    disabled
-                [{/if}]
-                >
+                    [{if $blShowPaymentMethod}]
+                        id="payment_[{$sPaymentID}]"
+                        name="paymentid"
+                        value="[{$sPaymentID}]"
+                        [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]
+                    [{else}]
+                        disabled
+                    [{/if}]
+            >
             <label for="payment_[{$sPaymentID}]">
                 <b>[{$paymentmethod->oxpayments__oxdesc->value}]</b>
                 [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sFullImageUrl sBrandIdent=$sBrandIdentELV}]
@@ -106,11 +105,11 @@
                                placeholder="[{oxmultilang ident="YEAR"}]" required="">
                     </div>
                 </div>
-            <div class="row">
-                <div class="col-xs-12 col-lg-9 col-lg-offset-3">
-                    <div class="alert alert-info">[{oxmultilang ident="COMPLETE_MARKED_FIELDS"}]</div>
+                <div class="row">
+                    <div class="col-xs-12 col-lg-9 col-lg-offset-3">
+                        <div class="alert alert-info">[{oxmultilang ident="COMPLETE_MARKED_FIELDS"}]</div>
+                    </div>
                 </div>
-            </div>
             [{/if}]
 
             <div class="form-group">
@@ -125,11 +124,11 @@
                     </select>
                     [{if !empty($dynvalue.lsland)}]
                         [{capture name="doNotShow"}]
-                        <script type="text/javascript">
-                            [{capture name="javaScript"}]
-                            $('#sCountrySelected_[{$sPaymentID}]').val('[{$dynvalue.lsland}]').trigger('change');
-                            [{/capture}]
-                        </script>
+                            <script type="text/javascript">
+                                [{capture name="javaScript"}]
+                                $('#sCountrySelected_[{$sPaymentID}]').val('[{$dynvalue.lsland}]').trigger('change');
+                                [{/capture}]
+                            </script>
                         [{/capture}]
                         [{oxscript add=$smarty.capture.javaScript}]
                     [{/if}]

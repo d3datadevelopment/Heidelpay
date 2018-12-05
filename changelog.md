@@ -1,18 +1,28 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 6.0.2.0
+0007899: Push Notifications integriert  
+0000000: WAITING Status auf PENDING gestellt  
+0007921: Feldbegrenzungen in der Basket Api validieren  
+0007480: [Konfiguration] neuer Eintrag Limits für (gesicherten) Rechnungskauf einstellen  
+0008113: precheck entfernen  
+0008143: [EE] Shopid für gespeicherte Referenzdaten anlegen  
+0007483: FONTEND.ENABLED sollte immer übertragen werden  
+0006751: WAITING Status an Bestellung weitergebe
+
 ## 6.0.1.3
 0008030: IBAN Anfangsbuchstaben müssen immer groß geschrieben werden  
-0007945: Doppelklick führt zu doppelten Bestellungen/Abbuchungen
+0007945: Doppelklick führt zu doppelten Bestellungen/Abbuchungen  
 0007906: Endlosschleife in automatischer Installation
 
 ## 6.0.1.2
 0007856: 6.0.3 / 6.1.0 veraltete obsolete dynvalues wurden validiert (Bankeinzug + Giropay)
 
 ## 6.0.1.1
-0007756: EPS - Ablehnung da falsches Land übertragen wurde - ACCOUNT.COUNTRY
-0007812: Änderungen Flow 3.0.2 übernehmen (OXID Compilation 6.1.0)
-0007820: Freigabe 6.1.0
+0007756: EPS - Ablehnung da falsches Land übertragen wurde - ACCOUNT.COUNTRY  
+0007812: Änderungen Flow 3.0.2 übernehmen (OXID Compilation 6.1.0)  
+0007820: Freigabe 6.1.0  
 0007817: Mobile theme Unterstützung entfernen
  
 ## 6.0.1.0

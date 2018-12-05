@@ -1,4 +1,3 @@
-
 <div class="alert alert-danger">
     [{if $d3heidelpayErrorCodes.OXCODE}]
         [{assign var="langident" value=$d3heidelpayErrorCodes.OXCODE}]

@@ -1,5 +1,7 @@
 <?php
+
 namespace D3\Heidelpay\Modules\Core;
+
 use D3\Heidelpay\Models\Settings\Heidelpay;
 use D3\Heidelpay\Models\Verify\Input;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
