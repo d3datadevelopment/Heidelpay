@@ -27,7 +27,7 @@
         [{include file="_formparams.tpl" cl=$oViewConf->getActiveClassname() lstrt=$lstrt actedit=$actedit oxid=$oxid fnc="" language=$actlang editlanguage=$actlang}]
 
         [{block name="D3_Heidelpay_controllers_admin_transactionloglist_items"}]
-            <table border="0" class="d3hptransactions box">
+            <table border="0" class="d3hptransactions box" id="d3hptransactions">
 
                 <tr>
                     <th colspan="2">
@@ -58,15 +58,17 @@
                     <td>
                         <input type="hidden" id="d3action" name="where[d3transactionlog][d3action]"
                                value="[{$where.d3transactionlog.d3action}]">
-                        <a href="#" style="display: inline-block;[{if $where.d3transactionlog.d3action == 'response'}] background-color:lightblue; [{/if}]"
+                        <a href="#"
+                           style="display: inline-block;[{if $where.d3transactionlog.d3action == 'response'}] background-color:lightblue; [{/if}]"
                            onclick="document.getElementById('d3action').value = '[{if $where.d3transactionlog.d3action != 'response'}]response[{/if}]'; document.search.submit(); return false;"
                            class="d3hpopen">
-                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            <i class="fa fa-sign-in d3fa-17x" aria-hidden="true"></i>
                         </a>&nbsp;
-                        <a href="#" style="display: inline-block;[{if $where.d3transactionlog.d3action == 'request'}] background-color:#ffE080; [{/if}]"
+                        <a href="#"
+                           style="display: inline-block;[{if $where.d3transactionlog.d3action == 'request'}] background-color:#ffE080; [{/if}]"
                            onclick="document.getElementById('d3action').value = '[{if $where.d3transactionlog.d3action != 'request'}]request[{/if}]'; document.search.submit(); return false;"
                            class="d3hpopen">
-                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            <i class="fa fa-sign-out d3fa-17x" aria-hidden="true"></i>
                         </a>
                     </td>
                     <td>
@@ -74,15 +76,15 @@
                                value="[{$where.d3transactiondata.processing_result}]">
                         <a href="#" style="display: inline-block;"
                            onclick="document.getElementById('processing_result').value = '[{if $where.d3transactiondata.processing_result != 'ACK'}]ACK[{/if}]'; document.search.submit(); return false;"
-                           class="d3hpopen fa fa-17x fa-check-circle fa-d3color-green"></a>
+                           class="d3hpopen"><i class="fas d3fa-17x fa-check-circle d3fa-color-green"></i></a>
                         <a href="#" style="display: inline-block;"
                            onclick="document.getElementById('processing_result').value = '[{if $where.d3transactiondata.processing_result != 'NOK'}]NOK[{/if}]'; document.search.submit(); return false;"
-                           class="d3hpopen fa fa-17x fa-times-circle fa-d3color-red"></a>
+                           class="d3hpopen"><i class=" fas d3fa-17x fa-times-circle d3fa-color-red"></i></a>
                     </td>
                     <td>
                         <input class="listedit"
                                type="text"
-                                size="5"
+                               size="5"
                                maxlength="128"
                                name="where[oxorder][oxordernr]"
                                value="[{$where.oxorder.oxordernr}]">
@@ -98,7 +100,7 @@
                     <td>
                         <input class="listedit"
                                type="text"
-                                size="8"
+                               size="8"
                                maxlength="128"
                                name="where[d3transactiondata][amount]"
                                value="[{$where.d3transactiondata.amount}]">
@@ -113,21 +115,21 @@
                     </td>
                     <td>
                         <input class="listedit"
-                             type="text"
-                             size="10"
-                             maxlength="128"
-                             name="where[d3transactiondata][transactionid]"
-                             value="[{$where.d3transactiondata.transactionid}]">
+                               type="text"
+                               size="10"
+                               maxlength="128"
+                               name="where[d3transactiondata][transactionid]"
+                               value="[{$where.d3transactiondata.transactionid}]">
                     </td>
                     <td>
                         <input class="listedit"
-                             type="text"
-                             size="10"
-                             maxlength="128"
-                             name="where[d3transactiondata][shortid]"
-                             value="[{$where.d3transactiondata.shortid}]">
+                               type="text"
+                               size="10"
+                               maxlength="128"
+                               name="where[d3transactiondata][shortid]"
+                               value="[{$where.d3transactiondata.shortid}]">
                     </td>
-                    <td>
+                    <td style="white-space:nowrap">
                         <input class="listedit"
                                type="text"
                                size="20"
@@ -139,7 +141,7 @@
 
                         <a href="#" style="display: inline-block;"
                            onclick="document.search.submit(); return false;">
-                            <i class="fa fa-17x fa-search" aria-hidden="true"></i>
+                            <i class="fa d3fa-17x fa-search" aria-hidden="true"></i>
                         </a>
                     </td>
                 </tr>
@@ -167,112 +169,115 @@
                     [{/if}]
                     <tr class="[{$sClassName}]">
                         <td>
-                            <a rel="[{$index}]"> [{$transaction->getFieldData('d3lognr')}] </a>
+                            <a rel="d3[{$index}]"> [{$transaction->getFieldData('d3lognr')}] </a>
                         </td>
                         <td>
-                            <a rel="[{$index}]"
-                               class="d3hpopen d3hpdisplay fa fa-plus-circle fa-17x fa-d3color-disabled"></a>
+                            <a rel="d3[{$index}]" class="d3hpopen d3hpdisplay">
+                                <i class="fa fa-plus-circle d3fa-17x d3fa-color-disabled"></i>
+                            </a>
                         </td>
                         <td>
-                            <a rel="[{$index}]" class="d3hpopen" title="[{$transaction->getAction()}]">
+                            <a rel="d3[{$index}]" class="d3hpopen" title="[{$transaction->getAction()}]">
                                 [{if $transaction->getAction() == 'response'}]
-                                    <i class="fa fa-17x fa-sign-in" aria-hidden="true"></i>
+                                    <i class="fa d3fa-17x fa-sign-in" aria-hidden="true"></i>
                                 [{else}]
-                                    <i class="fa fa-17x fa-sign-out" aria-hidden="true"></i>
+                                    <i class="fa d3fa-17x fa-sign-out" aria-hidden="true"></i>
                                 [{/if}]
                             </a>
                         </td>
                         <td>
                             [{if $transaction->getAction() == 'response'}]
-                                <a rel="[{$index}]"
-                                   class="d3hpopen fa fa-17x [{if $blTransactionSuccessfull}] fa-check-circle fa-d3color-green[{else}] fa-times-circle  fa-d3color-red[{/if}]"
-                                   title="[{$transactionLogReader->getResult()}]"></a>
+                                <a rel="d3[{$index}]" class="d3hpopen" title="[{$transactionLogReader->getResult()}]">
+                                    <i class="fa d3fa-17x [{if $blTransactionSuccessfull}] fa-check-circle d3fa-color-green[{else}] fa-times-circle d3fa-color-red[{/if}]"></i>
+                                </a>
                             [{/if}]
                         </td>
                         <td>
-                            <a rel="[{$index}]"
+                            <a rel="d3[{$index}]"
                                class="d3hpopen">[{$oView->getOrderNr($transaction)}]</a>
                         </td>
                         <td>
-                            <a rel="[{$index}]"
+                            <a rel="d3[{$index}]"
                                class="d3hpopen">[{$transaction->getFieldData('oxtimestamp')}]</a>
                         </td>
                         <td>
-                            <a rel="[{$index}]" class="d3hpopen">
+                            <a rel="d3[{$index}]" class="d3hpopen">
                                 [{$sAmount}] [{$transactionLogReader->getCurrency()}]
                             </a>
                         </td>
                         <td>
-                            <a rel="[{$index}]" class="d3hpopen"
+                            <a rel="d3[{$index}]" class="d3hpopen"
                                title="[{oxmultilang ident='D3_HEIDELPAY_PAYMENT_'|cat:$sPaymentType}].[{oxmultilang ident='D3_HEIDELPAY_METHOD_'|cat:$sPaymentMethod}]">
                                 [{$sPaymentType}].[{$sPaymentMethod}]
                             </a>
                         </td>
                         <td>
-                            <a rel="[{$index}]"
+                            <a rel="d3[{$index}]"
                                class="d3hpopen">[{$transactionLogReader->getTransactionid()}]</a>
                         </td>
                         <td>
-                            <a rel="[{$index}]"
+                            <a rel="d3[{$index}]"
                                class="d3hpopen">[{$transactionLogReader->getShortid()}]</a>
                         </td>
                         <td>
-                            <a rel="[{$index}]"
+                            <a rel="d3[{$index}]"
                                class="d3hpopen">[{$transaction->getSessionId()}]</a>
                         </td>
                     </tr>
-                    <tr class="d3hphidden [{$index}]">
+                    <tr class="d3hphidden d3[{$index}]" data-visible="false">
                         <td colspan="11" class="[{$sClassName}]" style="text-align:left">
-                            <h4>[{oxmultilang ident="D3_HEIDELPAY_CONTROLLERS_ADMIN_ORDER_HEIDELPAY_DETAILS"}]</h4>
+                            <div class="d3hpslider">
+                                <h4>[{oxmultilang ident="D3_HEIDELPAY_CONTROLLERS_ADMIN_ORDER_HEIDELPAY_DETAILS"}]</h4>
 
-                            [{assign var='transactionData' value=$transactionLogReader->getData()}]
-                            <table class="d3transactionData box">
-                                [{foreach from=$transactionData item="transactionItem" key="transactionKey" name="transactionData"}]
-                                    <tr[{if $smarty.foreach.transactionData.index is odd}] class="odd"[{/if}]>
-                                        <td>[{$transactionKey}]</td>
-                                        <td>[{$transactionItem|wordwrap:100:"\n":true}]</td>
-                                    </tr>
-                                [{/foreach}]
-                            </table>
-                            <a rel="[{$index}]" class="d3modcfg_icon d3hpclose action_minus_inactive"
-                               title="[{oxmultilang ident="CATEGORY_UPDATE_CLOSE"}]"></a>
+                                [{assign var='transactionData' value=$transactionLogReader->getData()}]
+                                <table class="d3transactionData box">
+                                    [{foreach from=$transactionData item="transactionItem" key="transactionKey" name="transactionData"}]
+                                        <tr[{if $smarty.foreach.transactionData.index is odd}] class="odd"[{/if}]>
+                                            <td>[{$transactionKey}]</td>
+                                            <td>[{$transactionItem|wordwrap:100:"\n":true}]</td>
+                                        </tr>
+                                    [{/foreach}]
+                                </table>
+                                <a rel="d3[{$index}]" class="d3modcfg_icon d3hpclose action_minus_inactive"
+                                   title="[{oxmultilang ident="CATEGORY_UPDATE_CLOSE"}]"></a>
+                            </div>
                         </td>
                     </tr>
                 [{/foreach}]
                 [{include file="pagenavisnippet.tpl" colspan="11"}]
             </table>
-            [{oxscript add='
-$(".d3hpopen").click(function(){
-    var id = $(this).attr("rel");
-    $("." + id).toggle();
-    $(".d3hpdisplay[rel=\'" + id + "\']").toggleClass("fa-minus-circle fa-plus-circle");
-});
+        [{capture name="doNotShow"}]
+            <script type="text/javascript">
+                [{capture name="javaScript"}]
+                $(".d3hpopen").click(function () {
+                    current = $(this);
+                    className = current.attr("rel");
+                    isVisible = $("." + className).attr("data-visible");
 
-$(".d3hpclose").click(function(){
-    var id = $(this).attr("rel");
-    $("." + id).toggle();
-    $(".d3hpdisplay[rel=\'" + id + "\']").toggleClass("fa-minus-circle fa-plus-circle");
-});
-$(".d3hphidden").hide();
-'}]
+                    if ("false" === isVisible) {
+                        $("#d3hptransactions")
+                            .find(".d3hphidden." + className).show()
+                            .find('.d3hpslider').animate({height: "toggle"}, "slow");
+                        $("." + className).attr("data-visible", 'true');
+                    } else {
+                        element = $("#d3hptransactions")
+                            .find(".d3hphidden." + className);
+
+                        element.find('.d3hpslider').animate({height: "toggle"}, "slow", function () {
+                            element.hide();
+                        });
+                        $("." + className).attr("data-visible", 'false');
+                    }
+                });
+
+                $(".d3hphidden, .d3hpslider").hide();
+                [{/capture}]
+            </script>
+        [{/capture}]
+            [{oxscript add=$smarty.capture.javaScript}]
         [{/block}]
     </form>
 </div>
 
 [{include file="pagetabsnippet.tpl"}]
-
-[{*[{capture name="emptyCapture"}]
-    <script type="text/javascript">
-        [{capture name="d3JavaScript"}]
-        if (parent.parent) {
-            parent.parent.sShopTitle = "[{$actshopobj->oxshops__oxname->value}]";
-            parent.parent.sMenuItem = "[{oxmultilang ident="D3_IMPORTER_MENUITEM"}]";
-            parent.parent.sMenuSubItem = "[{oxmultilang ident="D3_IMPORTER_LIST_MENUSUBITEM"}]";
-            parent.parent.sWorkArea = "[{$_act}]";
-            parent.parent.setTitle();
-        }
-        [{/capture}]
-    </script>
-[{/capture}]
-[{oxscript add=$smarty.capture.d3JavaScript}]*}]
-[{include file="bottomitem.tpl"}]
+[{include file="d3_cfg_mod_inc.tpl" blHideLinkBar=true}]

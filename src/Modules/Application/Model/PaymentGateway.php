@@ -1,4 +1,5 @@
 <?php
+
 namespace D3\Heidelpay\Modules\Application\Model;
 
 use D3\Heidelpay\Controllers\PaymentGateway as ControllerPaymentGateway;
@@ -10,6 +11,7 @@ use D3\ModCfg\Application\Model\Log\d3log;
 use D3\ModCfg\Application\Model\Transactionlog\d3transactionlog;
 use OxidEsales\Eshop\Application\Model\Payment;
 use OxidEsales\Eshop\Core\Registry;
+
 /**
  */
 class PaymentGateway extends PaymentGateway_parent

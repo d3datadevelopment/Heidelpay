@@ -4,7 +4,8 @@
 [{assign var="sImageUrl" value=$oViewConf->getModuleUrl('d3heidelpay','out/img/')}]
 [{assign var="storeDatas" value=$oView->getUserHPStoreData($payment->getId())}]
 [{assign var="d3HeidelpayPostparameter" value=$oView->d3GetHeidelpayPostparameter()}]
-<form action="[{$oViewConf->getSslSelfLink()|oxaddparams:"&heidelpaytemplate=d3_heidelpay_views_azure_tpl_cc_input.tpl"}]" method="post">
+<form action="[{$oViewConf->getSslSelfLink()|oxaddparams:"&heidelpaytemplate=d3_heidelpay_views_azure_tpl_cc_input.tpl"}]"
+      method="post">
     [{foreach from=$d3HeidelpayPostparameter key="inputName" item="inputValue"}]
         <input type="hidden" name="[{$inputName}]" value="[{$inputValue}]">
     [{/foreach}]
@@ -16,15 +17,16 @@
     <input type="hidden" name="sDeliveryAddressMD5" value="[{$oView->getDeliveryAddressMD5()}]">
 
     [{foreach from=$storeDatas item="storeData" key="storeDataId" name="storedDataIds"}]
-    <label class="status error corners" style="background: none; display:block;">
-        <input type="radio" name="usehpstore" value="[{$storeDataId}]"[{if $smarty.foreach.storedDataIds.first}] checked[{/if}]>
-        [{assign var="sBrandIdent" value=$storeData->aDynValue.kktype}]
-        [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sImageUrl|cat:"logo_"|cat:$sBrandIdent|lower|cat:".jpg" sBrandIdent=$sBrandIdent}]
-        [{$storeData->aDynValue.kknumber}]
-        [{oxmultilang ident="D3HEIDELPAY_CC_INPUT_EXPIRES"}] [{$storeData->aDynValue.kkmonth}]
-        /[{$storeData->aDynValue.kkyear}]
-        [{oxmultilang ident="D3HEIDELPAY_CC_INPUT_OWNER"}] [{$storeData->aDynValue.kkname}]
-    </label>
+        <label class="status error corners" style="background: none; display:block;">
+            <input type="radio" name="usehpstore"
+                   value="[{$storeDataId}]"[{if $smarty.foreach.storedDataIds.first}] checked[{/if}]>
+            [{assign var="sBrandIdent" value=$storeData->aDynValue.kktype}]
+            [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sImageUrl|cat:"logo_"|cat:$sBrandIdent|lower|cat:".jpg" sBrandIdent=$sBrandIdent}]
+            [{$storeData->aDynValue.kknumber}]
+            [{oxmultilang ident="D3HEIDELPAY_CC_INPUT_EXPIRES"}] [{$storeData->aDynValue.kkmonth}]
+            /[{$storeData->aDynValue.kkyear}]
+            [{oxmultilang ident="D3HEIDELPAY_CC_INPUT_OWNER"}] [{$storeData->aDynValue.kkname}]
+        </label>
     [{/foreach}]
     <label class="status error corners" style="background: none; display:block;">
         <input type="radio" name="usehpstore" value="0">

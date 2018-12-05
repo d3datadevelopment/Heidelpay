@@ -10,7 +10,8 @@
 
 <form id="paymentFrameForm">
     <div class="d3timeOut">
-        [{oxmultilang ident="D3HEIDELPAY_TIMEOUT_TIMER"}]<div class='timer' data-seconds-left="[{$cardTypeTimeOut}]"></div>
+        [{oxmultilang ident="D3HEIDELPAY_TIMEOUT_TIMER"}]
+        <div class='timer' data-seconds-left="[{$cardTypeTimeOut}]"></div>
     </div>
     [{if $isThreeDSecure}]
         [{assign var='o3DSecure' value=$oHeidelpayViewConfig->get3dSecureResponse()}]
@@ -64,6 +65,7 @@
             } else if (paymentFrameForm.attachEvent) { // IE DOM
                 paymentFrameForm.attachEvent('onsubmit', sendMessage);
             }
+
             // A function to handle sending messages.
             function sendMessage(e) {
                 // Prevent any default browser behaviour.
@@ -104,6 +106,7 @@
             } else if (window.attachEvent) { // IE DOM
                 window.attachEvent('onmessage', receiveMessage);
             }
+
             // ### Receiving postMessages ###
             function receiveMessage(e) {
 // Check to make sure that this message came from the correct domain.
@@ -113,9 +116,9 @@
                 $('#d3HeidelpayWait').dialog('close');
                 $('#paymentNextStepBottom').attr('disabled', false);
 // Do something with the data
-            [{if $isHeidelpayDebugMode}]
+                [{if $isHeidelpayDebugMode}]
                 console.log(e.data);
-            [{/if}]
+                [{/if}]
             }
 
             $('#d3HeidelpayWait').dialog({
@@ -158,7 +161,7 @@
             });
 
             $('.timer').startTimer({
-                onComplete: function(element){
+                onComplete: function (element) {
                     element.addClass('isComplete');
                     $('#paymentFrameForm').find('input, button, textarea').attr('disabled', 'disabled');
                     $('#d3HeidelpayOutOfTime').dialog('open');
@@ -186,7 +189,8 @@
         </tr>
         <tr>
             <td class="d3HeidelpayInfoCell">
-                <a href="[{oxgetseourl ident=$oViewConf->getOrderLink()}]" class="submitButton largeButton">[{oxmultilang ident="D3HEIDELPAY_OUTOFTIME_LINK"}]</a>
+                <a href="[{oxgetseourl ident=$oViewConf->getOrderLink()}]"
+                   class="submitButton largeButton">[{oxmultilang ident="D3HEIDELPAY_OUTOFTIME_LINK"}]</a>
             </td>
         </tr>
     </table>

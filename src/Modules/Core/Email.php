@@ -1,7 +1,9 @@
 <?php
+
 namespace D3\Heidelpay\Modules\Core;
 
 use OxidEsales\Eshop\Core\Registry;
+
 /**
  */
 class Email extends Email_parent
@@ -17,7 +19,7 @@ class Email extends Email_parent
     public function d3SendCustHPPPInfoMail($oOrder)
     {
         //sets language of order
-        $iOrderLang = (int) (isset($oOrder->oxorder__oxlang->value) ? $oOrder->oxorder__oxlang->value : 0);
+        $iOrderLang = (int)(isset($oOrder->oxorder__oxlang->value) ? $oOrder->oxorder__oxlang->value : 0);
 
         // shop info
         $oShop = $this->_getShop($iOrderLang);
@@ -57,7 +59,7 @@ class Email extends Email_parent
     public function d3SendOwnerHPPPInfoMail($oOrder)
     {
         //sets language of order
-        $iOrderLang = (int) (isset($oOrder->oxorder__oxlang->value) ? $oOrder->oxorder__oxlang->value : 0);
+        $iOrderLang = (int)(isset($oOrder->oxorder__oxlang->value) ? $oOrder->oxorder__oxlang->value : 0);
 
         // shop info
         $oShop = $this->_getShop($iOrderLang);

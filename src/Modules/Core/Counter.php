@@ -1,4 +1,5 @@
 <?php
+
 namespace D3\Heidelpay\Modules\Core;
 
 /**

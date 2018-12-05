@@ -13,22 +13,22 @@
 
 
 [{capture name="doNotShow"}]
-<script type="text/javascript">
-    [{capture name="javaScript"}]
-    $('#sCountrySelected_[{$sPaymentID}]').on('change', function (e) {
-        var valueSelected = this.value;
-        var hideableLi    = $('#sBIC_[{$sPaymentID}]').first();
+    <script type="text/javascript">
+        [{capture name="javaScript"}]
+        $('#sCountrySelected_[{$sPaymentID}]').on('change', function (e) {
+            var valueSelected = this.value;
+            var hideableLi = $('#sBIC_[{$sPaymentID}]').first();
 
-        if (valueSelected == 'DE') {
-            hideableLi.hide()
-            hideableLi.find('input').attr('disabled', 'disabled');
-        } else {
-            hideableLi.show()
-            hideableLi.find('input').removeAttr('disabled');
-        }
-    });
-    [{/capture}]
-</script>
+            if (valueSelected == 'DE') {
+                hideableLi.hide()
+                hideableLi.find('input').attr('disabled', 'disabled');
+            } else {
+                hideableLi.show()
+                hideableLi.find('input').removeAttr('disabled');
+            }
+        });
+        [{/capture}]
+    </script>
 [{/capture}]
 [{oxscript add=$smarty.capture.javaScript}]
 
@@ -44,18 +44,17 @@
             [{assign var="iBirthdayYear" value=$oxcmp_user->oxuser__oxbirthdate->value|regex_replace:'/[-]([0-9]{1,2})[-]([0-9]{1,2})$/':""}]
         [{/if}]
     [{/if}]
-
     <dl>
         <dt>
             <input type="radio"
-                [{if $blShowPaymentMethod}]
-                    id="payment_[{$sPaymentID}]"
-                    name="paymentid" value="[{$sPaymentID}]"
-                    [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]
-                [{else}]
-                    disabled
-                [{/if}]
-                >
+                    [{if $blShowPaymentMethod}]
+                        id="payment_[{$sPaymentID}]"
+                        name="paymentid" value="[{$sPaymentID}]"
+                        [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]
+                    [{else}]
+                        disabled
+                    [{/if}]
+            >
             <label for="payment_[{$sPaymentID}]"><b>[{$paymentmethod->oxpayments__oxdesc->value}]
                     [{if $paymentmethod->getPrice()}]
                         [{assign var="oPaymentPrice" value=$paymentmethod->getPrice()}]
@@ -79,10 +78,13 @@
                 <div class="oxDate">
                     <label class="req">[{ oxmultilang ident="BIRTHDATE" suffix="COLON" }]</label>
                     <label class="innerLabel" for="oxDay_[{$sPaymentID}]">[{ oxmultilang ident="DAY" }]</label>
-                    <input id="oxDay_[{$sPaymentID}]" class='oxDay js-oxValidate' name='d3birthdate[[{$sPaymentID}]][day]' type="text" data-fieldsize="xsmall" maxlength="2" value="[{if $iBirthdayDay > 0 }][{$iBirthdayDay }][{/if}]" />
+                    <input id="oxDay_[{$sPaymentID}]" class='oxDay js-oxValidate'
+                           name='d3birthdate[[{$sPaymentID}]][day]' type="text" data-fieldsize="xsmall" maxlength="2"
+                           value="[{if $iBirthdayDay > 0 }][{$iBirthdayDay }][{/if}]"/>
                     [{oxscript include="js/widgets/oxinnerlabel.js" priority=10 }]
                     [{oxscript add='$(\'#oxDay_'|cat:$sPaymentID|cat:'\').oxInnerLabel();'}]
-                    <select class='oxMonth js-oxValidate js-oxValidate_date js-oxValidate_notEmpty' name='d3birthdate[[{$sPaymentID}]][month]'>
+                    <select class='oxMonth js-oxValidate js-oxValidate_date js-oxValidate_notEmpty'
+                            name='d3birthdate[[{$sPaymentID}]][month]'>
                         [{section name="month" start=1 loop=13 }]
                             <option value="[{$smarty.section.month.index}]" [{if $iBirthdayMonth == $smarty.section.month.index}] selected="selected" [{/if}]>
                                 [{oxmultilang ident="MONTH_NAME_"|cat:$smarty.section.month.index}]
@@ -90,7 +92,9 @@
                         [{/section}]
                     </select>
                     <label class="innerLabel" for="oxYear_[{$sPaymentID}]">[{ oxmultilang ident="YEAR" }]</label>
-                    <input id="oxYear_[{$sPaymentID}]" class='oxYear js-oxValidate' name='d3birthdate[[{$sPaymentID}]][year]' type="text" data-fieldsize="small" maxlength="4" value="[{if $iBirthdayYear }][{$iBirthdayYear }][{/if}]" />
+                    <input id="oxYear_[{$sPaymentID}]" class='oxYear js-oxValidate'
+                           name='d3birthdate[[{$sPaymentID}]][year]' type="text" data-fieldsize="small" maxlength="4"
+                           value="[{if $iBirthdayYear }][{$iBirthdayYear }][{/if}]"/>
                     [{oxscript include="js/widgets/oxinnerlabel.js" priority=10 }]
                     [{oxscript add='$(\'#oxYear_'|cat:$sPaymentID|cat:'\').oxInnerLabel();'}]
                     <p class="oxValidateError">
@@ -115,21 +119,27 @@
                 </li>
                 <li [{if $iPayError == -4}]class="oxInValid"[{/if}] id="sBIC_[{$sPaymentID}]">
                     <label for="sCountrySelected_[{$sPaymentID}]lsblz">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK_BIC"}]</label>
-                    <input id="sCountrySelected_[{$sPaymentID}]lsblz" type="text" class="js-oxValidate" size="20" maxlength="64" name="dynvalue[lsblz]" autocomplete="off" value="[{$dynvalue.lsblz}]">
+                    <input id="sCountrySelected_[{$sPaymentID}]lsblz" type="text" class="js-oxValidate" size="20"
+                           maxlength="64" name="dynvalue[lsblz]" autocomplete="off" value="[{$dynvalue.lsblz}]">
                     <p class="oxValidateError">
                         <span class="js-oxError_notEmpty">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_PAGE_EXCEPTION_INPUT_NOTALLFIELDS"}]</span>
                     </p>
                 </li>
                 <li [{if $iPayError == -5}]class="oxInValid"[{/if}]>
                     <label for="sCountrySelected_[{$sPaymentID}]lsktonr">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK_IBAN"}]</label>
-                    <input id="sCountrySelected_[{$sPaymentID}]lsktonr" type="text" class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64" name="dynvalue[lsktonr]" autocomplete="off" value="[{$dynvalue.lsktonr}]">
+                    <input id="sCountrySelected_[{$sPaymentID}]lsktonr" type="text"
+                           class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64"
+                           name="dynvalue[lsktonr]" autocomplete="off" value="[{$dynvalue.lsktonr}]">
                     <p class="oxValidateError">
                         <span class="js-oxError_notEmpty">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_PAGE_EXCEPTION_INPUT_NOTALLFIELDS"}]</span>
                     </p>
                 </li>
                 <li>
                     <label for="sCountrySelected_[{$sPaymentID}]lsktoinhaber">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK_ACCOUNTHOLDER"}]</label>
-                    <input id="sCountrySelected_[{$sPaymentID}]lsktoinhaber" type="text" class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64" name="dynvalue[lsktoinhaber]" value="[{if $dynvalue.lsktoinhaber}][{$dynvalue.lsktoinhaber}][{else}][{$oxcmp_user->oxuser__oxfname->value}] [{$oxcmp_user->oxuser__oxlname->value}][{/if}]">
+                    <input id="sCountrySelected_[{$sPaymentID}]lsktoinhaber" type="text"
+                           class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64"
+                           name="dynvalue[lsktoinhaber]"
+                           value="[{if $dynvalue.lsktoinhaber}][{$dynvalue.lsktoinhaber}][{else}][{$oxcmp_user->oxuser__oxfname->value}] [{$oxcmp_user->oxuser__oxlname->value}][{/if}]">
                     <p class="oxValidateError">
                         <span class="js-oxError_notEmpty">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_PAGE_EXCEPTION_INPUT_NOTALLFIELDS"}]</span>
                     </p>

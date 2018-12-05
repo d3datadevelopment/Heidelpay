@@ -12,6 +12,7 @@ use D3\Heidelpay\Models\Payment\Invoice\Secured;
 use D3\Heidelpay\Models\Payment\Invoice\Unsecured;
 use D3\Heidelpay\Models\Payment\Payment;
 use D3\Heidelpay\Models\Payment\Prepayment;
+use D3\Heidelpay\Models\Response\Parser;
 use D3\Heidelpay\Models\Settings\Heidelpay;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
 use D3\ModCfg\Application\Model\Log\d3log;
@@ -34,52 +35,6 @@ use OxidEsales\Eshop\Core\UtilsObject;
  */
 class Order extends Order_parent
 {
-
-    /**
-     * @param string $sStatus
-     *
-     * @return void
-     * @throws PaymentNotReferencedToHeidelpayException
-     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
-     */
-    protected function _setOrderStatus($sStatus)
-    {
-        if (false == d3_cfg_mod::get('d3heidelpay')->isActive()) {
-            parent::_setOrderStatus($sStatus);
-            return;
-        }
-
-        $oDB = DatabaseProvider::getDb();
-
-        $sOldStatus = $oDB->getOne('select oxtransstatus from oxorder where oxid="' . $this->getId() . '"');
-        $sPaid      = $oDB->getOne('select oxpaid from oxorder where oxid="' . $this->getId() . '"');
-        $sPaymentId = $this->getFieldData('OxidPaymenttype');
-
-        /** @var Heidelpay $oSettings */
-        $oSettings = oxNew(Heidelpay::class, d3_cfg_mod::get('d3heidelpay'));
-
-        /** @var OxidPayment $oPayment */
-        $oPayment = oxNew(OxidPayment::class);
-        $oPayment->load($sPaymentId);
-
-        if (false == $oSettings->isAssignedToHeidelPayment($oPayment)) {
-            parent::_setOrderStatus($sStatus);
-            return;
-        }
-
-        $blIsPrepayment = $oSettings->getPayment($oPayment) instanceof Prepayment;
-        $blIsWaiting    = $sOldStatus == 'WAITING' && $sPaid == '0000-00-00 00:00:00';
-        if ($blIsPrepayment && $blIsWaiting) {
-            $sStatus = "WAITING";
-        }
-        parent::_setOrderStatus($sStatus);
-    }
 
     /**
      * Returns bank transfer data if available
@@ -119,7 +74,7 @@ class Order extends Order_parent
             /** @var PrepaymentData $oPrePaymentData */
             $oPrePaymentData = oxNew(PrepaymentData::class);
 
-            return $oPrePaymentData->getBankTransferData($this, $oHeidelpayment->getPaymentCode().'.PA');
+            return $oPrePaymentData->getBankTransferData($this, $oHeidelpayment->getPaymentCode() . '.PA');
         }
 
         return false;
@@ -141,7 +96,7 @@ class Order extends Order_parent
         /** @var Heidelpay $oSettings */
         $oSettings = oxNew(Heidelpay::class, d3_cfg_mod::get('d3heidelpay'));
         /** @var OxidPayment $oPayment */
-        $oPayment  = oxNew(OxidPayment::class);
+        $oPayment = oxNew(OxidPayment::class);
         $oPayment->load($this->getFieldData('oxpaymenttype'));
         if (false == $oSettings->isAssignedToHeidelPayment($oPayment)) {
             return null;
@@ -260,6 +215,55 @@ class Order extends Order_parent
     }
 
     /**
+     * @param string $sStatus
+     *
+     * @return void
+     * @throws PaymentNotReferencedToHeidelpayException
+     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     */
+    protected function _setOrderStatus($sStatus)
+    {
+        if (false == d3_cfg_mod::get('d3heidelpay')->isActive()) {
+            parent::_setOrderStatus($sStatus);
+
+            return;
+        }
+
+        $oDB = DatabaseProvider::getDb();
+
+        $sOldStatus = $oDB->getOne('select oxtransstatus from oxorder where oxid="' . $this->getId() . '"');
+        $sPaid      = $oDB->getOne('select oxpaid from oxorder where oxid="' . $this->getId() . '"');
+        $sPaymentId = $this->getFieldData('OXPAYMENTTYPE');
+
+        /** @var Heidelpay $oSettings */
+        $oSettings = oxNew(Heidelpay::class, d3_cfg_mod::get('d3heidelpay'));
+
+        /** @var OxidPayment $oPayment */
+        $oPayment = oxNew(OxidPayment::class);
+        $oPayment->load($sPaymentId);
+
+        if (false == $oSettings->isAssignedToHeidelPayment($oPayment)) {
+            parent::_setOrderStatus($sStatus);
+
+            return;
+        }
+
+        $blIsPrepayment = $oSettings->getPayment($oPayment) instanceof Prepayment;
+        $blIsWaiting    = $sOldStatus == 'PENDING' && $sPaid == '0000-00-00 00:00:00';
+        if ($blIsPrepayment && $blIsWaiting) {
+            $sStatus = "PENDING";
+        }
+
+        parent::_setOrderStatus($sStatus);
+    }
+
+    /**
      * @param Basket $oBasket
      * @param User   $oUser
      *
@@ -328,6 +332,177 @@ class Order extends Order_parent
     }
 
     /**
+     * TODO: outsource this in a own model
+     *
+     * @param Basket     $oxBasket
+     * @param d3_cfg_mod $modulConfiguration
+     * @param Registry   $registry
+     *
+     * @return null
+     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     */
+    protected function d3VerifyBasketSameAmount(Basket $oxBasket, d3_cfg_mod $modulConfiguration, Registry $registry)
+    {
+        $transaction = $this->d3GetLastHeidelpayTransaction($oxBasket, $modulConfiguration);
+
+        if (is_null($transaction)) {
+            return null;
+        }
+
+        /** @var \D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay $reader */
+        $reader       = $transaction->getTransactiondata();
+        $basketAmount = $oxBasket->getPrice()->getBruttoPrice();
+
+        $basketAmount = number_format($basketAmount, '2', '.', '');
+        if ($basketAmount !== $reader->getAmount()) {
+            $transStatusError = $modulConfiguration->getValue('d3heidelpay_oxtransstatuserror');
+            if (empty($transStatusError)) {
+                $transStatusError = 'ERROR';
+            }
+            $this->setD3HPTransactionStatusError($transStatusError);
+            $this->d3SendHPErrorMessage($modulConfiguration, $registry, $reader, $basketAmount);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param Basket     $oxBasket
+     * @param d3_cfg_mod $modulConfiguration
+     *
+     * @return \D3\ModCfg\Application\Model\Transactionlog\d3transactionlog|null |null
+     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     */
+    protected function d3GetLastHeidelpayTransaction(Basket $oxBasket, d3_cfg_mod $modulConfiguration)
+    {
+        /** @var OxidPayment $oPayment */
+        $oPayment = oxNew(OxidPayment::class);
+        $oPayment->load($oxBasket->getPaymentId());
+
+        /** @var Factory $factory */
+        $factory = oxNew(Factory::class, $modulConfiguration);
+
+        try {
+            /** @var Payment $heidelPayment */
+            $heidelPayment = $factory->getSettings()->getPayment($oPayment);
+        } catch (PaymentNotReferencedToHeidelpayException $oEx) {
+            return null;
+        }
+
+        if (false == $heidelPayment instanceof Payment) {
+            return null;
+        }
+
+        $refrenceNumber = $factory->getReferenceNumber();
+        if (empty($refrenceNumber)) {
+            $modulConfiguration->d3getLog()->log(
+                d3log::ERROR,
+                __CLASS__,
+                __FUNCTION__,
+                __LINE__,
+                "no reference but heidelpay payment! payment is: " . var_export($heidelPayment, true)
+            );
+
+            return null;
+        }
+
+        $transaction = $factory->getLatestTransactionByReference($refrenceNumber);
+
+        if (false == $transaction) {
+            $modulConfiguration->d3getLog()->log(
+                d3log::WARNING,
+                __CLASS__,
+                __FUNCTION__,
+                __LINE__,
+                'no transaction found but heidelpay payment and referencenumber',
+                $refrenceNumber
+            );
+
+            return null;
+        }
+
+        return $transaction;
+    }
+
+    /**
+     * @param      $transStatusError
+     * @param bool $resetPaidDate
+     */
+    public function setD3HPTransactionStatusError($transStatusError, $resetPaidDate = true)
+    {
+        $aAssignment                  = array();
+        $aAssignment['oxtransstatus'] = $transStatusError;
+        if ($resetPaidDate) {
+            $aAssignment['oxpaid'] = '0000-00-00 00:00:00';
+        }
+        $this->assign($aAssignment);
+        $this->save();
+    }
+
+    /**
+     *  TODO refactor into separate class
+     *
+     * @param d3_cfg_mod                                           $modulConfiguration
+     * @param Registry                                             $registry
+     * @param \D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay $reader
+     * @param                                                      $basketAmount
+     *
+     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
+     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     */
+    public function d3SendHPErrorMessage(d3_cfg_mod $modulConfiguration, Registry $registry, \D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay $reader, $basketAmount)
+    {
+
+        $text    = $registry->getLang()->translateString(
+            'D3HEIDELPAY_DIFFERENCE_IN_ORDER_ERRRORMESSAGE',
+            Registry::getLang()->getBaseLanguage(),
+            true
+        );
+        $message = sprintf($text, $this->getFieldData('oxordernr'), $reader->getUniqueid(), $reader->getAmount(), $basketAmount);
+
+        $subject = $registry->getLang()->translateString(
+            'D3HEIDELPAY_DIFFERENCE_IN_ORDER_SUBJECT',
+            Registry::getLang()->getBaseLanguage(),
+            true
+        );
+        $subject .= $this->getFieldData('oxordernr');
+
+        $recipient = $modulConfiguration->getValue('d3heidelpay_oxtransstatuserrormail');
+        if (empty($recipient)) {
+            $recipient = $this->getConfig()->getActiveShop()->getFieldData('oxowneremail');
+        }
+
+        $modulConfiguration->d3getLog()->log(
+            d3log::WARNING,
+            __CLASS__,
+            __FUNCTION__,
+            __LINE__,
+            $subject,
+            $message
+        );
+        /** @var \D3\Heidelpay\Modules\Core\Email $email */
+        $email = oxNew(Email::class);
+        $email->d3SendNotificationToShopOwner($subject, $message, $recipient);
+
+    }
+
+    /**
      * @return Basket
      * @throws ArticleException
      * @throws \oxArticleInputException
@@ -390,15 +565,15 @@ class Order extends Order_parent
         }
 
         $this->d3VerifyBasketSameAmount($oxBasket, $modulConfiguration, $registry);
+        $this->d3SetWaitingState($oxBasket, $modulConfiguration, $registry);
+
         return $return;
     }
 
     /**
-     * TODO: outsource this in a own model
-     *
-     * @param Basket     $oxBasket
-     * @param d3_cfg_mod $modulConfiguration
-     * @param Registry   $registry
+     * @param Basket   $basket
+     * @param          $modulConfiguration
+     * @param Registry $registry
      *
      * @return null
      * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
@@ -409,103 +584,23 @@ class Order extends Order_parent
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
      * @throws \OxidEsales\Eshop\Core\Exception\StandardException
      */
-    protected function d3VerifyBasketSameAmount(Basket $oxBasket, d3_cfg_mod $modulConfiguration, Registry $registry)
+    protected function d3SetWaitingState(Basket $basket, $modulConfiguration, Registry $registry)
     {
-        /** @var OxidPayment $oPayment */
-        $oPayment = oxNew(OxidPayment::class);
-        $oPayment->load($oxBasket->getPaymentId());
+        $transaction = $this->d3GetLastHeidelpayTransaction($basket, $modulConfiguration);
 
-        /** @var Factory $factory */
-        $factory = oxNew(Factory::class, $modulConfiguration);
+        /** @var Parser $oParser */
+        $oParser = oxNew(
+            Parser::class,
+            $modulConfiguration,
+            $registry,
+            $transaction->getTransactiondata()
+        );
 
-        try {
-            /** @var Payment $heidelPayment */
-            $heidelPayment = $factory->getSettings()->getPayment($oPayment);
-        } catch (PaymentNotReferencedToHeidelpayException $oEx) {
+        if ('OK' !== $this->getFieldData('oxtransstatus') || is_null($transaction) || false === $oParser->isWaiting()) {
             return null;
         }
 
-        if (false == $heidelPayment instanceof Payment) {
-            return null;
-        }
-
-        $refrenceNumber = $factory->getReferenceNumber();
-        if (empty($refrenceNumber)) {
-            $modulConfiguration->d3getLog()->log(
-                d3log::ERROR,
-                __CLASS__,
-                __FUNCTION__,
-                __LINE__,
-                "no reference but heidelpay payment! payment is: " . var_export($heidelPayment, true)
-            );
-
-            return null;
-        }
-
-        $transaction = $factory->getLatestTransactionByReference($refrenceNumber);
-
-        if (false == $transaction) {
-            $modulConfiguration->d3getLog()->log(
-                d3log::WARNING,
-                __CLASS__,
-                __FUNCTION__,
-                __LINE__,
-                'no transaction found but heidelpay payment and referencenumber',
-                $refrenceNumber
-            );
-
-            return null;
-        }
-
-        /** @var \D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay $reader */
-        $reader       = $transaction->getTransactiondata();
-        $basketAmount = $oxBasket->getPrice()->getBruttoPrice();
-
-        $basketAmount = number_format($basketAmount, '2', '.', '');
-        if ($basketAmount !== $reader->getAmount()) {
-
-            $transStatusError = $modulConfiguration->getValue('d3heidelpay_oxtransstatuserror');
-            if (empty($transStatusError)) {
-                $transStatusError = 'ERROR';
-            }
-            $aAssignment                  = array();
-            $aAssignment['oxtransstatus'] = $transStatusError;
-            $aAssignment['oxpaid']        = '0000-00-00 00:00:00';
-            $this->assign($aAssignment);
-            $this->save();
-
-            $text    = $registry->getLang()->translateString(
-                'D3HEIDELPAY_DIFFERENCE_IN_ORDER_ERRRORMESSAGE',
-                Registry::getLang()->getBaseLanguage(),
-                true
-            );
-            $message = sprintf($text, $this->getFieldData('oxordernr'), $reader->getUniqueid(), $reader->getAmount(), $basketAmount);
-
-            $subject = $registry->getLang()->translateString(
-                'D3HEIDELPAY_DIFFERENCE_IN_ORDER_SUBJECT',
-                Registry::getLang()->getBaseLanguage(),
-                true
-            );
-            $subject .= $this->getFieldData('oxordernr');
-
-            $recipient = $modulConfiguration->getValue('d3heidelpay_oxtransstatuserrormail');
-            if (empty($recipient)) {
-                $recipient = $this->getConfig()->getActiveShop()->getFieldData('oxowneremail');
-            }
-
-            /** @var \D3\Heidelpay\Modules\Core\Email $email */
-            $email = oxNew(Email::class);
-            $email->d3SendNotificationToShopOwner($subject, $message, $recipient);
-
-            $modulConfiguration->d3getLog()->log(
-                d3log::ERROR,
-                __CLASS__,
-                __FUNCTION__,
-                __LINE__,
-                $subject,
-                $message
-            );
-        }
+        $this->setD3HPTransactionStatusError('PENDING', true);
 
         return null;
     }

@@ -3,11 +3,11 @@
     <title>[{oxmultilang ident="D3HEIDELPAY_ORDER_3DS_IFRAME_APRP"}]</title>
     <style type="text/css">
         <!--
-        html, body {
-            font-family      : Tahoma, Arial, sans-serif;
-            font-size        : 11px;
-            color            : #000000;
-            background-color : #ffffff;
+        html, body{
+            font-family:Tahoma, Arial, sans-serif;
+            font-size:11px;
+            color:#000000;
+            background-color:#ffffff;
         }
 
         -->
@@ -37,6 +37,7 @@
         document.forms.event.submit(
         );
     }
+
     //-->
 </script>
 </body>
