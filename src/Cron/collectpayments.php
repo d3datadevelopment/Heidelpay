@@ -34,7 +34,9 @@ $config = OxidEsales\Eshop\Core\Registry::getConfig();
 
 // executing maintenance tasks..
 try {
-    oxNew(\D3\Heidelpay\Controllers\PaymentCollector::class)->setStartParameters($aParams)->execute();
+    /** @var \D3\Heidelpay\Controllers\PaymentCollector $collector */
+    $collector = oxNew(\D3\Heidelpay\Controllers\PaymentCollector::class);
+    $collector->setStartParameters($aParams)->execute();
 } catch (\OxidEsales\Eshop\Core\Exception\StandardException $e) {
     echo $e->getMessage();
 } catch (\Doctrine\DBAL\DBALException $e) {

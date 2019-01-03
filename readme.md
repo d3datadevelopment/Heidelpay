@@ -22,8 +22,7 @@ Die jeweils geforderten Versionen und sonstige Anforderungen entnehmen Sie bitte
 Bitte lesen Sie dazu die PDF Datei: docs/Heidelpay_Installation.pdf  
 
 ## Installation:
-Verwenden Sie zur Installation bitte immer unser Quellenverzeichnis unter https://satis.oxidmodule.com.
-Eine detaillierte Installationsanleitung finden Sie im docs-Verzeichnis dieses Pakets.
+Bitte lesen Sie die Installationsanleitung im docs-Verzeichnis dieses Pakets.
 
 ## Konfiguration
 Bitte lesen Sie dazu die PDF Datei: docs/Heidelpay_Konfiguration.pdf

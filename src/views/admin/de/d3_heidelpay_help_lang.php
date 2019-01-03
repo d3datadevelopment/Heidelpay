@@ -196,4 +196,26 @@ z.B. "Kartenummer nicht korrekt".<br><br><b>Hinweis: Sicherheitsrelevante Meldun
     'HELP_D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMAXIMUM'     => 'Geben Sie hier den Höchst-Bestellwert für EasyCredit Anfragen an.<br>Der Standardwert sind 5000 Euro.',
     'HELP_D3DYN_HEIDELPAY_PARAM_INVOICESECUREDLIMITMINIMUM' => 'Geben Sie hier den Mindest-Bestellwert für gesichert. Rechnungskauf Anfragen an.<br>Der Standardwert sind 10 Euro.',
     'HELP_D3DYN_HEIDELPAY_PARAM_INVOICESECUREDLIMITMAXIMUM' => 'Geben Sie hier den Höchst-Bestellwert für gesichert. Rechnungskauf Anfragen an.<br>Der Standardwert sind 1000 Euro.',
+    'HELP_D3HEIDELPAY_SETTINGS_NOTIFYURL' => 'Das NGW System von Heidelpay bietet die Push Benachrichtigungen an. <br>
+<br>
+<strong>Was sind Push Benachrichtigungen?</strong><br>
+Eine Push Benachrichtigung ist eine zusätzliche Rückmeldung, aus dem Heidelpay System, an die hinterlegte Shop-Benachrichtigungs-URL.<br>
+Der Inhalt der Benachrichtigung enthält Informationen einer Transaktion.<br>
+Das Heidelpay System schickt dabei fast alle bekannten Transaktionen an den Shop.<br>
+Eine Transaktion kann bspw. bei der Kreditkarte eine Registrierung (CC.RG), ein Debit (CC.DB) oder auch ein Refund (CC.RF) enthalten.<br>
+Das gilt natürlich auch für alle anderen Zahlungsarten.<br>
+ <br>
+<strong>Wozu dienen die Push Benachrichtigungen?</strong><br>
+In erster Linie ist die Benachrichtigung eine Information an den Shop und damit eine Absicherung, dass der Shop die notwendigen Informationen erhält.<br>
+Die Transaktion wird von unserem Modul im Shop gespeichert und der Bestellung zugeordnet (sofern diese vorhanden ist).<br>
+ <br>
+Die Modulversion 6.0.2.0 kann bei der Zahlungsart automatische Vorkasse bereits die zugehörige Bestellung als bezahlt markieren.<br>
+Ablauf:<br>
+Das Heidelpaysystem schickt ein PP.RC an den Shop.<br>
+Dieser wird ausgewertet und die Bestellung wird auf bezahlt, sowie der Transaktionsstatus von PENDING auf OK gesetzt.<br>
+<br>
+<strong>Wie richte ich die Push Benachrichtungen ein?</strong><br>
+Die Shop-Benachrichtigungs-URL muss bei Heidelpay (per E-Mail) eingereicht werden.<br>
+Die URL setzt sich aus der Shopdomain (Hauptdomain bei EE Versionen, die Shop-Id wird in den Transaktionen überliefert) und dem Pfad zu der notify.php zusammen:<br>
+https://www.meine-shop-dom.ain/modules/d3/heidelpay/public/notify.php<br>',
 );

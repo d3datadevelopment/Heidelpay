@@ -660,6 +660,8 @@ class OrderController extends OrderController_parent
         $oBasket    = $this->getBasket();
         $sPaymentid = $oBasket->getPaymentId();
 
+        /** @var Heidelpay $oSettings */
+        /** @var Payment $oPayment */
         $oSettings = oxNew(Heidelpay::class, d3_cfg_mod::get('d3heidelpay'));
         $oPayment  = oxNew(Payment::class);
         $oPayment->load($sPaymentid);

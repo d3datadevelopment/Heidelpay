@@ -160,4 +160,17 @@ $aLang     = array(
     'D3HEIDELPAY_ORDER_EASYCREDIT_TOTALAMOUNT'                     => 'Gesamtbetrag inkl. Ratenzahlung',
     'D3HEIDELPAY_PAYMENT_POSTFINANCE_PAYMENTS'                     => 'PostFinance-Zahlungsarten',
     'D3HEIDELPAY_PAYMENT_INVOICESECURED_NOTICE'                    => 'Diese Zahlungsart benötigt einen Gesamtbetrag zwischen %s und %s Euro.',
+    'D3_NOTIFY_NO_ORDER_FOUND_SUBJECT'                                     => '[Push notify] Es konnte zu einer Transatkion keine Bestellung gefunden werden:',
+    'D3_NOTIFY_NO_ORDER_FOUND_MESSAGE'                                     => '<strong>Warum erhalten Sie diese E-Mail?</strong>
+Es ist eine Push Benachrichtigung von Heidelpay eingegangen, die eine erfolgreiche Zahlungsbestätigung enthält.
+Zu dieser Benachrichtigung:
++ wurde bisher keine Transaktion im Shop angelegt
++ keine Bestellung gefunden
+
+<strong>Was sollten Sie als nächstes machen?</strong>
+Bitte kontrollieren Sie, ob die oben genannte Transaktion storniert werden muss.
+Sie finden die Transaktion in der Transaktionsübersicht (/Heidelpay/Transaktionsübersicht/).
+
+Leiten Sie bei Bedarf eine Analyse in die Wege, warum keine Bestellung generiert wurde.
+Schalten Sie ggf. das D³ Logging (/Heidelpay/Einstellungen/Einstellungen zu Modul-Logging.../) des Moduls auf "alle Fehler- und Infolevel".',
 );

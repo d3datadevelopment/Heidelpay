@@ -7,6 +7,7 @@
 use D3\Heidelpay\Modules\Application\Controller;
 use D3\Heidelpay\Modules\Application\Model;
 use D3\Heidelpay\Modules\Core;
+use D3\Heidelpay\Setup\CleanupRoutine;
 use D3\Heidelpay\Setup\InstallRoutine;
 use D3\ModCfg\Application\Model\d3counter;
 use D3\ModCfg\Application\Model\d3utils;
@@ -26,7 +27,7 @@ $aModule = array(
         'en' => '',
     ),
     'thumbnail'      => 'picture.png',
-    'version'        => '6.0.2.0',
+    'version'        => '6.0.2.1',
     'author'         => 'D&sup3; Data Development, Inh. Thomas Dartsch',
     'email'          => 'support@shopmodule.com',
     'url'            => 'http://www.oxidmodule.com/',
@@ -35,6 +36,7 @@ $aModule = array(
     ),
     'd3SetupClasses' => array(
         InstallRoutine::class,
+        CleanupRoutine::class,
     ),
     'extend'         => array(
         d3counter::class                         => Core\Counter::class,
