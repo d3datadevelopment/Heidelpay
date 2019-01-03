@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 6.0.2.1
+0008148: [Push] E-Mail bei fehlender Bestellung  
+0008154: Anzeige der Push Benachrichtigungs URL im Admin  
+0008155: [EE] Updatescript für gespeicherte Kundendaten bereit stellen  
+0008156: divs in flow templates ergänzen  
+
 ## 6.0.2.0
 0007899: Push Notifications integriert  
 0000000: WAITING Status auf PENDING gestellt  

@@ -4,6 +4,7 @@ namespace D3\Heidelpay\Setup;
 
 use D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
+use D3\ModCfg\Application\Model\d3database;
 use D3\ModCfg\Application\Model\d3str;
 use D3\ModCfg\Application\Model\Install\d3install_updatebase;
 use D3\ModCfg\Application\Model\Installwizzard\d3installconfirmmessage;
@@ -39,7 +40,7 @@ class InstallRoutine extends d3install_updatebase
     /**
      * @var string
      */
-    public $sModVersion = '6.0.2.0';
+    public $sModVersion = '6.0.2.1';
 
     /**
      * @var string
@@ -47,18 +48,18 @@ class InstallRoutine extends d3install_updatebase
     public $sMinModCfgVersion = '5.1.1.5';
 
     /** @var string @deprecated since 2016-04-13 */
-    public $sModRevision = '6020';
+    public $sModRevision = '6021';
 
     /**
      * @var string
      */
     public $sBaseConf = '--------------------------------------------------------------------------------
-7Lfv2==R1RjY1dLd0xzUTFnbWx3Sk1CSmcvUUhJTldtN3BvNHBIaEpBanlqL1M1RHJKSXBhZUhwR045b
-W5WZGV5ZzBQUFYyRnhtWHJMREp1cjRUejM2dU05QWhDQUdCb3VjVzlpbHMxNmloMSttZE1HRW5xcWwya
-3c5dlFwK29KQWtvSnMvOUpsK2Ridm52MXNydGZLVXZrSjFQUVZHeUxFL3BBUGlqcWRqdm9LQTVBK0xsM
-lJVdlRzQ044K21iem5HbHFHNWhsRkxUYWpiS0xZRUxWd3piM1BVVVM4NGE3MVVzMlRHWDFGUmNTV3FZe
-mYxWml0YXcyVXJuZ2R0QnBSMmc0MjFtMDMxU2dua1d1VlMwbDlJU0t6bGJ1TUk2T0FBR2xOamlOWVNiR
-HhUcEJETjZmN3FMcEJ3TUZNL3FnWnM4MVZMVkhXVlB2bmJTVEpMMlRHU3NJbk5nPT0=
+5fuv2==cSs0SHpUWG5QdlVVMHJQN0hmaTBMN1JuSW9aa3FkQXlMRmRWaUE3dDY5akJGSjBmVHViWmVOb
+2J2dU5FQ0krR0lKYlI4UU1SamhuL3E2R1JMRlhIWUVEUXZES3ZXOUVqb01ML2o0blJQVjdXR1lGY1ZZQ
+itvb0p3QXpqd0pEdmdEV3JyaDh2RjZSUVczWnpiSm82TVJpc0U0Z2NuTm5tZmNsMWlBWXJiSE1ZSnBJK
+296YXBGTCtNUTlsWlcrME5KcUdXNzVub0R4VGJGM3FIaGRYUGgxRGtGenVtelRBZFVqZ3E3N2t4U1l0R
+FdRTXlpM095a0xOVEhPaUttK0xWTVZIVERtNmlZVmVQaVZNeFJRNGVNYWJmVDFwTUVQaFNuUzRoRElkY
+TFFRXZ2RyswR01pODZYbHRHR1ljV09vWW83VmNmWDRYeUlWRFR4bnoweE16bDJnPT0=
 --------------------------------------------------------------------------------';
 
     /**
@@ -236,10 +237,28 @@ HhUcEJETjZmN3FMcEJ3TUZNL3FnWnM4MVZMVkhXVlB2bmJTVEpMMlRHU3NJbk5nPT0=
     public $aIndizes = array(
         array(
             'sTableName'  => 'd3hpuid',
-            'sType'       => 'PRIMARY',
-            'sName'       => 'PRIMARY',
+            'sType'       => d3database::INDEX_TYPE_PRIMARY,
+            'sName'       => d3database::INDEX_TYPE_PRIMARY,
             'aFields'     => array(
                 'OXID' => 'OXID',
+            ),
+            'blMultilang' => false,
+        ),
+        array(
+            'sTableName'  => 'd3hpuid',
+            'sType'       => 'KEY',
+            'sName'       => 'OXSHOPID',
+            'aFields'     => array(
+                'OXSHOPID' => 'OXSHOPID',
+            ),
+            'blMultilang' => false,
+        ),
+        array(
+            'sTableName'  => 'd3hpuid',
+            'sType'       => 'KEY',
+            'sName'       => 'OXUSERID',
+            'aFields'     => array(
+                'OXUSERID' => 'OXUSERID',
             ),
             'blMultilang' => false,
         ),
@@ -405,6 +424,10 @@ HhUcEJETjZmN3FMcEJ3TUZNL3FnWnM4MVZMVkhXVlB2bmJTVEpMMlRHU3NJbk5nPT0=
         array(
             'check' => 'checkFields',
             'do'    => 'fixFields'
+        ),
+        array(
+            'check' => 'checkIndizes',
+            'do'    => 'fixIndizes'
         ),
         array(
             'check' => 'checkModCfgSameRevision', // Prueft auf nachgezogene Revisionsnummer

@@ -53,6 +53,7 @@ if ($noCriterionFound) {
             . basename(__FILE__) . " has no criterions" . PHP_EOL
             . var_export($request, true) . PHP_EOL;
         writeToLog($content);
+        writeToLog($e->getMessage());
         writeToLog($e->getTraceAsString());
     }
 
@@ -74,6 +75,7 @@ try {
         . basename(__FILE__) . " got requested" . PHP_EOL
         . var_export($request, true) . PHP_EOL;
     writeToLog($content);
+    writeToLog($e->getMessage());
     writeToLog($e->getTraceAsString());
 }
 //TODO: reactive php header output
@@ -85,6 +87,7 @@ try {
     );
     $notify->init($request);
 } catch (\Exception $e) {
+    writeToLog($e->getMessage());
     writeToLog($e->getTraceAsString());
 }
 header("HTTP/1.1 200 OK");

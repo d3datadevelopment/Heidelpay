@@ -5,6 +5,7 @@ namespace D3\Heidelpay\Modules\Application\Model;
 use D3\Heidelpay\Models\Containers\Criterions;
 use D3\Heidelpay\Models\Containers\PrepaymentData;
 use D3\Heidelpay\Models\Factory;
+use D3\Heidelpay\Models\Mail;
 use D3\Heidelpay\Models\Payment\Billsafe;
 use D3\Heidelpay\Models\Payment\Easycredit;
 use D3\Heidelpay\Models\Payment\Exception\PaymentNotReferencedToHeidelpayException;
@@ -468,7 +469,6 @@ class Order extends Order_parent
      */
     public function d3SendHPErrorMessage(d3_cfg_mod $modulConfiguration, Registry $registry, \D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay $reader, $basketAmount)
     {
-
         $text    = $registry->getLang()->translateString(
             'D3HEIDELPAY_DIFFERENCE_IN_ORDER_ERRRORMESSAGE',
             Registry::getLang()->getBaseLanguage(),
@@ -483,23 +483,9 @@ class Order extends Order_parent
         );
         $subject .= $this->getFieldData('oxordernr');
 
-        $recipient = $modulConfiguration->getValue('d3heidelpay_oxtransstatuserrormail');
-        if (empty($recipient)) {
-            $recipient = $this->getConfig()->getActiveShop()->getFieldData('oxowneremail');
-        }
-
-        $modulConfiguration->d3getLog()->log(
-            d3log::WARNING,
-            __CLASS__,
-            __FUNCTION__,
-            __LINE__,
-            $subject,
-            $message
-        );
-        /** @var \D3\Heidelpay\Modules\Core\Email $email */
-        $email = oxNew(Email::class);
-        $email->d3SendNotificationToShopOwner($subject, $message, $recipient);
-
+        /** @var Mail $email */
+        $email = oxNew(Mail::class, oxNew(Email::class, $modulConfiguration, $this->getConfig()->getActiveShop()));
+        $email->setSubject($subject)->setMessage($message)->sendMail();
     }
 
     /**

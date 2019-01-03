@@ -107,7 +107,7 @@ class Email extends Email_parent
         $this->_processViewArray();
 
         $this->setBody(nl2br($message));
-        $this->setAltBody($message);
+        $this->setAltBody(strip_tags($message));
         $this->setSubject($subject);
 
         $this->setRecipient($recipient, "");

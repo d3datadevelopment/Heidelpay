@@ -9,7 +9,7 @@ $aLang     = array(
     'd3tbclheidelpay_settings'                                          => 'Stamm',
     'd3tbclheidelpay_support'                                           => 'Support',
     'd3mxheidelpaylog'                                                  => 'Logging',
-    'd3mxheidelpaytransactionlog'                                       => 'Transaktionübersicht',
+    'd3mxheidelpaytransactionlog'                                       => 'Transaktionsübersicht',
     'D3DYN_HEIDELPAY_ACTIVE'                                            => 'Heidelpay-Modul aktiv',
     'D3DYN_HEIDELPAY_TESTMOD_ACTIVE'                                    => 'Testmodus aktiv',
     'D3DYN_HEIDELPAY_PARAM_SECURITYSENDER'                              => 'Sender-ID',
@@ -242,4 +242,9 @@ $aLang     = array(
     'D3DYN_HEIDELPAY_PARAM_EASYCREDITLIMITMAXIMUM'                      => 'Höchst-Bestellwert für EasyCredit',
     'D3DYN_HEIDELPAY_PARAM_INVOICESECUREDLIMITMINIMUM'                  => 'Mindest-Bestellwert für gesichert. Rechnungskauf',
     'D3DYN_HEIDELPAY_PARAM_INVOICESECUREDLIMITMAXIMUM'                  => 'Höchst-Bestellwert für gesichert. Rechnungskauf',
+    'D3HEIDELPAY_SETTINGS_NOTIFY_LABEL'                                 => 'Einstellungen und Info. zu Push Benachrichtigungen',
+    'D3HEIDELPAY_SETTINGS_NOTIFYURL_INFO'                               => 'Damit Sie die Pushbenachrichtigungen nutzen können, muss bei Heidelpay die untenstehende Url der Empfängerdatei dem Heidelpay Support mitgeteilt werden.'
+        . '<br>Die Url wird dann am Händler-Account durch den Heidelpay Support eingetragen.'
+        . '<br>Erst dann kann der Shop die Push Benachrichtungen empfangen!',
+    'D3HEIDELPAY_SETTINGS_NOTIFYURL'                                    => 'Push Benachrichtigungs Url',
 );

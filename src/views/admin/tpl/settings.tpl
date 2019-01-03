@@ -758,7 +758,32 @@
                             </div>
                         </td>
                     </tr>
-            <tr><td colspan="2"><br></td></tr>
+                    <tr><td colspan="2"><br></td></tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="groupExp">
+                                <div>
+                                    <a href="#" onclick="_groupExp(this);return false;"
+                                       class="rc"><b>[{oxmultilang ident="D3HEIDELPAY_SETTINGS_NOTIFY_LABEL"}]</b></a>
+                                    <dl>
+                                        <dd>
+                                            <p class="warning wrap">[{oxmultilang ident="D3HEIDELPAY_SETTINGS_NOTIFYURL_INFO"}]</p>
+                                            <hr>
+                                            <label>
+                                                [{oxmultilang ident="D3HEIDELPAY_SETTINGS_NOTIFYURL"}]
+                                                [{oxinputhelp ident="HELP_D3HEIDELPAY_SETTINGS_NOTIFYURL"}]
+                                                <br>
+                                                <input class="edittext" type="text" value="[{$oView->getNotifyUrl()}]" readonly size="[{$oView->getNotifyUrl()|count_characters}]"/>
+                                            </label>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><br></td>
+                    </tr>
                     <tr>
                         <td colspan="2">
                             <div class="groupExp">

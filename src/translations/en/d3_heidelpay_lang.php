@@ -158,4 +158,15 @@ $aLang     = array(
     'D3HEIDELPAY_ORDER_EASYCREDIT_ACCRUINGINTEREST'                => 'interest of installment payment',
     'D3HEIDELPAY_ORDER_EASYCREDIT_TOTALAMOUNT'                     => 'total amount incl. installment payment',
     'D3HEIDELPAY_PAYMENT_POSTFINANCE_PAYMENTS'                     => 'PostFinance payment methods',
+    'D3_NOTIFY_NO_ORDER_FOUND_SUBJECT' => '[push notice] could not found any order for this transaction.:',
+    'D3_NOTIFY_NO_ORDER_FOUND_MESSAGE' => '<strong>Why do you get this e-mail?</strong> 
+There is an incoming push notification from heidelpay, which contains a successful payment ackknowledgement. 
+It doesn\'t exist a transaction and no order reference was found for this notification. 
+ 
+<strong>What should you do?</strong>
+Please check if the transaction has to be canceled (with a refund or else).
+You can find the transaction in the transaction overview (/Heidelpay/transaction overview/) .
+ 
+If necessary initiate an analysis why no order has been generated. -> "of" muss raus
+If necessary switch the D³ Logging (/Heidelpay/Settings/Settings for module logging.../) of the module to "All error and info levels".',
 );
