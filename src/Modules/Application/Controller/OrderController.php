@@ -672,19 +672,19 @@ class OrderController extends OrderController_parent
         $oHeidelpayment = $oSettings->getPayment($oPayment);
 
         if ($oHeidelpayment instanceof Easycredit) {
-            $easyCreditParameters = array(
-                'criterion_easycredit_amortisationtext',
-                'criterion_easycredit_totalamount',
-                'criterion_easycredit_accruinginterest',
-                'criterion_easycredit_precontractinformationurl',
-            );
-            $criterionContainer   = oxNew(
-                Criterions::class,
-                oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay')),
-                $easyCreditParameters
-            );
+            /** @var d3transactionlog $transaction */
+            $transaction = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'))->getLatestTransactionByObject();
 
-            return $criterionContainer->getParameters();
+            if (false === ($transaction instanceof ReaderHeidelpay)) {
+                return null;
+            }
+
+            /** @var Criterions $criterionContainer */
+            /** @var \D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay $reader */
+            $reader = $transaction->getTransactiondata();
+            $criterionContainer = oxNew(Criterions::class, oxNew(Criterions\Easycredit::class));
+
+            return $criterionContainer->getSelectedCriterions($reader->getCriterionTags());
         }
 
         return null;
@@ -756,6 +756,5 @@ class OrderController extends OrderController_parent
         );
 
         return $mNextStep;
-
     }
 }
