@@ -19,6 +19,9 @@
 [{if $oHeidelpayViewConfig->isModuleDemoVersion()}]
     <div class="extension_warning">[{oxmultilang ident="D3_HEIDELPAY_IS_DEMO"}]</div>
 [{/if}]
+[{if $heidelpayTransactionMessage}]
+    <div class="extension_error"> [{$heidelpayTransactionMessage}]</div>
+[{/if}]
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
     [{if $banktransferData}]
@@ -183,7 +186,7 @@
                                         <a rel="d3[{$index}]" class="d3hpopen">[{$transactionLogReader->getShortid()}]</a>
                                     </td>
                                 </tr>
-                                [{if false == empty($criterionTags)}]
+                                [{if $criterionTags->count() > 0}]
                                     <tr class="d3hphidden d3[{$index}]" data-visible="false">
                                         <td colspan="10" [{$sClassName}] style="text-align:left;">
                                             <div class="d3hpslider">

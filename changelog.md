@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 6.0.2.2
+0008210: Transaktions-Fehlermeldung im Tab Order/Heidelpay anzeigen lassen  
+0008237: [Blocker] Fehlermeldung beim Bestellabschluss  
+0000000: Neues Model Models\Actions\Finalize  
+0000000: [Refactor] \D3\Heidelpay\Models\Containers\Parameter::setMandatoryData  
+0000000: [Refactor] Models\Container\Criterions  
+0000000: [Refactor] Umbenennung der Models\Actions\* Eigenschaften and Methoden  
+
 ## 6.0.2.1
 0008148: [Push] E-Mail bei fehlender Bestellung  
 0008154: Anzeige der Push Benachrichtigungs URL im Admin  

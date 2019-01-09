@@ -3,6 +3,7 @@
 //include('bootstrap.php');
 
 //load order
+/** @var \D3\Heidelpay\Modules\Application\Model\Order $order */
 $order = oxNew(\OxidEsales\Eshop\Application\Model\Order::class);
 $order->load('88e7da68e5a6bf8ac7d5299f317869ed');
 
