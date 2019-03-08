@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 6.0.2.3
+0008253: alte Trusted Shops Käuferschutz Kompatibilität entfernen  
+0000000: Collation der Admin Sprachdateien auf UTF-8 gesetzt  
+0008158: Zahlungstyp Billsafe entfernen  
+0000000: [Refactor] \D3\Heidelpay\Models\Containers\Parameter
+
 ## 6.0.2.2
 0008210: Transaktions-Fehlermeldung im Tab Order/Heidelpay anzeigen lassen  
 0008237: [Blocker] Fehlermeldung beim Bestellabschluss  

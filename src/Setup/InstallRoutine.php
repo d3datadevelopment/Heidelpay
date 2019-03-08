@@ -40,7 +40,7 @@ class InstallRoutine extends d3install_updatebase
     /**
      * @var string
      */
-    public $sModVersion = '6.0.2.2';
+    public $sModVersion = '6.0.2.3';
 
     /**
      * @var string
@@ -48,18 +48,18 @@ class InstallRoutine extends d3install_updatebase
     public $sMinModCfgVersion = '5.1.1.7';
 
     /** @var string @deprecated since 2016-04-13 */
-    public $sModRevision = '6022';
+    public $sModRevision = '6023';
 
     /**
      * @var string
      */
     public $sBaseConf = '--------------------------------------------------------------------------------
-lbbv2==ZUlXQkIzcmhoMXp4WkkzMnBHcXdqUHBmYXVJT2xnb21YczFiZ0tzc3FSYlpTcVdwQ3NGM0NNM
-FpGV0FBN3ZXaHlWblgrZDlNUGlXNTBmdERZUDBKRnpodzZWNEt5WG5GdDBCNUhFRzhUOWc3YnZQcUxJb
-1hzQWgxS2h5Z1UrMWJLZS8vOURzbjF4SGRVQnlZTzlnQTh5eHJTa0hvckhURFcxZzI1OHZvS3lHZnYva
-lpHR016d0dTOFpvbjgzWmJhT2x5dFlHbDV1YVJONit5ajJma1ZHenJVMFlMOURTTmxJb0dlMDdIQjErd
-mpUblVySHIxT0JyVG5Lcys0RkkwaEZpR3cvbDZ0WEFRNXFJRzVPTm5DYURaaFhJQzdPc0c4Vk5sbnR2V
-3dLQmMvVmhiNUk2QjcxK2xIakxYdjcvWmV0RjZZck93dG1oaTJjOXF3Y3lDOTlRPT0=
+KICv2==SnpLQ2o1dk5QQUxjN2tVZlNMcHovUjhWRFNjY3JRclh2a3RQQ0s1Mm5qelZlVHdXcTFBTUlpd
+1pLdUFRMWhOUmZNeTVMMjlWVVRsZGdYR1UzNHFCMmZZQzNyWEVtM1AzTS9KNDlFQWJuTEd0a3Fsb25GV
+2lzcFBtZ0l5SHA1YnlEdlh4N2ZTSzRYOVhGbCtvZjQ1Y3I2dDZEOXc5M0JXakFMZTc2Q0hMQldUczJ3e
+lVmVEFURUJTaGpvb0RONHJ1V1o5SW4yU1BnZzJiNi9XajZjSW1kL2NIdzlYWjlwUFNud0JWbVh4TWhZZ
+DR2MmRTc2MvdkZhRmE4ZFFTdk1ZRnJjemlIVlFDRlFoOTB4U3VHL1djclBNeS81ZkNZU05KcC8wZU4rZ
+3pGak84L3BqOVptQnRjMkxSVUV1dXFPUVQyclhFbmRYVlVzUE11Q1VyQ0xKRUxRPT0=
 --------------------------------------------------------------------------------';
 
     /**
@@ -1151,7 +1151,6 @@ MYSQL;
                 if (in_array(
                     $sOldValue,
                     array(
-                        0  => 'IV__billsafe',
                         1  => 'CC',
                         2  => 'DC',
                         3  => 'DD',
@@ -1198,7 +1197,6 @@ MYSQL;
             }
             $aOldPayments = (array)unserialize($oModuleConfiguration->getValue('d3heidelpay_aPaymentList'));
             $aMapPayments = array(
-                'IV__billsafe'    => 'D3_Heidelpay_models_payment_billsafe',
                 'CC'              => 'D3_Heidelpay_models_payment_creditcard',
                 'DC'              => 'D3_Heidelpay_models_payment_debitcard',
                 'DD'              => 'D3_Heidelpay_models_payment_directdebit',

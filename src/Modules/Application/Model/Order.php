@@ -6,7 +6,6 @@ use D3\Heidelpay\Models\Containers\Criterions;
 use D3\Heidelpay\Models\Containers\PrepaymentData;
 use D3\Heidelpay\Models\Factory;
 use D3\Heidelpay\Models\Mail;
-use D3\Heidelpay\Models\Payment\Billsafe;
 use D3\Heidelpay\Models\Payment\Easycredit;
 use D3\Heidelpay\Models\Payment\Exception\PaymentNotReferencedToHeidelpayException;
 use D3\Heidelpay\Models\Payment\Invoice\Secured;
@@ -69,7 +68,6 @@ class Order extends Order_parent
 
         if (
             $oHeidelpayment instanceof Prepayment
-            || $oHeidelpayment instanceof Billsafe
             || $oHeidelpayment instanceof Secured
             || $oHeidelpayment instanceof Unsecured
         ) {

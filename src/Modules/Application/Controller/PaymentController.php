@@ -3,7 +3,6 @@
 namespace D3\Heidelpay\Modules\Application\Controller;
 
 use D3\Heidelpay\Models\Factory;
-use D3\Heidelpay\Models\Payment\Billsafe;
 use D3\Heidelpay\Models\Payment\Creditcard;
 use D3\Heidelpay\Models\Payment\Debitcard;
 use D3\Heidelpay\Models\Payment\Directdebit;
@@ -171,12 +170,6 @@ class PaymentController extends PaymentController_parent
      */
     public function validatePayment()
     {
-        $oBasket = $this->getSession()->getBasket();
-        if (method_exists($oBasket, 'getTsProductId') && $oBasket->getTsProductId()) {
-            $_POST['bltsprotection'] = true;
-            $_POST['stsprotection']  = $oBasket->getTsProductId();
-        }
-
         $return = parent::validatePayment();
 
         if (empty($return) || false === stristr($return, 'order')) {
@@ -385,8 +378,6 @@ class PaymentController extends PaymentController_parent
                 $return = "d3_heidelpay_views_{$sTemplate}_tpl_payment_ideal.tpl";
             } elseif ($oHeidelPayment instanceof Eps) {
                 $return = "d3_heidelpay_views_{$sTemplate}_tpl_payment_eps.tpl";
-            } elseif ($oHeidelPayment instanceof Billsafe) {
-                $return = "d3_heidelpay_views_{$sTemplate}_tpl_payment_billsafe.tpl";
             } elseif ($oHeidelPayment instanceof Paypal) {
                 $return = "d3_heidelpay_views_{$sTemplate}_tpl_payment_paypal.tpl";
             } elseif ($oHeidelPayment instanceof Postfinance) {

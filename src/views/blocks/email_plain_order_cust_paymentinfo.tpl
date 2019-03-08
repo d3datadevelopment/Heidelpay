@@ -3,21 +3,10 @@
 [{if $oPrePaymentData}]
 ##########################################################
 
-[{if $oPrePaymentData->Type == "D3_Heidelpay_models_payment_billsafe"}]
-    [{$oPrePaymentData->Billsafe_Note}]
-
-    [{$oPrePaymentData->Billsafe_LegalNote}]
-
-    [{oxmultilang ident="D3HEIDELPAY_THANKYOU_PAYMENTFORMPDF"}] -> [{$oPrePaymentData->Billsafe_PdfUrl}]
-[{else}]
-    [{oxmultilang ident="D3HEIDELPAY_EMAIL_PREPAYMENT_INFOTEXT1"}]
-    [{oxmultilang ident="D3HEIDELPAY_EMAIL_PREPAYMENT_INFOTEXT2"}]
-[{/if}]
+[{oxmultilang ident="D3HEIDELPAY_EMAIL_PREPAYMENT_INFOTEXT1"}]
+[{oxmultilang ident="D3HEIDELPAY_EMAIL_PREPAYMENT_INFOTEXT2"}]
 
 [{oxmultilang ident="D3HEIDELPAY_EMAIL_PREPAYMENT_ACCOUNTHOLDER"}] [{$oPrePaymentData->Holder}]
-[{if $oPrePaymentData->Type == "D3_Heidelpay_models_payment_billsafe"}]
-[{oxmultilang ident="D3HEIDELPAY_EMAIL_PREPAYMENT_BANKNAME"}] [{$oPrePaymentData->Bankname}]
-[{/if}]
 [{oxmultilang ident="D3HEIDELPAY_EMAIL_PREPAYMENT_IBAN"}] [{$oPrePaymentData->Iban}]
 [{oxmultilang ident="D3HEIDELPAY_EMAIL_PREPAYMENT_BIC"}] [{$oPrePaymentData->Bic}]
 [{oxmultilang ident="D3HEIDELPAY_EMAIL_PREPAYMENT_AMOUNT"}] [{$oPrePaymentData->Amount}] [{$oPrePaymentData->Currency}]

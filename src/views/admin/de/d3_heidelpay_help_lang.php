@@ -3,7 +3,7 @@
 $sLangName = "Deutsch";
 $iLangNr   = 0;
 $aLang     = array(
-    'charset'                                               => 'ISO-8859-15',
+    'charset'                                               => 'UTF-8',
     'HELP_D3DYN_HEIDELPAY_PARAM_CARDS_USE_RG'               => 'Bei aktiver Option wird vor einer ' //
         . 'Belastung/Reservierung eine Registierung für Karten durchgeführt.' //
         . '<br>Das betrifft die Kreditkarten- und Debitkartenzahlungsarten.' //
@@ -48,12 +48,6 @@ $aLang     = array(
     'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_POSTFINANCE'        => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
         . 'Channel für Postfinance ein. <br><br>Die Postfinance AG gehört zu den führenden ' //
         . 'Finanzinstituten der Schweiz. Mit dem eigenen E-Finance-Dienst können Kunden im Netz Zahlungen überweisen. ',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_BILLSAFE'           => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für BillSafe ein. <br><br>Sollte ein Käufer die Rechnung einmal nicht zahlen, ' //
-        . 'erhält der Händler in jedem Fall das Geld von BillSAFE. Damit wird das Risiko ' //
-        . 'von Zahlungsausfällen abgesichert.<br><br>'
-        . '<b>HINWEIS:</b><br>'
-        . 'BillSafe gibt es nur noch für Bestandskunden. Neuvertäge mit Heidelpay sind aktuell nicht möglich.',
     'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_ASSUREDINVOICE'     => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
         . 'Channel für Rechnungskauf mit Zahlungssicherung ein. <br><br>Dies ist eine der beliebtesten Zahlungsmethoden in ' //
         . 'Deutschland. Neben einer umfangreichen Bonitätsprüfung beinhaltet der gesicherte Rechnungskauf eine ' //
