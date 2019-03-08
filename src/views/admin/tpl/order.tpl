@@ -33,35 +33,6 @@
                             <h2>[{oxmultilang ident="D3_HEIDELPAY_CONTROLLERS_ADMIN_ORDER_HEIDELPAY_BANKTRANSFERDATA"}]</h2>
                         </th>
                     </tr>
-                    [{if $banktransferData->Type == "D3_Heidelpay_models_payment_billsafe"}]
-                        <tr>
-                            <td class="listitem">
-                                [{oxmultilang ident="D3_HEIDELPAY_CONTROLLERS_ADMIN_ORDER_HEIDELPAY_BILLSAFE_NOTE"}]
-                            </td>
-                            <td class="listitem" style="white-space: normal;">[{$banktransferData->Billsafe_Note}]</td>
-                        </tr>
-                        <tr>
-                            <td class="listitem">
-                                [{oxmultilang ident="D3_HEIDELPAY_CONTROLLERS_ADMIN_ORDER_HEIDELPAY_BILLSAFE_LEGALNOTE"}]
-                            </td>
-                            <td class="listitem2" style="white-space: normal;">[{$banktransferData->Billsafe_LegalNote}]</td>
-                        </tr>
-                        <tr>
-                            <td class="listitem">
-                                [{oxmultilang ident="D3_HEIDELPAY_CONTROLLERS_ADMIN_ORDER_HEIDELPAY_BILLSAFEPDFURL"}]
-                            </td>
-                            <td class="listitem">
-                                <a href="[{$banktransferData->Billsafe_PdfUrl}]"
-                                   target="[{$banktransferData->Billsafe_PdfUrl}]">[{$banktransferData->Billsafe_PdfUrl}]</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="listitem2">
-                                [{oxmultilang ident="D3_HEIDELPAY_CONTROLLERS_ADMIN_ORDER_HEIDELPAY_BANKNAME"}]
-                            </td>
-                            <td class="listitem2">[{$banktransferData->Bankname}]</td>
-                        </tr>
-                    [{/if}]
                     <tr>
                         <td class="listitem">[{oxmultilang ident="D3_HEIDELPAY_CONTROLLERS_ADMIN_ORDER_HEIDELPAY_HOLDER"}]</td>
                         <td class="listitem">[{$banktransferData->Holder}]</td>

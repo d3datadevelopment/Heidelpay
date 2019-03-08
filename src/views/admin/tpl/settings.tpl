@@ -286,20 +286,6 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="edittext">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_BILLSAFE"}]
-                                                                    </td>
-                                                                    <td class="edittext">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_BILLSAFE"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__billsafe]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_BILLSAFE"}]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__billsafe')}]">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
                                                                     <td class="edittext [{$blBasicRestriction}]">
                                                                         [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_ASSUREDINVOICE"}]
                                                                     </td>
