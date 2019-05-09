@@ -3,6 +3,7 @@
 namespace D3\Heidelpay\Modules\Core;
 
 use OxidEsales\Eshop\Core\Registry;
+use Smarty;
 
 /**
  */
@@ -27,7 +28,7 @@ class Email extends Email_parent
         $this->_setMailParams($oShop);
 
         // create messages
-        /** @var \Smarty $smarty */
+        /** @var Smarty $smarty */
         $smarty = $this->_getSmarty();
         $this->setViewData("order", $oOrder);
 
@@ -67,7 +68,7 @@ class Email extends Email_parent
         $this->_setMailParams($oShop);
 
         // create messages
-        /** @var \Smarty $smarty */
+        /** @var Smarty $smarty */
         $smarty = $this->_getSmarty();
         $this->setViewData("order", $oOrder);
 

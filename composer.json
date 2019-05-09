@@ -39,6 +39,11 @@
     "lib-openssl": ">=1.0.1",
     "ext-curl": "*",
     "ext-openssl": "*",
+    "ext-libxml": "*",
+    "ext-dom": "*",
+    "ext-simplexml": "*",
+    "ext-bcmath": "*",
+    "ext-json": "*",
     "oxid-esales/oxideshop-metapackage-ce": "~6.0.1 || ~6.1.0",
     "d3/modcfg": "~5.1"
   },

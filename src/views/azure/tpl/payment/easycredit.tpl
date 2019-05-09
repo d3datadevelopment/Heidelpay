@@ -39,9 +39,11 @@
                 [{/if}]
                 <div class="desc">
                     <input type="hidden" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]" value="0"/>
-                    <input type="checkbox" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]"
-                           value="[{$responseParameter.d3transactionlogid}]"/>
-                    [{$responseParameter.configoptintext}]
+                    <label>
+                        <input type="checkbox" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]"
+                               value="[{$responseParameter.d3transactionlogid}]"/>
+                        [{$responseParameter.configoptintext}]
+                    </label>
                 </div>
             [{/if}]
             [{if $paymentmethod->oxpayments__oxlongdesc->value}]

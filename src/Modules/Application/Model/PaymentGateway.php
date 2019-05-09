@@ -5,11 +5,19 @@ namespace D3\Heidelpay\Modules\Application\Model;
 use D3\Heidelpay\Controllers\PaymentGateway as ControllerPaymentGateway;
 use D3\Heidelpay\Models\Factory;
 use D3\Heidelpay\Models\Response\Parser;
+use D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException;
 use D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
+use D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception;
+use D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException;
 use D3\ModCfg\Application\Model\Log\d3log;
 use D3\ModCfg\Application\Model\Transactionlog\d3transactionlog;
+use Doctrine\DBAL\DBALException;
 use OxidEsales\Eshop\Application\Model\Payment;
+use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
+use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
+use OxidEsales\Eshop\Core\Exception\DatabaseException;
+use OxidEsales\Eshop\Core\Exception\StandardException;
 use OxidEsales\Eshop\Core\Registry;
 
 /**
@@ -24,14 +32,14 @@ class PaymentGateway extends PaymentGateway_parent
      * @param object $oOrder
      *
      * @return bool|int|string
-     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @throws EmptyPaymentlistException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws DatabaseException
+     * @throws StandardException
      */
     public function executePayment($dAmount, &$oOrder)
     {

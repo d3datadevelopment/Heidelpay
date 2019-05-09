@@ -4,6 +4,9 @@
  * Metadata version
  */
 
+use D3\Heidelpay\Controllers\Admin\AdminList;
+use D3\Heidelpay\Controllers\Admin\Base;
+use D3\Heidelpay\Controllers\Admin\Settings;
 use D3\Heidelpay\Modules\Application\Controller;
 use D3\Heidelpay\Modules\Application\Model;
 use D3\Heidelpay\Modules\Core;
@@ -27,7 +30,7 @@ $aModule = array(
         'en' => '',
     ),
     'thumbnail'      => 'picture.png',
-    'version'        => '6.0.2.3',
+    'version'        => '6.0.3.0',
     'author'         => 'D&sup3; Data Development, Inh. Thomas Dartsch',
     'email'          => 'support@shopmodule.com',
     'url'            => 'http://www.oxidmodule.com/',
@@ -50,9 +53,9 @@ $aModule = array(
         OxidModel\BasketItem::class              => Model\BasketItem::class,
     ),
     'controllers'    => array(
-        'd3_heidelpay_controllers_admin_adminlist'          => \D3\Heidelpay\Controllers\Admin\AdminList::class,
-        'd3_heidelpay_controllers_admin_base'               => \D3\Heidelpay\Controllers\Admin\Base::class,
-        'd3_heidelpay_controllers_admin_settings'           => \D3\Heidelpay\Controllers\Admin\Settings::class,
+        'd3_heidelpay_controllers_admin_adminlist'          => AdminList::class,
+        'd3_heidelpay_controllers_admin_base'               => Base::class,
+        'd3_heidelpay_controllers_admin_settings'           => Settings::class,
         'd3_heidelpay_controllers_admin_support'            => D3\Heidelpay\Controllers\Admin\Support::class,
         'd3_heidelpay_controllers_admin_log'                => D3\Heidelpay\Controllers\Admin\Log::class,
         'd3_heidelpay_controllers_admin_loglist'            => D3\Heidelpay\Controllers\Admin\LogList::class,
@@ -88,6 +91,7 @@ $aModule = array(
         'd3_heidelpay_views_azure_tpl_payment_przelewy24.tpl'            => 'd3/heidelpay/views/azure/tpl/payment/przelewy24.tpl',
         'd3_heidelpay_views_azure_tpl_payment_masterpass.tpl'            => 'd3/heidelpay/views/azure/tpl/payment/masterpass.tpl',
         'd3_heidelpay_views_azure_tpl_payment_easycredit.tpl'            => 'd3/heidelpay/views/azure/tpl/payment/easycredit.tpl',
+        'd3_heidelpay_views_azure_tpl_payment_btobbillpurchase.tpl'      => 'd3/heidelpay/views/azure/tpl/payment/btobbillpurchase.tpl',
         'd3_heidelpay_views_azure_tpl_order_iframe.tpl'                  => 'd3/heidelpay/views/azure/tpl/order_iframe.tpl',
         'd3_heidelpay_views_azure_tpl_payment_invoice.tpl'               => 'd3/heidelpay/views/azure/tpl/payment/invoice.tpl',
         'd3_heidelpay_views_azure_tpl_banktransferdata.tpl'              => 'd3/heidelpay/views/azure/tpl/banktransferdata.tpl',
@@ -95,6 +99,11 @@ $aModule = array(
         'd3_heidelpay_views_azure_tpl_thankyou_easycreditcriterions.tpl' => 'd3/heidelpay/views/azure/tpl/thankyou/easycreditcriterions.tpl',
         'd3_heidelpay_views_azure_tpl_order_easycreditcriterions.tpl'    => 'd3/heidelpay/views/azure/tpl/order/easycreditcriterions.tpl',
         'd3_heidelpay_views_azure_tpl_messages.tpl'                      => 'd3/heidelpay/views/azure/tpl/messages.tpl',
+        'd3_heidelpay_views_azure_tpl_forms_select.tpl'                  => 'd3/heidelpay/views/azure/tpl/forms/select.tpl',
+        'd3_heidelpay_views_azure_tpl_forms_text.tpl'                    => 'd3/heidelpay/views/azure/tpl/forms/text.tpl',
+        'd3_heidelpay_views_azure_tpl_forms_radio.tpl'                   => 'd3/heidelpay/views/azure/tpl/forms/radio.tpl',
+        'd3_heidelpay_views_azure_tpl_forms_title.tpl'                   => 'd3/heidelpay/views/azure/tpl/forms/title.tpl',
+        'd3_heidelpay_views_azure_tpl_forms_birthdate.tpl'               => 'd3/heidelpay/views/azure/tpl/forms/birthdate.tpl',
         ##flow-theme
         'd3_heidelpay_views_flow_tpl_payment_debitnote.tpl'              => 'd3/heidelpay/views/flow/tpl/payment/debitnote.tpl',
         'd3_heidelpay_views_flow_tpl_payment_cards.tpl'                  => 'd3/heidelpay/views/flow/tpl/payment/cards.tpl',
@@ -112,10 +121,16 @@ $aModule = array(
         'd3_heidelpay_views_flow_tpl_storeduid.tpl'                      => 'd3/heidelpay/views/flow/tpl/storeduid.tpl',
         'd3_heidelpay_views_flow_tpl_payment_invoice.tpl'                => 'd3/heidelpay/views/flow/tpl/payment/invoice.tpl',
         'd3_heidelpay_views_flow_tpl_payment_easycredit.tpl'             => 'd3/heidelpay/views/flow/tpl/payment/easycredit.tpl',
+        'd3_heidelpay_views_flow_tpl_payment_btobbillpurchase.tpl'       => 'd3/heidelpay/views/flow/tpl/payment/btobbillpurchase.tpl',
         'd3_heidelpay_views_flow_tpl_banktransferdata.tpl'               => 'd3/heidelpay/views/flow/tpl/banktransferdata.tpl',
         'd3_heidelpay_views_flow_tpl_shippingandpayment.tpl'             => 'd3/heidelpay/views/flow/tpl/shippingandpayment.tpl',
         'd3_heidelpay_views_flow_tpl_thankyou_easycreditcriterions.tpl'  => 'd3/heidelpay/views/flow/tpl/thankyou/easycreditcriterions.tpl',
         'd3_heidelpay_views_flow_tpl_order_easycreditcriterions.tpl'     => 'd3/heidelpay/views/flow/tpl/order/easycreditcriterions.tpl',
+        'd3_heidelpay_views_flow_tpl_forms_select.tpl'                   => 'd3/heidelpay/views/flow/tpl/forms/select.tpl',
+        'd3_heidelpay_views_flow_tpl_forms_text.tpl'                     => 'd3/heidelpay/views/flow/tpl/forms/text.tpl',
+        'd3_heidelpay_views_flow_tpl_forms_radio.tpl'                    => 'd3/heidelpay/views/flow/tpl/forms/radio.tpl',
+        'd3_heidelpay_views_flow_tpl_forms_title.tpl'                    => 'd3/heidelpay/views/flow/tpl/forms/title.tpl',
+        'd3_heidelpay_views_flow_tpl_forms_birthdate.tpl'                => 'd3/heidelpay/views/flow/tpl/forms/birthdate.tpl',
     ),
     'blocks'         => array(
         ##Admin

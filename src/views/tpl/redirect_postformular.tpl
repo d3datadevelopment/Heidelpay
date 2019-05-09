@@ -12,7 +12,7 @@
 
     <noscript><input type="submit" value="[{oxmultilang ident="D3_Heidelpay_REDIRECT_NOSCRIPT"}]"/></noscript>
 </form>
-<script language="JavaScript">
+<script type="text/javascript">
     document.frm.submit();
 </script>
 </body>

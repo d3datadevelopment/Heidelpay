@@ -3,6 +3,9 @@
 namespace D3\Heidelpay\Modules\Application\Controller;
 
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
+use Doctrine\DBAL\DBALException;
+use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
+use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
 
 /**
  */
@@ -10,9 +13,9 @@ class ThankYouController extends ThankYouController_parent
 {
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function d3GetBankTransferDataTemplateName()
     {
@@ -23,9 +26,9 @@ class ThankYouController extends ThankYouController_parent
      * @param $templateName
      *
      * @return string
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function d3GetTemplateName($templateName)
     {

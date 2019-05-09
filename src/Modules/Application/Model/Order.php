@@ -6,6 +6,7 @@ use D3\Heidelpay\Models\Containers\Criterions;
 use D3\Heidelpay\Models\Containers\PrepaymentData;
 use D3\Heidelpay\Models\Factory;
 use D3\Heidelpay\Models\Mail;
+use D3\Heidelpay\Models\Payment\Btobbillpurchase;
 use D3\Heidelpay\Models\Payment\Easycredit;
 use D3\Heidelpay\Models\Payment\Exception\PaymentNotReferencedToHeidelpayException;
 use D3\Heidelpay\Models\Payment\Invoice\Secured;
@@ -13,10 +14,16 @@ use D3\Heidelpay\Models\Payment\Invoice\Unsecured;
 use D3\Heidelpay\Models\Payment\Payment;
 use D3\Heidelpay\Models\Payment\Prepayment;
 use D3\Heidelpay\Models\Response\Parser;
+use D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException;
 use D3\Heidelpay\Models\Settings\Heidelpay;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
+use D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception;
+use D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException;
 use D3\ModCfg\Application\Model\Log\d3log;
 use D3\ModCfg\Application\Model\Transactionlog\d3transactionlog;
+use Doctrine\DBAL\DBALException;
+use Exception;
+use oxArticleInputException;
 use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Application\Model\Basket;
 use OxidEsales\Eshop\Application\Model\Payment as OxidPayment;
@@ -26,11 +33,13 @@ use OxidEsales\Eshop\Core\Counter;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Email;
 use OxidEsales\Eshop\Core\Exception\ArticleException;
-use OxidEsales\Eshop\Core\Exception\ArticleInputException;
-use OxidEsales\Eshop\Core\Exception\NoArticleException;
-use OxidEsales\Eshop\Core\Exception\OutOfStockException;
+use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
+use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
+use OxidEsales\Eshop\Core\Exception\StandardException;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\UtilsObject;
+use oxNoArticleException;
+use stdClass;
 
 /**
  */
@@ -40,14 +49,14 @@ class Order extends Order_parent
     /**
      * Returns bank transfer data if available
      *
-     * @return \stdClass|false
+     * @return stdClass|false
      * @throws PaymentNotReferencedToHeidelpayException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws StandardException
      */
     public function getHeidelpayBankTransferData()
     {
@@ -70,6 +79,7 @@ class Order extends Order_parent
             $oHeidelpayment instanceof Prepayment
             || $oHeidelpayment instanceof Secured
             || $oHeidelpayment instanceof Unsecured
+            || $oHeidelpayment instanceof Btobbillpurchase
         ) {
             /** @var PrepaymentData $oPrePaymentData */
             $oPrePaymentData = oxNew(PrepaymentData::class);
@@ -83,13 +93,13 @@ class Order extends Order_parent
     /**
      * @return null
      * @throws PaymentNotReferencedToHeidelpayException
-     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @throws EmptyPaymentlistException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws StandardException
      */
     public function getHeidelpayEasyCreditInformations()
     {
@@ -128,13 +138,10 @@ class Order extends Order_parent
      * @param User   $oUser
      *
      * @return int|null
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws ArticleInputException
-     * @throws NoArticleException
-     * @throws OutOfStockException
-     * @throws \Exception
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws Exception
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function d3CreateTemporaryOrder(Basket $oBasket, User $oUser)
     {
@@ -219,13 +226,13 @@ class Order extends Order_parent
      *
      * @return void
      * @throws PaymentNotReferencedToHeidelpayException
-     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @throws EmptyPaymentlistException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws StandardException
      */
     protected function _setOrderStatus($sStatus)
     {
@@ -268,14 +275,14 @@ class Order extends Order_parent
      * @param User   $oUser
      *
      * @return bool|int
-     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
-     * @throws \Exception
+     * @throws EmptyPaymentlistException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws StandardException
+     * @throws Exception
      */
     public function d3FinalizeTemporaryOrder(Basket $oBasket, User $oUser)
     {
@@ -339,13 +346,13 @@ class Order extends Order_parent
      * @param Registry   $registry
      *
      * @return null
-     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @throws EmptyPaymentlistException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws StandardException
      */
     protected function d3VerifyBasketSameAmount(Basket $oxBasket, d3_cfg_mod $modulConfiguration, Registry $registry)
     {
@@ -376,14 +383,14 @@ class Order extends Order_parent
      * @param Basket     $oxBasket
      * @param d3_cfg_mod $modulConfiguration
      *
-     * @return \D3\ModCfg\Application\Model\Transactionlog\d3transactionlog|null |null
-     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @return d3transactionlog|null |null
+     * @throws EmptyPaymentlistException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws StandardException
      */
     protected function d3GetLastHeidelpayTransaction(Basket $oxBasket, d3_cfg_mod $modulConfiguration)
     {
@@ -459,12 +466,12 @@ class Order extends Order_parent
      * @param \D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay $reader
      * @param                                                      $basketAmount
      *
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws StandardException
      */
     public function d3SendHPErrorMessage(d3_cfg_mod $modulConfiguration, Registry $registry, \D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay $reader, $basketAmount)
     {
@@ -483,15 +490,15 @@ class Order extends Order_parent
         $subject .= $this->getFieldData('oxordernr');
 
         /** @var Mail $email */
-        $email = oxNew(Mail::class, oxNew(Email::class, $modulConfiguration, $this->getConfig()->getActiveShop()));
+        $email = oxNew(Mail::class, oxNew(Email::class), $modulConfiguration, $this->getConfig()->getActiveShop());
         $email->setSubject($subject)->setMessage($message)->sendMail();
     }
 
     /**
      * @return Basket
      * @throws ArticleException
-     * @throws \oxArticleInputException
-     * @throws \oxNoArticleException
+     * @throws oxArticleInputException
+     * @throws oxNoArticleException
      */
     public function d3GetOrderBasket()
     {
@@ -536,8 +543,8 @@ class Order extends Order_parent
      * @param bool   $blRecalculatingOrder
      *
      * @return int
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Exception
+     * @throws d3_cfg_mod_exception
+     * @throws Exception
      */
     public function finalizeOrder(Basket $oxBasket, $oxUser, $blRecalculatingOrder = false)
     {
@@ -561,13 +568,13 @@ class Order extends Order_parent
      * @param Registry $registry
      *
      * @return null
-     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @throws EmptyPaymentlistException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws StandardException
      */
     protected function d3SetWaitingState(Basket $basket, $modulConfiguration, Registry $registry)
     {

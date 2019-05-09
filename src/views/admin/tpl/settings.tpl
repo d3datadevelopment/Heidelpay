@@ -369,6 +369,20 @@
                                                                                value="[{$edit->getValue('d3heidelpay_sChannel__easycredit')}]" [{$blBasicRestriction}]>
                                                                     </td>
                                                                 </tr>
+                                                                <tr>
+                                                                    <td class="edittext">
+                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_BTOBBILLPURCHASE"}]
+                                                                    </td>
+                                                                    <td class="edittext">
+                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_BTOBBILLPURCHASE"}]
+                                                                        <input type="text"
+                                                                               class="editinput"
+                                                                               style="width:220px;"
+                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__Btobbillpurchase]"
+                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_BTOBBILLPURCHASE"}]"
+                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__Btobbillpurchase')}]" [{$blBasicRestriction}]>
+                                                                    </td>
+                                                                </tr>
                                                             </table>
                                                         </dd>
                                                     </dl>

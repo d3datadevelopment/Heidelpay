@@ -4,7 +4,7 @@
 
 #d3HeidelpayOutOfTime .d3HeidelpayInfoCell, #d3HeidelpayWait .d3HeidelpayInfoCell{ text-align:center; vertical-align:middle; }
 
-.d3HeidelaySameAddressNotice, #d3HeidelayPostfinanceNotice, #d3HeidelayIDealNotice, #d3HeidelayPrzelewy24Notice, #d3HeidelayEasycreditNotice, #d3HeidelayInvoiceSecuredNotice{font-size:10px; color:darkred; display:inline-block;}
+.d3HeidelayBToBBillpurchaseNotice, .d3HeidelaySameAddressNotice, #d3HeidelayPostfinanceNotice, #d3HeidelayIDealNotice, #d3HeidelayPrzelewy24Notice, #d3HeidelayEasycreditNotice, #d3HeidelayInvoiceSecuredNotice{font-size:10px; color:darkred; display:inline-block;}
 
 #paymentFrameIframe{ width:290px; height:290px; display:block; margin:0 auto;}
 
