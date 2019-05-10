@@ -56,9 +56,11 @@
                             <div class="alert alert-info desc">
                                 <input type="hidden" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]"
                                        value="0"/>
-                                <input type="checkbox" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]"
-                                       value="[{$responseParameter.d3transactionlogid}]"/>
-                                [{$responseParameter.configoptintext}]
+                                <label>
+                                    <input type="checkbox" name="d3heidelpayEasycreditTransactionLogid[[{$sPaymentID}]]"
+                                           value="[{$responseParameter.d3transactionlogid}]"/>
+                                    [{$responseParameter.configoptintext}]
+                                </label>
                             </div>
                         </div>
                     </div>

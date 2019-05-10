@@ -12,15 +12,20 @@ use D3\Heidelpay\Models\Settings\Heidelpay;
 use D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay as ReaderHeidelpay;
 use D3\Heidelpay\Models\Verify\Exception\AgbNotAcceptedException;
 use D3\Heidelpay\Models\Verify\Exception\CheckSessionChallengeException;
-//use D3\Heidelpay\Models\Verify\Exception\CustomerinformationNotAcceptedException;
 use D3\Heidelpay\Models\Verify\Exception\NotLoggedInException;
 use D3\Heidelpay\Models\Viewconfig;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
+use D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception;
+use D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException;
 use D3\ModCfg\Application\Model\Log\d3log;
 use D3\ModCfg\Application\Model\Transactionlog\d3transactionlog;
+use Doctrine\DBAL\DBALException;
+use Exception;
 use OxidEsales\Eshop\Application\Model\Basket;
 use OxidEsales\Eshop\Application\Model\Payment;
 use OxidEsales\Eshop\Core\DatabaseProvider;
+use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
+use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
 use OxidEsales\Eshop\Core\Exception\StandardException;
 use OxidEsales\Eshop\Core\Model\BaseModel;
 use OxidEsales\Eshop\Core\Registry;
@@ -46,19 +51,33 @@ class OrderController extends OrderController_parent
      */
     protected $_blIsHeidelpaySecureSuccess = false;
 
+    /**
+     * @var string
+     */
     protected $_sHeidelpaySecureiFrameTemplate = 'd3_heidelpay_views_azure_tpl_order_3ds_iframe.tpl';
 
     /**
      * array of years
      * @var array
      */
-    protected $_aCreditYears = null;
+    protected $_aCreditYears                = null;
+
+    /**
+     * @var array
+     */
+    protected $d3HeidelpayExceptionRoutings = [
+        NotLoggedInException::class                      => 'd3HeidelpayRouteToUser',
+        CheckSessionChallengeException::class            => 'd3HeidelpayRouteToOrder',
+        AgbNotAcceptedException::class                   => 'd3HeidelpayRouteToOrderWithAGBError',
+        PaymentNotReferencedToHeidelpayException::class => 'd3HeidelpayRouteToParentExecute',
+        EmptyPaymentlistException::class               => 'd3HeidelpayRouteToParentExecute',
+    ];
 
     /**
      * OrderController constructor.
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function __construct()
     {
@@ -70,11 +89,11 @@ class OrderController extends OrderController_parent
     /**
      * @return mixed|string
      * @throws StandardException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function render()
     {
@@ -106,11 +125,11 @@ class OrderController extends OrderController_parent
      *
      * @return string partizielle rueckgabe der klasse
      * @throws StandardException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function show3DSecureFrame()
     {
@@ -192,11 +211,11 @@ class OrderController extends OrderController_parent
      *
      * @return array
      * @throws StandardException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function getUserHPStoreData($sPaymentId)
     {
@@ -231,8 +250,8 @@ class OrderController extends OrderController_parent
      * @param $sPaymentId
      *
      * @return array
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function getUserHPStoreIDs($sPaymentId)
     {
@@ -250,11 +269,11 @@ class OrderController extends OrderController_parent
     /**
      * @return string
      * @throws StandardException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function d3GetAfterStepTemplate()
     {
@@ -278,11 +297,11 @@ class OrderController extends OrderController_parent
      *
      * @return bool
      * @throws StandardException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function hasUserHPStoreData($sPaymentId)
     {
@@ -313,7 +332,7 @@ class OrderController extends OrderController_parent
      * @param $sPaymentId
      *
      * @return string
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws DatabaseConnectionException
      */
     public function getUserHPStoreID($sPaymentId)
     {
@@ -330,9 +349,9 @@ class OrderController extends OrderController_parent
     /**
      * @return string
      * @throws StandardException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Exception
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws d3_cfg_mod_exception
+     * @throws Exception
+     * @throws DatabaseConnectionException
      */
     public function d3PayWithStoreData()
     {
@@ -355,7 +374,7 @@ class OrderController extends OrderController_parent
      *
      * @throws StandardException
      * @return string Return-Wert fuer weiteren Klassen-Shopaufruf
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute()
     {
@@ -391,31 +410,7 @@ class OrderController extends OrderController_parent
 
             $sUseHPStore = Registry::get(Request::class)->getRequestParameter("usehpstore");
             if ($this->hasUserHPStoreData($mPayment->getId()) && $sUseHPStore) {
-                d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-                    d3log::INFO,
-                    __CLASS__,
-                    __FUNCTION__,
-                    __LINE__,
-                    'load user storage data',
-                    $sUseHPStore
-                );
-
-                /** @var BaseModel $userStoredData */
-                $userStoredData = oxNew(BaseModel::class);
-                $userStoredData->init('d3hpuid');
-                if ($userStoredData->load($sUseHPStore)) {
-                    $userStoredData->aDynValue          = unserialize($userStoredData->d3hpuid__oxpaymentdata->rawValue);
-                    $userStoredData->aDynValue['oxuid'] = $userStoredData->getFieldData('oxuid');
-                    $this->getSession()->setVariable('dynvalue', $userStoredData->aDynValue);
-                    d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-                        d3log::INFO,
-                        __CLASS__,
-                        __FUNCTION__,
-                        __LINE__,
-                        'set user storage data to session',
-                        print_r(var_export($userStoredData->aDynValue, true), true)
-                    );
-                }
+                $this->d3LoadHeidelpayStoreData($sUseHPStore);
 
                 return parent::execute();
             }
@@ -454,74 +449,12 @@ class OrderController extends OrderController_parent
                 return $mResult . "&{$urlparameter}";
             }
 
-        } catch (NotLoggedInException $oEx) {
-            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-                d3log::INFO,
-                __CLASS__,
-                __FUNCTION__,
-                __LINE__,
-                'exception handling',
-                get_class($oEx) . PHP_EOL . $oEx->getMessage() . PHP_EOL . $oEx->getTraceAsString()
-            );
-
-            return 'user';
-        } catch (CheckSessionChallengeException $oEx) {
-            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-                d3log::INFO,
-                __CLASS__,
-                __FUNCTION__,
-                __LINE__,
-                'exception handling',
-                get_class($oEx) . PHP_EOL . $oEx->getMessage() . PHP_EOL . $oEx->getTraceAsString()
-            );
-
-            return '';
-        } catch (AgbNotAcceptedException $oEx) {
-            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-                d3log::INFO,
-                __CLASS__,
-                __FUNCTION__,
-                __LINE__,
-                'exception handling',
-                get_class($oEx) . PHP_EOL . $oEx->getMessage() . PHP_EOL . $oEx->getTraceAsString()
-            );
-            $this->_blConfirmAGBError = 1;
-
-            return '';
-//        } catch (CustomerinformationNotAcceptedException $oEx) {
-//            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-//                d3log::INFO,
-//                __CLASS__,
-//                __FUNCTION__,
-//                __LINE__,
-//                'exception handling',
-//                get_class($oEx) . PHP_EOL . $oEx->getMessage() . PHP_EOL . $oEx->getTraceAsString()
-//            );
-////            $this->_blConfirmCustInfoError = 1;
-//
-//            return '';
-        } catch (PaymentNotReferencedToHeidelpayException $oEx) {
-            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-                d3log::INFO,
-                __CLASS__,
-                __FUNCTION__,
-                __LINE__,
-                'exception handling',
-                get_class($oEx) . PHP_EOL . $oEx->getMessage() . PHP_EOL . $oEx->getTraceAsString()
-            );
-
-            return parent::execute();
-        } catch (EmptyPaymentlistException $oEx) {
-            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-                d3log::INFO,
-                __CLASS__,
-                __FUNCTION__,
-                __LINE__,
-                'exception handling',
-                get_class($oEx) . PHP_EOL . $oEx->getMessage() . PHP_EOL . $oEx->getTraceAsString()
-            );
-
-            return parent::execute();
+        } catch (StandardException $exception) {
+            foreach ($this->d3HeidelpayExceptionRoutings as $className => $d3HeidelpayExceptionRouting) {
+                if(get_class($exception) === $className) {
+                    $this->$d3HeidelpayExceptionRouting($exception);
+                }
+            }
         }
 
         /** @var StandardException $exception */
@@ -542,9 +475,9 @@ class OrderController extends OrderController_parent
 
     /**
      * @return array
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     protected function d3GetHeidelpayURLParameter()
     {
@@ -562,9 +495,9 @@ class OrderController extends OrderController_parent
 
     /**
      * @return array
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function d3GetHeidelpayPostparameter()
     {
@@ -584,11 +517,11 @@ class OrderController extends OrderController_parent
     /**
      * @return mixed
      * @throws StandardException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function d3ValidateTransactionlogParameters()
     {
@@ -628,9 +561,9 @@ class OrderController extends OrderController_parent
      * @param $templateName
      *
      * @return string
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function d3GetTemplateName($templateName)
     {
@@ -648,11 +581,11 @@ class OrderController extends OrderController_parent
      * @throws EmptyPaymentlistException
      * @throws PaymentNotReferencedToHeidelpayException
      * @throws StandardException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function getHeidelpayEasyCreditInformations()
     {
@@ -680,7 +613,7 @@ class OrderController extends OrderController_parent
             }
 
             /** @var Criterions $criterionContainer */
-            /** @var \D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay $reader */
+            /** @var ReaderHeidelpay $reader */
             $reader = $transaction->getTransactiondata();
             $criterionContainer = oxNew(Criterions::class, oxNew(Criterions\Easycredit::class));
 
@@ -697,11 +630,11 @@ class OrderController extends OrderController_parent
      * @throws EmptyPaymentlistException
      * @throws PaymentNotReferencedToHeidelpayException
      * @throws StandardException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     protected function _getNextStep($mSuccess)
     {
@@ -757,4 +690,137 @@ class OrderController extends OrderController_parent
 
         return $mNextStep;
     }
+
+    /**
+     * @param StandardException $exception
+     *
+     * @return string
+     * @throws StandardException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     */
+    protected function d3HeidelpayRouteToUser(StandardException $exception)
+    {
+        d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
+            d3log::INFO,
+            __CLASS__,
+            __FUNCTION__,
+            __LINE__,
+            'exception handling',
+            get_class($exception).PHP_EOL.$exception->getMessage().PHP_EOL.$exception->getTraceAsString()
+        );
+
+        return 'user';
+    }
+
+    /**
+     * @param StandardException $exception
+     *
+     * @return string
+     * @throws StandardException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     */
+    protected function d3HeidelpayRouteToOrder(StandardException $exception)
+    {
+        d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
+            d3log::INFO,
+            __CLASS__,
+            __FUNCTION__,
+            __LINE__,
+            'exception handling',
+            get_class($exception).PHP_EOL.$exception->getMessage().PHP_EOL.$exception->getTraceAsString()
+        );
+
+        return '';
+    }
+
+    /**
+     * @param StandardException $exception
+     *
+     * @return string
+     * @throws StandardException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     */
+    protected function d3HeidelpayRouteToOrderWithAGBError(StandardException $exception)
+    {
+        $this->_blConfirmAGBError = 1;
+
+        return $this->d3HeidelpayRouteToOrder($exception);
+    }
+
+    /**
+     * @param StandardException $exception
+     *
+     * @return string
+     * @throws StandardException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     */
+    protected function d3HeidelpayRouteToParentExecute(StandardException $exception)
+    {
+        d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
+            d3log::INFO,
+            __CLASS__,
+            __FUNCTION__,
+            __LINE__,
+            'exception handling',
+            get_class($exception).PHP_EOL.$exception->getMessage().PHP_EOL.$exception->getTraceAsString()
+        );
+
+        return parent::execute();
+    }
+
+    /**
+     * @param $sUseHPStore
+     *
+     * @throws StandardException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     */
+    protected function d3LoadHeidelpayStoreData($sUseHPStore)
+    {
+        d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
+            d3log::INFO,
+            __CLASS__,
+            __FUNCTION__,
+            __LINE__,
+            'load user storage data',
+            $sUseHPStore
+        );
+
+        /** @var BaseModel $userStoredData */
+        $userStoredData = oxNew(BaseModel::class);
+        $userStoredData->init('d3hpuid');
+        if ($userStoredData->load($sUseHPStore)) {
+            $userStoredData->aDynValue          = unserialize($userStoredData->d3hpuid__oxpaymentdata->rawValue);
+            $userStoredData->aDynValue['oxuid'] = $userStoredData->getFieldData('oxuid');
+            $this->getSession()->setVariable('dynvalue', $userStoredData->aDynValue);
+            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
+                d3log::INFO,
+                __CLASS__,
+                __FUNCTION__,
+                __LINE__,
+                'set user storage data to session',
+                print_r(var_export($userStoredData->aDynValue, true), true)
+            );
+        }
+    }
+
 }

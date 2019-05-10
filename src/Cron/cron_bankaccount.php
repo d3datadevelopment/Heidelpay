@@ -1,5 +1,9 @@
 <?php
 
+use Doctrine\DBAL\DBALException;
+use OxidEsales\Eshop\Core\Exception\StandardException;
+use OxidEsales\Eshop\Core\Registry;
+
 $aParams = array();
 
 if ($argv && is_array($argv) && $argc) {
@@ -40,11 +44,11 @@ $oResponse = oxNew(D3\Heidelpay\Models\Bankaccount::class);
 $oResponse->setStartParameters($aParams);
 try {
     $oResponse->checkBankAccount();
-} catch (\OxidEsales\Eshop\Core\Exception\StandardException $e) {
+} catch (StandardException $e) {
     echo 'Error occurred: ', $e->getMessage(), PHP_EOL, $e->getTraceAsString();
-} catch (\Doctrine\DBAL\DBALException $e) {
+} catch (DBALException $e) {
     echo 'DB Error occurred: ', $e->getMessage(), PHP_EOL, $e->getTraceAsString();
 }
 
-\OxidEsales\Eshop\Core\Registry::getConfig()->pageClose();
+Registry::getConfig()->pageClose();
 

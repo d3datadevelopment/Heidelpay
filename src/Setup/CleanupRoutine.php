@@ -16,7 +16,10 @@ namespace D3\Heidelpay\Setup;
 
 use D3\ModCfg\Application\Model\Install\d3install_updatebase;
 use D3\ModCfg\Application\Model\Installwizzard\d3installdbcommon;
+use OxidEsales\Eshop\Core\Database\Adapter\DatabaseInterface;
 use OxidEsales\Eshop\Core\DatabaseProvider;
+use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
+use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Facts\Facts;
 
@@ -30,8 +33,8 @@ class CleanupRoutine extends d3install_updatebase
     );
 
     /**
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function cleanUpStoredDataShopids()
     {
@@ -55,8 +58,8 @@ MySQL;
     }
 
     /**
-     * @return bool|\OxidEsales\Eshop\Core\Database\Adapter\DatabaseInterface
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @return bool|DatabaseInterface
+     * @throws DatabaseConnectionException
      */
     public function hasStoredDataWithWrongShopid()
     {

@@ -71,6 +71,8 @@ $aLang     = array(
         . 'Bezahlsystem.',
     'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_EASYCREDIT'         => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
         . 'Channel für easyCredit ein.',
+    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_BTOBBILLPURCHASE'         => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
+        . 'Channel für B2B Rechnungskauf ein.',
     'HELP_D3DYN_HEIDELPAY_LOGIN_AND_CHANNEL_HEAD'           => 'Für den Livebetrieb werden Ihre Heidelpay-Daten benötigt. ' //
         . 'Tragen Sie Ihre Daten in die folgenden Felder ein. ' //
         . '<b>Die Livedaten werden Ihnen von Heidelpay gestellt!</b><br><br>' //

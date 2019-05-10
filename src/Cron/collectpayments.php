@@ -12,6 +12,10 @@
  * @link          http://www.oxidmodule.com
  */
 
+use D3\Heidelpay\Controllers\PaymentCollector;
+use Doctrine\DBAL\DBALException;
+use OxidEsales\Eshop\Core\Exception\StandardException;
+
 $aParams = array();
 
 if ($argv && is_array($argv) && $argc) {
@@ -34,12 +38,12 @@ $config = OxidEsales\Eshop\Core\Registry::getConfig();
 
 // executing maintenance tasks..
 try {
-    /** @var \D3\Heidelpay\Controllers\PaymentCollector $collector */
-    $collector = oxNew(\D3\Heidelpay\Controllers\PaymentCollector::class);
+    /** @var PaymentCollector $collector */
+    $collector = oxNew(PaymentCollector::class);
     $collector->setStartParameters($aParams)->execute();
-} catch (\OxidEsales\Eshop\Core\Exception\StandardException $e) {
+} catch (StandardException $e) {
     echo $e->getMessage();
-} catch (\Doctrine\DBAL\DBALException $e) {
+} catch (DBALException $e) {
     echo $e->getMessage();
 }
 

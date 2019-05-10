@@ -19,10 +19,10 @@
             var hideableLi = $('#sBIC_[{$sPaymentID}]').first();
 
             if (valueSelected == 'DE') {
-                hideableLi.hide()
+                hideableLi.hide();
                 hideableLi.find('input').attr('disabled', 'disabled');
             } else {
-                hideableLi.show()
+                hideableLi.show();
                 hideableLi.find('input').removeAttr('disabled');
             }
         });

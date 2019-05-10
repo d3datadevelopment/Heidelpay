@@ -47,7 +47,7 @@ if ($noCriterionFound) {
             basename(__FILE__) . " has no criterions",
             var_export($request, true)
         );
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         $content = basename(__FILE__) . PHP_EOL
             . __LINE__ . PHP_EOL
             . basename(__FILE__) . " has no criterions" . PHP_EOL
@@ -69,7 +69,7 @@ try {
         basename(__FILE__) . " got requested",
         var_export($request, true)
     );
-} catch (\Exception $e) {
+} catch (Exception $e) {
     $content = basename(__FILE__) . PHP_EOL
         . __LINE__ . PHP_EOL
         . basename(__FILE__) . " got requested" . PHP_EOL
@@ -86,7 +86,7 @@ try {
         D3\ModCfg\Application\Model\Configuration\d3_cfg_mod::get('d3heidelpay')
     );
     $notify->init($request);
-} catch (\Exception $e) {
+} catch (Exception $e) {
     writeToLog($e->getMessage());
     writeToLog($e->getTraceAsString());
 }

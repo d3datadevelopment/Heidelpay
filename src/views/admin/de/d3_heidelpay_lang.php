@@ -36,6 +36,7 @@ $aLang     = array(
     'D3DYN_HEIDELPAY_PARAM_CHANNEL_PRZELEWY24'                          => 'Channel (Przelewy24)',
     'D3DYN_HEIDELPAY_PARAM_CHANNEL_MASTERPASS'                          => 'Channel (MasterPass)',
     'D3DYN_HEIDELPAY_PARAM_CHANNEL_EASYCREDIT'                          => 'Channel (easyCredit)',
+    'D3DYN_HEIDELPAY_PARAM_CHANNEL_BTOBBILLPURCHASE'                    => 'Channel (B2B Rechnungskauf)',
     'D3DYN_HEIDELPAY_PARAM_STOREDDATA'                                  => 'Gespeicherte Daten dem Kunden anbieten?',
     'D3DYN_HEIDELPAY_PARAM_CURLTIMEOUT'                                 => 'Verbindungszeit zum Server',
     'D3DYN_HEIDELPAY_PARAM_CURLTIMEOUTSEK'                              => 'Sekunden',
@@ -154,6 +155,7 @@ $aLang     = array(
     'd3\heidelpay\models\payment\przelewy24'                            => 'Przelewy24',
     'd3\heidelpay\models\payment\masterpass'                            => 'MasterPass',
     'd3\heidelpay\models\payment\easycredit'                            => 'easyCredit',
+    'd3\heidelpay\models\payment\btobbillpurchase'                      => 'B2B Rechnungskauf',
     'D3_HEIDELPAY_RESTRICTIONINFO_ORDER'                                => 'Sie verwenden Heidelpay \'Basic\', daher werden Ihnen die Zahloptionen (\'Refund\' etc.) zwar gezeigt, führen jedoch keine Transaktion aus.<br>Wenn Sie alle Möglichkeiten des Moduls nutzen möchten, erwerben Sie bitte Heidelpay \'Premium\'.',
     'D3_HEIDELPAY_UPDATE_CHANGE_HAENDLERKONTO'                          => 'Wichtige Hinweise zu Ihrem Heidelpay-Händlervertrag (betrifft Updates von kleiner 4.0.5.0 auf aktuelle Modulversion)'
         . PHP_EOL . PHP_EOL

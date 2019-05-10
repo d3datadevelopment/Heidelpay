@@ -2,9 +2,17 @@
 
 namespace D3\Heidelpay\Modules\Core;
 
+use D3\Heidelpay\Models\Payment\Exception\PaymentNotReferencedToHeidelpayException;
+use D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException;
 use D3\Heidelpay\Models\Settings\Heidelpay;
 use D3\Heidelpay\Models\Verify\Input;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
+use D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception;
+use D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException;
+use Doctrine\DBAL\DBALException;
+use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
+use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
+use OxidEsales\Eshop\Core\Exception\StandardException;
 use OxidEsales\Eshop\Core\Registry;
 
 /**
@@ -17,14 +25,14 @@ class InputValidator extends InputValidator_parent
      * @param array  $aDynvalue
      *
      * @return bool|string
-     * @throws \D3\Heidelpay\Models\Payment\Exception\PaymentNotReferencedToHeidelpayException
-     * @throws \D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @throws PaymentNotReferencedToHeidelpayException
+     * @throws EmptyPaymentlistException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws StandardException
      */
     public function validatePaymentInputData($sPaymentId, &$aDynvalue)
     {

@@ -6,10 +6,17 @@ use D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
 use D3\ModCfg\Application\Model\d3database;
 use D3\ModCfg\Application\Model\d3str;
+use D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception;
+use D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException;
 use D3\ModCfg\Application\Model\Install\d3install_updatebase;
 use D3\ModCfg\Application\Model\Installwizzard\d3installconfirmmessage;
 use D3\ModCfg\Application\Model\Transactionlog\d3transactionlog;
+use Doctrine\DBAL\DBALException;
 use OxidEsales\Eshop\Core\DatabaseProvider;
+use OxidEsales\Eshop\Core\Exception\ConnectionException;
+use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
+use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
+use OxidEsales\Eshop\Core\Exception\StandardException;
 use OxidEsales\Eshop\Core\Model\BaseModel;
 use OxidEsales\Eshop\Core\Registry;
 
@@ -40,7 +47,7 @@ class InstallRoutine extends d3install_updatebase
     /**
      * @var string
      */
-    public $sModVersion = '6.0.2.3';
+    public $sModVersion = '6.0.3.0';
 
     /**
      * @var string
@@ -48,18 +55,18 @@ class InstallRoutine extends d3install_updatebase
     public $sMinModCfgVersion = '5.1.1.7';
 
     /** @var string @deprecated since 2016-04-13 */
-    public $sModRevision = '6023';
+    public $sModRevision = '6030';
 
     /**
      * @var string
      */
     public $sBaseConf = '--------------------------------------------------------------------------------
-KICv2==SnpLQ2o1dk5QQUxjN2tVZlNMcHovUjhWRFNjY3JRclh2a3RQQ0s1Mm5qelZlVHdXcTFBTUlpd
-1pLdUFRMWhOUmZNeTVMMjlWVVRsZGdYR1UzNHFCMmZZQzNyWEVtM1AzTS9KNDlFQWJuTEd0a3Fsb25GV
-2lzcFBtZ0l5SHA1YnlEdlh4N2ZTSzRYOVhGbCtvZjQ1Y3I2dDZEOXc5M0JXakFMZTc2Q0hMQldUczJ3e
-lVmVEFURUJTaGpvb0RONHJ1V1o5SW4yU1BnZzJiNi9XajZjSW1kL2NIdzlYWjlwUFNud0JWbVh4TWhZZ
-DR2MmRTc2MvdkZhRmE4ZFFTdk1ZRnJjemlIVlFDRlFoOTB4U3VHL1djclBNeS81ZkNZU05KcC8wZU4rZ
-3pGak84L3BqOVptQnRjMkxSVUV1dXFPUVQyclhFbmRYVlVzUE11Q1VyQ0xKRUxRPT0=
+tW1v2==MGxBSG5OUmdFWWtyaXgwK2liTXU4d2laaW93ZEtIWDNxUmJkY05SMHVpUEpvelA1QkFrQlgzV
+05jU0oxdXRsVk9reEJnaDh5dDhQdGJCOWs3dkEvRGtXZmRJL21taitIMjVHM1RpMDd5WmRDWVJwckY0M
+U04ZkcrcUVjek03TEpoclVjTXkwNkVrR1ZDOEVQcnpBTDRPRk4zaW5qWFBVTmRnNFE3V3NZQXZJWE92M
+WxsWjNGdnowS3RucDlNZnFPRUdRVXpaUjBJWkpUb3VOSjN4V3RhVkxLbkdjMDRyL2xWclRDbEhHeDFSS
+ERQOUs2YTcrcEgyTkQzQWJ0cGE1TFVabklhdFBNTnFmNTlIRkF4UlBGZDFkMTg4blJPSTJ4RndNSTV1R
+GM5TlNibVpyUmFFTnRNSWVaNGI1ZFRaV1pPanRqdlV0VDVwMWM2VzJIS2srQ3ZnPT0=
 --------------------------------------------------------------------------------';
 
     /**
@@ -441,9 +448,9 @@ DR2MmRTc2MvdkZhRmE4ZFFTdk1ZRnJjemlIVlFDRlFoOTB4U3VHL1djclBNeS81ZkNZU05KcC8wZU4rZ
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function hasToShowNoteForStoredData()
     {
@@ -468,8 +475,8 @@ DR2MmRTc2MvdkZhRmE4ZFFTdk1ZRnJjemlIVlFDRlFoOTB4U3VHL1djclBNeS81ZkNZU05KcC8wZU4rZ
 
     /**
      * @return bool
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function showNoteForStoredData()
     {
@@ -550,7 +557,7 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
     /**
      * @return bool
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws DatabaseConnectionException
      */
     public function checkD3hperrortextsItemsExist()
     {
@@ -561,8 +568,8 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
     /**
      * @return bool
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function insertD3hperrortextsItemsIfNotExist()
     {
@@ -574,9 +581,9 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
      ****************************************************/
     /**
      * @return bool TRUE, if table is missing
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function ishpprepaymentdataTableExist()
     {
@@ -586,10 +593,10 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function deletehpprepaymentdataTableExist()
     {
@@ -612,10 +619,10 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function updateD3hpuidTableExist()
     {
@@ -632,9 +639,9 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
     /**
      * @return bool TRUE, if table is missing
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function checkD3hpuidTableExist()
     {
@@ -643,10 +650,10 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function updateD3hperrortextsTableExist()
     {
@@ -663,9 +670,9 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
     /**
      * @return bool TRUE, if table is missing
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function checkD3hperrortextsTableExist()
     {
@@ -679,8 +686,8 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
     /**
      * @return bool
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
      */
     public function checkOxcontentItemsExist()
     {
@@ -693,8 +700,8 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
      * @param $sFileName
      *
      * @return bool
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
      */
     protected function _hasExecuteFileQuery($sFileName)
     {
@@ -722,9 +729,9 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
     /**
      * @return bool
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function insertOxcontentItemsIfNotExist()
     {
@@ -739,9 +746,9 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
      * @param $sFileName
      *
      * @return bool
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     protected function _executeFileQueries($sFileName)
     {
@@ -788,7 +795,7 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
     /**
      * @return bool
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws DatabaseConnectionException
      */
     public function checkOxpaymentsItemsExist()
     {
@@ -799,8 +806,8 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
     /**
      * @return bool
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function insertOxpaymentsItemsIfNotExist()
     {
@@ -816,8 +823,8 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
      */
     public function checkOxcontentEntrysExist()
     {
@@ -876,10 +883,10 @@ MySQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function updateHPerrortextcontent()
     {
@@ -940,9 +947,9 @@ MySQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function checkHPerrortextcontent()
     {
@@ -974,9 +981,9 @@ MySQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function checkRenameD3Tables()
     {
@@ -985,9 +992,9 @@ MySQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function renameD3Tables()
     {
@@ -997,10 +1004,10 @@ MySQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function dropTableOxpaylogsExist()
     {
@@ -1017,9 +1024,9 @@ MySQL;
      * @return bool
      * FALSE, if table is missing, so nothing is to do
      * TRUE, if table is not missing, delete it
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function checkTableOxpaylogsExist()
     {
@@ -1032,9 +1039,9 @@ MySQL;
      * @return bool
      * FALSE, if table is missing, so nothing is to do
      * TRUE, if table is not missing, delete it
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function checkTableOxobject2heidelpayExist()
     {
@@ -1045,10 +1052,10 @@ MySQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function migrateOldPaymentAssignments()
     {
@@ -1128,10 +1135,10 @@ MYSQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function hasLegacyAssignments()
     {
@@ -1178,10 +1185,10 @@ MYSQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function updateLegacyAssigments()
     {
@@ -1243,10 +1250,10 @@ MYSQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function migrateOldOxconfigEntries()
     {
@@ -1316,10 +1323,10 @@ MYSQL;
     /**
      *
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function hasOldOxconfigEntries()
     {
@@ -1398,10 +1405,10 @@ MYSQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function showForChangeHaendlerKontoMsg()
     {
@@ -1427,10 +1434,10 @@ MYSQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function checkForChangeHaendlerKontoMsg()
     {
@@ -1464,10 +1471,10 @@ MYSQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function checkModCfgorderExecutePostFields()
     {
@@ -1498,13 +1505,13 @@ MYSQL;
 
     /**
      * @return bool
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws StandardException
      */
     public function updateModCfgorderExecutePostFields()
     {
@@ -1553,10 +1560,10 @@ MYSQL;
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function usingModCfgStoredDataWithoutRG()
     {
@@ -1593,13 +1600,13 @@ MYSQL;
 
     /**
      * @return bool
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\ConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws ConnectionException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws StandardException
      */
     public function updateModCfStoredDataWithRG()
     {
@@ -1647,7 +1654,7 @@ MYSQL;
      * 0004566: Korrektur der Autoinstallation bei einem Modulupdate
      *
      * @return bool
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws DatabaseConnectionException
      */
     public function hasEmptyCMSShopId()
     {
@@ -1667,8 +1674,8 @@ MYSQL;
      * 0004566: Korrektur der Autoinstallation bei einem Modulupdate
      *
      * @return bool
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function removeEmptyCMSShopId()
     {
@@ -1688,12 +1695,12 @@ MYSQL;
 
     /**
      * @return bool
-     * @throws \D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException
-     * @throws \D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
-     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
-     * @throws \OxidEsales\Eshop\Core\Exception\StandardException
+     * @throws d3ShopCompatibilityAdapterException
+     * @throws d3_cfg_mod_exception
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     * @throws StandardException
      */
     public function hasMultilangConfigButNoSetting()
     {

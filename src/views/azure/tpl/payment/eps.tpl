@@ -9,22 +9,32 @@
 [{block name="heidelpay_eps"}]
     <dl>
         <dt>
-            <input id="payment_[{$sPaymentID}]"
-                   type="radio"
-                   name="paymentid"
+            <input type="radio"
+                [{if $blD3HeidelpayAllowEPS}]
+                   id="payment_[{$sPaymentID}]"
+                       name="paymentid"
                    value="[{$sPaymentID}]"
-                   [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]>
+                   [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]
+                [{else}]
+                    disabled
+                [{/if}]
+            >
             <label for="payment_[{$sPaymentID}]"><b>[{$paymentmethod->oxpayments__oxdesc->value}]</b></label>
             [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sFullImageUrl sBrandIdent=$sBrandIdent}]
+            [{if false == $blD3HeidelpayAllowEPS}]
+                <sup id="d3HeidelayPrzelewy24Notice"
+                     class="alert alert-danger">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_IDEAL_NOTICE"}]</sup>
+            [{/if}]
         </dt>
         <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
             <ul class="form">
                 <li>
-                    <label>[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK_ACCOUNTHOLDER"}]</label>
+                    <label for="d3heidelpay_eps_[{$paymentmethod->oxpayments__oxid->value}]">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK_ACCOUNTHOLDER"}]</label>
                     <input type="text"
                            class="js-oxValidate js-oxValidate_notEmpty"
                            size="20"
                            maxlength="64"
+                           id="d3heidelpay_eps_[{$paymentmethod->oxpayments__oxid->value}]"
                            name="dynvalue[lsktoinhaber]"
                            title="[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK_ACCOUNTHOLDER"}]"
                            value="[{if $dynvalue.lsktoinhaber}][{$dynvalue.lsktoinhaber}][{else}][{$oxcmp_user->oxuser__oxfname->value}] [{$oxcmp_user->oxuser__oxlname->value}][{/if}]">
@@ -33,6 +43,7 @@
                         <span class="js-oxError_notEmpty">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_PAGE_EXCEPTION_INPUT_NOTALLFIELDS"}]</span>
                     </p>
                 </li>
+                [{if $blD3HeidelpayAllowEPS}]
                 <li>
                     <label for="payment_[{$sPaymentID}]_1">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK"}]</label>
                     <input type="hidden" name="dynvalue[lsland]" value="AT">
@@ -44,6 +55,7 @@
                         [{/foreach}]
                     </select>
                 </li>
+                [{/if}]
             </ul>
             [{if $paymentmethod->oxpayments__oxlongdesc->value}]
                 <div class="desc">

@@ -51,7 +51,7 @@ try {
         basename(__FILE__) . " got requested",
         var_export($_POST, true)
     );
-} catch (\Exception $e) {
+} catch (Exception $e) {
     writeToLog($e->getMessage());
     writeToLog($e->getTraceAsString());
 }
@@ -61,7 +61,7 @@ $oResponse = oxNew(Response::class);
 try {
     $sReturn      = $oResponse->init();
     $urlParameter = $oResponse->d3GetHeidelpayURLParameter();
-} catch (\Exception $e) {
+} catch (Exception $e) {
     writeToLog($e->getMessage());
     writeToLog($e->getTraceAsString());
 }
@@ -79,7 +79,7 @@ try {
         basename(__FILE__) . " return value",
         $sReturn . PHP_EOL . $oResponse->getRedirectUrl()
     );
-} catch (\Exception $e) {
+} catch (Exception $e) {
     writeToLog($e->getMessage());
     writeToLog($e->getTraceAsString());
 }
