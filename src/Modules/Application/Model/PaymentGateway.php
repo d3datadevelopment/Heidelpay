@@ -54,6 +54,7 @@ class PaymentGateway extends PaymentGateway_parent
             $oFactory
         );
 
+        //TODO: compose Transaction in dependency of payment and paymntcode
         $oTransAction = $oFactory->getLatestTransactionByReference($oFactory->getReferenceNumber());
 
         if (false == $oTransAction) {

@@ -2,12 +2,19 @@
 title: Changelog
 ---
 
+## 6.0.3.1
+0008863: 6.0.3.0 Fehler bei nicht Heidelpay zugeordneten Zahlungsarten - keine Bestellung möglich
+0000000: [cronjob collectPayments] parameter FRONTEND.ENABLED=true causing a order delete for Przelewy24 and iDeal payments 
+0000000: [cronjob collectPayments] set referenceid before temporaray order is finalized
+0000000: [cronjob collectPayments] reduced NOTICE in collectpayments.php 0000000: [general] added new criterion info parameter "heidelPaymentMethod"
+0000000: replaced deprecated method "getShopEdition" for request parameter
+0000000: changing url in metadata to https://docs.oxidmodule.com/Heidelpay/
+
 ## 6.0.3.0
-0008145: OT Zahlungsarten auf Länder und Währung einschränken
-0008577: Exception bei dem Versenden von d3SendHPErrorMessage
-0008158: Zahlungstyp Billsafe entfernen
-0008263: Daux.io Umsetzung Heidelpay
-0000000: added new payment B2B Bill Purchase
+0008145: OT Zahlungsarten auf Länder und Währung einschränken  
+0008577: Exception bei dem Versenden von d3SendHPErrorMessage  
+0008263: Daux.io Umsetzung Heidelpay  
+0000000: neue Zahlungsart B2B Rechnungskauf hinzugefügt
 
 ## 6.0.2.3
 0008253: alte Trusted Shops Käuferschutz Kompatibilität entfernen  

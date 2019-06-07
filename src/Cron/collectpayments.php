@@ -19,7 +19,7 @@ use OxidEsales\Eshop\Core\Exception\StandardException;
 $aParams = array();
 
 if ($argv && is_array($argv) && $argc) {
-    if ($argv[1]) {
+    if (isset($argv[1]) && false == empty($argv[1])) {
         $aParams['shp'] = $argv[1];
     }
     $aParams['exec'] = "command_line";
