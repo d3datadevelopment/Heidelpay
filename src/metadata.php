@@ -30,10 +30,10 @@ $aModule = array(
         'en' => '',
     ),
     'thumbnail'      => 'picture.png',
-    'version'        => '6.0.3.0',
+    'version'        => '6.0.3.1',
     'author'         => 'D&sup3; Data Development, Inh. Thomas Dartsch',
     'email'          => 'support@shopmodule.com',
-    'url'            => 'http://www.oxidmodule.com/',
+    'url'            => 'https://docs.oxidmodule.com/Heidelpay/',
     'events'         => array(
         'onActivate' => d3install::class . '::checkUpdateStart',
     ),

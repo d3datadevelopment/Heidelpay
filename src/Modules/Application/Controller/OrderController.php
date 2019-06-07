@@ -452,7 +452,7 @@ class OrderController extends OrderController_parent
         } catch (StandardException $exception) {
             foreach ($this->d3HeidelpayExceptionRoutings as $className => $d3HeidelpayExceptionRouting) {
                 if(get_class($exception) === $className) {
-                    $this->$d3HeidelpayExceptionRouting($exception);
+                    return $this->$d3HeidelpayExceptionRouting($exception);
                 }
             }
         }

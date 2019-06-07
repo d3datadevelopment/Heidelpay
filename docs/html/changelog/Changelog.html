@@ -46,7 +46,26 @@
         <div class="Collapsible__content">
             <!-- Navigation -->
             <ul class='Nav'><li class='Nav__item Nav__item--active'><a href="../changelog/Changelog.html">Changelog</a></li></ul>
-            
+            <div class='versionselector'>Version wechseln: 
+<select onchange="window.location.href=this.options[this.selectedIndex].value" size="1">
+
+<?php
+    $versionpath = implode("/", array_slice(explode("/", $_SERVER['SCRIPT_NAME']), 2));
+    $modulepath = implode("/", array_slice(explode("/", $_SERVER['SCRIPT_NAME']), 0, 2));
+    $path = str_replace($versionpath, "", $_SERVER['SCRIPT_FILENAME']);
+    $paths = explode('/', $versionpath);
+    $currpath = $paths[0];
+    
+    $dirs = array_filter(glob($path . '/*'), 'is_dir');
+    arsort($dirs);
+
+    foreach ($dirs as $dir) {
+        $dir = str_replace($path.'/', '', $dir);
+        $selected = ($dir === $currpath) ? 'selected="selected"' : "";
+        echo '<option value="'. $modulepath .'/'. $dir .'" '. $selected .'>'. $dir .'</option>';
+    }
+?>
+</select></div>
 
 
             <div class="Links">
@@ -72,16 +91,22 @@
     <div class="Page__header">
         <h1><a href="../changelog/Changelog.html">Changelog</a></h1>
                 <span class="ModifiedDate">
-                        09.05.2019        </span>
+                        07.06.2019        </span>
                     </div>
 
     <div class="s-content">
-        <h2 id="page_6-0-3-0">6.0.3.0</h2>
-<p>0008145: OT Zahlungsarten auf Länder und Währung einschränken
-0008577: Exception bei dem Versenden von d3SendHPErrorMessage
-0008158: Zahlungstyp Billsafe entfernen
-0008263: Daux.io Umsetzung Heidelpay
-0000000: added new payment B2B Bill Purchase</p>
+        <h2 id="page_6-0-3-1">6.0.3.1</h2>
+<p>0008863: 6.0.3.0 Fehler bei nicht Heidelpay zugeordneten Zahlungsarten - keine Bestellung möglich
+0000000: <span class="navi_element">cronjob collectPayments</span> parameter FRONTEND.ENABLED=true causing a order delete for Przelewy24 and iDeal payments
+0000000: <span class="navi_element">cronjob collectPayments</span> set referenceid before temporaray order is finalized
+0000000: <span class="navi_element">cronjob collectPayments</span> reduced NOTICE in collectpayments.php 0000000: <span class="navi_element">general</span> added new criterion info parameter &quot;heidelPaymentMethod&quot;
+0000000: replaced deprecated method &quot;getShopEdition&quot; for request parameter
+0000000: changing url in metadata to https://docs.oxidmodule.com/Heidelpay/</p>
+<h2 id="page_6-0-3-0">6.0.3.0</h2>
+<p>0008145: OT Zahlungsarten auf Länder und Währung einschränken<br />
+0008577: Exception bei dem Versenden von d3SendHPErrorMessage<br />
+0008263: Daux.io Umsetzung Heidelpay<br />
+0000000: neue Zahlungsart B2B Rechnungskauf hinzugefügt</p>
 <h2 id="page_6-0-2-3">6.0.2.3</h2>
 <p>0008253: alte Trusted Shops Käuferschutz Kompatibilität entfernen<br />
 0000000: Collation der Admin Sprachdateien auf UTF-8 gesetzt<br />

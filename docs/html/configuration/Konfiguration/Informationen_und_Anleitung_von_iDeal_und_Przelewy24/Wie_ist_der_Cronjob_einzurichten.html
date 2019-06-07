@@ -46,7 +46,26 @@
         <div class="Collapsible__content">
             <!-- Navigation -->
             <ul class='Nav'><li class='Nav__item Nav__item--open has-children'><a href="../../../configuration/Konfiguration/automatische_Vorkasse_und_Rechnungskauf.html" class="folder"><i class="Nav__arrow">&nbsp;</i>Konfiguration</a><ul class='Nav'><li class='Nav__item '><a href="../../../configuration/Konfiguration/automatische_Vorkasse_und_Rechnungskauf.html">Automatische Vorkasse und Rechnungskauf</a></li><li class='Nav__item '><a href="../../../configuration/Konfiguration/Konfiguration_der_Zahlungsarten.html">Konfiguration der Zahlungsarten</a></li><li class='Nav__item  has-children'><a href="../../../configuration/Konfiguration/Cronjob_einrichten/Cronjob_per_Konsole_einrichten.html" class="folder"><i class="Nav__arrow">&nbsp;</i>Cronjob einrichten</a><ul class='Nav'><li class='Nav__item '><a href="../../../configuration/Konfiguration/Cronjob_einrichten/Cronjob_per_Konsole_einrichten.html">Cronjob per Konsole einrichten</a></li><li class='Nav__item '><a href="../../../configuration/Konfiguration/Cronjob_einrichten/Cronjob_per_Webaufruf_einrichten.html">Cronjob per Webaufruf einrichten</a></li><li class='Nav__item '><a href="../../../configuration/Konfiguration/Cronjob_einrichten/Zahlungseingaenge_bei_Heidelpay_erneut_abrufen.html">Zahlungseingänge bei Heidelpay erneut abrufen</a></li><li class='Nav__item '><a href="../../../configuration/Konfiguration/Cronjob_einrichten/OXID_eShop_Enterprise_Edition.html">OXID eShop Enterprise Edition</a></li></ul></li><li class='Nav__item Nav__item--open has-children'><a href="../../../configuration/Konfiguration/Informationen_und_Anleitung_von_iDeal_und_Przelewy24/Was_hat_sich_im_Bestellprozess_geaendert.html" class="folder"><i class="Nav__arrow">&nbsp;</i>Informationen und Anleitung von iDeal und Przelewy24</a><ul class='Nav'><li class='Nav__item '><a href="../../../configuration/Konfiguration/Informationen_und_Anleitung_von_iDeal_und_Przelewy24/Was_hat_sich_im_Bestellprozess_geaendert.html">Was hat sich im Bestellprozess geändert?</a></li><li class='Nav__item '><a href="../../../configuration/Konfiguration/Informationen_und_Anleitung_von_iDeal_und_Przelewy24/Was_macht_der_Cronjob.html">Was macht der Cronjob?</a></li><li class='Nav__item '><a href="../../../configuration/Konfiguration/Informationen_und_Anleitung_von_iDeal_und_Przelewy24/Was_passiert_bei_einem_Refund.html">Was passiert bei einem Refund?</a></li><li class='Nav__item Nav__item--active'><a href="../../../configuration/Konfiguration/Informationen_und_Anleitung_von_iDeal_und_Przelewy24/Wie_ist_der_Cronjob_einzurichten.html">Wie ist der Cronjob einzurichten?</a></li><li class='Nav__item '><a href="../../../configuration/Konfiguration/Informationen_und_Anleitung_von_iDeal_und_Przelewy24/Was_ist_noch_zu_beachten.html">Was ist noch zu beachten?</a></li><li class='Nav__item '><a href="../../../configuration/Konfiguration/Informationen_und_Anleitung_von_iDeal_und_Przelewy24/Infos_fuer_Entwickler.html">Infos für Entwickler</a></li></ul></li><li class='Nav__item '><a href="../../../configuration/Konfiguration/Zahlungsinformationen_fuer_Rechnungskauf_und_Vorkasse_anzeigen_lassen.html">Zahlungsinformationen für Rechnungskauf und Vorkasse anzeigen lassen</a></li></ul></li></ul>
-            
+            <div class='versionselector'>Version wechseln: 
+<select onchange="window.location.href=this.options[this.selectedIndex].value" size="1">
+
+<?php
+    $versionpath = implode("/", array_slice(explode("/", $_SERVER['SCRIPT_NAME']), 2));
+    $modulepath = implode("/", array_slice(explode("/", $_SERVER['SCRIPT_NAME']), 0, 2));
+    $path = str_replace($versionpath, "", $_SERVER['SCRIPT_FILENAME']);
+    $paths = explode('/', $versionpath);
+    $currpath = $paths[0];
+    
+    $dirs = array_filter(glob($path . '/*'), 'is_dir');
+    arsort($dirs);
+
+    foreach ($dirs as $dir) {
+        $dir = str_replace($path.'/', '', $dir);
+        $selected = ($dir === $currpath) ? 'selected="selected"' : "";
+        echo '<option value="'. $modulepath .'/'. $dir .'" '. $selected .'>'. $dir .'</option>';
+    }
+?>
+</select></div>
 
 
             <div class="Links">
@@ -72,7 +91,7 @@
     <div class="Page__header">
         <h1><a href="../../../configuration/Konfiguration/automatische_Vorkasse_und_Rechnungskauf.html">Konfiguration</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../../../configuration/Konfiguration/Informationen_und_Anleitung_von_iDeal_und_Przelewy24/Was_hat_sich_im_Bestellprozess_geaendert.html">Informationen und Anleitung von iDeal und Przelewy24</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../../../configuration/Konfiguration/Informationen_und_Anleitung_von_iDeal_und_Przelewy24/Wie_ist_der_Cronjob_einzurichten.html">Wie ist der Cronjob einzurichten?</a></h1>
                 <span class="ModifiedDate">
-                        09.05.2019        </span>
+                        07.06.2019        </span>
                     </div>
 
     <div class="s-content">
