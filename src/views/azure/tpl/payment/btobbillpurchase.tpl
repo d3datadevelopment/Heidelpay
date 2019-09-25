@@ -19,8 +19,7 @@
             >
             <label for="payment_[{$sPaymentID}]"><b>[{$paymentmethod->oxpayments__oxdesc->value}]</b></label>
             [{if false == $blD3HeidelpayAllowBtoBBillPurchase}]
-                [{assign_adv var="d3BToBBillpurchaseSecuredLimits" value='array("'|cat:$oHeidelPayment->getMinimumLimit()|cat:'", "'|cat:$oHeidelPayment->getMaximumLimit()|cat:'")'}]
-                <sup id="d3HeidelayBToBBillpurchaseNotice" class="alert alert-danger desc">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_BTOBBILLPURCHASESECURED_NOTICE" args=$d3BToBBillpurchaseSecuredLimits}]</sup>
+                <sup id="d3HeidelayBToBBillpurchaseNotice" class="alert alert-danger desc">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_BTOBBILLPURCHASESECURED_NOTICE" args=$iD3HeidelpayBtoBBillPurchaseLimits}]</sup>
             [{/if}]
             [{if false == $blD3HeidelpayHasSameAdresses}]
                 <sup class="alert alert-danger d3HeidelaySameAddressNotice">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_NOTSAMEADDRESS_NOTICE"}]</sup>

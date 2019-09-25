@@ -21,7 +21,7 @@ use OxidEsales\Eshop\Core\Registry;
  */
 function getShopBasePath()
 {
-    return realpath(dirname(__FILE__) . '/../../../../') . '/';
+    return realpath(dirname(__FILE__).'/../../../../').'/';
 }
 
 $request = file_get_contents('php://input');
@@ -35,7 +35,7 @@ if (preg_match('/<Criterion name="shp">(.+)<\/Criterion>/', $request, $matches) 
 }
 $_POST['shp'] = $matches[1];
 
-require_once getShopBasePath() . "/bootstrap.php";
+require_once getShopBasePath()."/bootstrap.php";
 
 if ($noCriterionFound) {
     try {
@@ -44,7 +44,7 @@ if ($noCriterionFound) {
             basename(__FILE__),
             'none',
             __LINE__,
-            basename(__FILE__) . " has no criterions",
+            basename(__FILE__)." has no criterions",
             var_export($request, true)
         );
     } catch (Exception $e) {
@@ -66,7 +66,7 @@ try {
         basename(__FILE__),
         'none',
         __LINE__,
-        basename(__FILE__) . " got requested",
+        basename(__FILE__)." got requested",
         var_export($request, true)
     );
 } catch (Exception $e) {
@@ -82,7 +82,8 @@ try {
 try {
     /** @var D3\Heidelpay\Controllers\Notify $notify */
     $notify = oxNew(
-        D3\Heidelpay\Controllers\Notify::class, Registry::get(Registry::class),
+        D3\Heidelpay\Controllers\Notify::class,
+        Registry::get(Registry::class),
         D3\ModCfg\Application\Model\Configuration\d3_cfg_mod::get('d3heidelpay')
     );
     $notify->init($request);

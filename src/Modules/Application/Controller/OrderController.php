@@ -7,8 +7,6 @@ use D3\Heidelpay\Models\Containers\Criterions;
 use D3\Heidelpay\Models\Factory;
 use D3\Heidelpay\Models\Payment\Easycredit;
 use D3\Heidelpay\Models\Payment\Exception\PaymentNotReferencedToHeidelpayException;
-use D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException;
-use D3\Heidelpay\Models\Settings\Heidelpay;
 use D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay as ReaderHeidelpay;
 use D3\Heidelpay\Models\Verify\Exception\AgbNotAcceptedException;
 use D3\Heidelpay\Models\Verify\Exception\CheckSessionChallengeException;
@@ -36,31 +34,11 @@ use OxidEsales\Eshop\Core\UtilsView;
  */
 class OrderController extends OrderController_parent
 {
-
-    /**
-     * Return-Klasse, die von der hp_resonse.php nach Aufruf order::execute() erhalten wurde (z.B. "thankyou")
-     *
-     * @var string
-     */
-    public $s3dsClassReturn;
-
-    /**
-     * Kontrollvariable fuer die Beendigung des 3DSecure-iFrames
-     *
-     * @var string
-     */
-    protected $_blIsHeidelpaySecureSuccess = false;
-
-    /**
-     * @var string
-     */
-    protected $_sHeidelpaySecureiFrameTemplate = 'd3_heidelpay_views_azure_tpl_order_3ds_iframe.tpl';
-
     /**
      * array of years
      * @var array
      */
-    protected $_aCreditYears                = null;
+    protected $d3HeidelpayCreditYears                = null;
 
     /**
      * @var array
@@ -70,21 +48,8 @@ class OrderController extends OrderController_parent
         CheckSessionChallengeException::class            => 'd3HeidelpayRouteToOrder',
         AgbNotAcceptedException::class                   => 'd3HeidelpayRouteToOrderWithAGBError',
         PaymentNotReferencedToHeidelpayException::class => 'd3HeidelpayRouteToParentExecute',
-        EmptyPaymentlistException::class               => 'd3HeidelpayRouteToParentExecute',
     ];
 
-    /**
-     * OrderController constructor.
-     * @throws DBALException
-     * @throws DatabaseConnectionException
-     * @throws DatabaseErrorException
-     */
-    public function __construct()
-    {
-        $settings = oxNew(Heidelpay::class, d3_cfg_mod::get('d3heidelpay'));
-        Registry::set(Heidelpay::class, $settings);
-        parent::__construct();
-    }
 
     /**
      * @return mixed|string
@@ -101,13 +66,16 @@ class OrderController extends OrderController_parent
         if (false === d3_cfg_mod::get('d3heidelpay')->isActive()) {
             return $ret;
         }
-        $this->addTplParam('isHeidelpayDebugMode', (bool)d3_cfg_mod::get('d3heidelpay')->getValue('d3heidelpay_blTestmode'));
+        /** @var Factory $factory */
+        $factory                = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+
+        $this->addTplParam('isHeidelpayDebugMode', (bool)$factory->getModuleProvider()->isTestMode());
 
         $oHeidelpayViewConfig = oxNew(
             Viewconfig::class,
             d3_cfg_mod::get('d3heidelpay'),
             Registry::get(Registry::class),
-            oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'))
+            $factory
         );
 
         $this->addTplParam('oHeidelpayViewConfig', $oHeidelpayViewConfig);
@@ -165,7 +133,6 @@ class OrderController extends OrderController_parent
                     'could not load d3transactionlog for saved payment',
                     print_r("SELECT * FROM d3transactionlog WHERE d3reference = '$sUniqueId'", true)
                 );
-
             }
         }
 
@@ -195,13 +162,11 @@ class OrderController extends OrderController_parent
      */
     public function getCreditYears()
     {
-        if ($this->_aCreditYears === null) {
-            $this->_aCreditYears = false;
-
-            $this->_aCreditYears = range(date('Y'), date('Y') + 10);
+        if ($this->d3HeidelpayCreditYears === null) {
+            $this->d3HeidelpayCreditYears = range(date('Y'), date('Y') + 10);
         }
 
-        return $this->_aCreditYears;
+        return $this->d3HeidelpayCreditYears;
     }
 
     /**
@@ -318,8 +283,10 @@ class OrderController extends OrderController_parent
             return false;
         }
 
+        /** @var Factory $factory */
+        $factory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
         // keine Anzeige gespeicherter Registrierungsdaten erlauben?
-        if (false == d3_cfg_mod::get('d3heidelpay')->getValue('d3heidelpay_blShowStoredHPData')) {
+        if (false == $factory->getModuleProvider()->isUsingStoredCardData()) {
             return false;
         }
 
@@ -415,16 +382,16 @@ class OrderController extends OrderController_parent
                 return parent::execute();
             }
 
-            /** @var Heidelpay $settings */
-            $settings       = Registry::get(Heidelpay::class);
-            $oHeidelPayment = $settings->getPayment($mPayment);
+            /** @var Factory $factory */
+            $factory        = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+            $oHeidelPayment = $factory->getSettings()->getPayment($mPayment);
 
             /** @var Order $controllerFacade */
             $controllerFacade = oxNew(
                 Order::class,
                 Registry::get(Registry::class),
                 d3_cfg_mod::get('d3heidelpay'),
-                oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'))
+                $factory
             );
             $mResult          = $controllerFacade->execute($oHeidelPayment);
 
@@ -448,13 +415,20 @@ class OrderController extends OrderController_parent
 
                 return $mResult . "&{$urlparameter}";
             }
-
         } catch (StandardException $exception) {
             foreach ($this->d3HeidelpayExceptionRoutings as $className => $d3HeidelpayExceptionRouting) {
-                if(get_class($exception) === $className) {
+                if (get_class($exception) === $className) {
                     return $this->$d3HeidelpayExceptionRouting($exception);
                 }
             }
+            d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
+                d3log::ERROR,
+                __CLASS__,
+                __FUNCTION__,
+                __LINE__,
+                'unexpected exception',
+                get_class($exception) . PHP_EOL . $exception->getMessage() . PHP_EOL . $exception->getTraceAsString()
+            );
         }
 
         /** @var StandardException $exception */
@@ -462,12 +436,14 @@ class OrderController extends OrderController_parent
         Registry::get(UtilsView::class)->addErrorToDisplay($exception);
 
         d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
-            d3log::INFO,
+            d3log::ERROR,
             __CLASS__,
             __FUNCTION__,
             __LINE__,
-            'exception handling',
-            get_class($exception) . PHP_EOL . $exception->getMessage() . PHP_EOL . $exception->getTraceAsString()
+            'exceptional handling',
+            'the module couldn\'t interpret the shop actions. Possible reasons are: '.PHP_EOL
+            . '1. return of parent method OrderController::execute returns a invalid value'.PHP_EOL
+            . '2. in the parent method OrderController::execute has thrown a unknown exception'
         );
 
         return '';
@@ -481,16 +457,10 @@ class OrderController extends OrderController_parent
      */
     protected function d3GetHeidelpayURLParameter()
     {
-        //fake User-Checkboxen
-        $mPostFields             = d3_cfg_mod::get('d3heidelpay')->getValue('d3_cfg_mod__d3heidelpay_additionalUrlParameter');
-        $aPostFields             = explode(PHP_EOL, $mPostFields);
-        $aHeidelpayPostparameter = array();
-        foreach ($aPostFields as $sFieldDefinition) {
-            list($sFieldName, $sValue) = explode('=>', $sFieldDefinition);
-            $aHeidelpayPostparameter[trim($sFieldName)] = trim($sValue);
-        }
+        /** @var Factory $factory */
+        $factory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
 
-        return $aHeidelpayPostparameter;
+        return $factory->getModuleProvider()->getAdditionalUrlParameter();
     }
 
     /**
@@ -501,8 +471,9 @@ class OrderController extends OrderController_parent
      */
     public function d3GetHeidelpayPostparameter()
     {
-        //fake User-Checkboxen
-        $mPostFields             = d3_cfg_mod::get('d3heidelpay')->getValue('d3_cfg_mod__d3heidelpay_orderExecutePostFields');
+        /** @var Factory $factory */
+        $factory                   = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+        $mPostFields             =  $factory->getModuleProvider();
         $aPostFields             = explode(PHP_EOL, $mPostFields);
         $aHeidelpayPostparameter = array();
         foreach ($aPostFields as $sFieldDefinition) {
@@ -511,7 +482,6 @@ class OrderController extends OrderController_parent
         }
 
         return $aHeidelpayPostparameter;
-
     }
 
     /**
@@ -578,7 +548,6 @@ class OrderController extends OrderController_parent
 
     /**
      * @return null
-     * @throws EmptyPaymentlistException
      * @throws PaymentNotReferencedToHeidelpayException
      * @throws StandardException
      * @throws d3ShopCompatibilityAdapterException
@@ -593,9 +562,11 @@ class OrderController extends OrderController_parent
         $oBasket    = $this->getBasket();
         $sPaymentid = $oBasket->getPaymentId();
 
-        /** @var Heidelpay $oSettings */
+        /** @var Factory $factory */
+        $factory   = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+        $oSettings = $factory->getSettings();
+
         /** @var Payment $oPayment */
-        $oSettings = oxNew(Heidelpay::class, d3_cfg_mod::get('d3heidelpay'));
         $oPayment  = oxNew(Payment::class);
         $oPayment->load($sPaymentid);
         if (false == $oSettings->isAssignedToHeidelPayment($oPayment)) {
@@ -627,7 +598,6 @@ class OrderController extends OrderController_parent
      * @param int $mSuccess
      *
      * @return mixed|string
-     * @throws EmptyPaymentlistException
      * @throws PaymentNotReferencedToHeidelpayException
      * @throws StandardException
      * @throws d3ShopCompatibilityAdapterException
@@ -822,5 +792,4 @@ class OrderController extends OrderController_parent
             );
         }
     }
-
 }

@@ -18,7 +18,6 @@ if ($argv && is_array($argv) && $argc) {
         }
     }
     $aParams['exec'] = "command_line";
-
 } else {
     $aParams['shp']  = $_GET['shp'];
     $aParams['date'] = (string)$_GET['date'];
@@ -51,4 +50,3 @@ try {
 }
 
 Registry::getConfig()->pageClose();
-

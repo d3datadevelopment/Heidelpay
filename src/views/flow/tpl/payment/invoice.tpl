@@ -32,9 +32,8 @@
                     <b>[{$paymentmethod->oxpayments__oxdesc->value}]</b>
                 </label>
                 [{if false == $blShowPaymentMethod}]
-                    [{assign_adv var="d3InvoiceSecuredLimits" value='array("'|cat:$oHeidelPayment->getMinimumLimit()|cat:'", "'|cat:$oHeidelPayment->getMaximumLimit()|cat:'")'}]
                     <sup id="d3HeidelayInvoiceSecuredNotice"
-                         class="alert alert-danger desc">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INVOICESECURED_NOTICE" args=$d3InvoiceSecuredLimits}]</sup>
+                         class="alert alert-danger desc">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INVOICESECURED_NOTICE" args=$iD3HeidelpayInvoiceSecuredLimits}]</sup>
                 [{/if}]
                 [{if false == $blD3HeidelpayHasSameAdresses}]
                     <sup class="alert alert-danger d3HeidelaySameAddressNotice">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_NOTSAMEADDRESS_NOTICE"}]</sup>

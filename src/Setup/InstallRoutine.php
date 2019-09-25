@@ -2,7 +2,9 @@
 
 namespace D3\Heidelpay\Setup;
 
-use D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay;
+use D3\Heidelpay\Models\Configuration\ModProfile;
+use D3\Heidelpay\Models\Factory;
+use D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay as TransactionlogReader;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
 use D3\ModCfg\Application\Model\d3database;
 use D3\ModCfg\Application\Model\d3str;
@@ -12,6 +14,7 @@ use D3\ModCfg\Application\Model\Install\d3install_updatebase;
 use D3\ModCfg\Application\Model\Installwizzard\d3installconfirmmessage;
 use D3\ModCfg\Application\Model\Transactionlog\d3transactionlog;
 use Doctrine\DBAL\DBALException;
+use Exception;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Exception\ConnectionException;
 use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
@@ -47,26 +50,26 @@ class InstallRoutine extends d3install_updatebase
     /**
      * @var string
      */
-    public $sModVersion = '6.0.3.1';
+    public $sModVersion = '6.1.0.0';
 
     /**
      * @var string
      */
-    public $sMinModCfgVersion = '5.1.1.7';
+    public $sMinModCfgVersion = '5.2.0.2';
 
     /** @var string @deprecated since 2016-04-13 */
-    public $sModRevision = '6031';
+    public $sModRevision = '6100';
 
     /**
      * @var string
      */
     public $sBaseConf = '--------------------------------------------------------------------------------
-XYcv2==UjJPQTl5YkdrZHFLMFNSQzVkK25nSGVtb0haTTlJM21LcjJTWnJBWktBSFBoYUE5L0NtQ09HZ
-VF2c3ZXQ1lLektTc1ZwVTdMcVU4ZllSdjlxeFdnOHNvcDN0Z1FzLy9rVVJ6dW5SSEVPVEhUZ1VhSFF5Z
-DJHSFZrM1pQUmsxczQycFJwVFpPU0JMaVR6Nm1DVGpob1VPeVBUL3JBZWlTN3hra2dKajF0WXNhR3Qwe
-W1IMEpjWVF4ZEJsYUxWLzNUTWJkZmtXM0xMcEtPNjFUV0NhTllZclpRaHIzVXV2ckg5TlZyRWlQeGcyY
-WNIcUlXa0dLNzVwd2ZIbkxlVUs1VHQyZGN1R2IzODRqRlBmeVU3eWZtaENNZ3FEWWFGRFNMclQyeTVUW
-jlEQXEzOWdhbC9HaDNZSmhoQ245bDhhQWVqNEJvY0FKM0JCZ0FRMzdzZ01SVStRPT0=
+Chev2==K1F5cnhsZHc3NkFxcVlyK1JidlFXTTFWWWEyeFdIaUo1aU1HT3RFU0ppK1orcDh1ZEVSSUY5T
+2cra05TQ3hQZjQ3YlVkbXRSUjdQUTlMUHcyWWJvekVVeFhHUG1FYTJNeTZYMGI3Vzh4bDFOT0dqOWxMY
+zRzWWlYQ202b0o1MnZGOVJkSXk5VE5YaUVMK1B4TE1OOHlCaC9JYUJSY1lYVFZRT2NsaVNCMnljb3h3R
+GhSZUc0cncxVkFsREx3VG5VT2h5cGF2c2V2L1E5cFBpcm5QWnB0S2wxRktCeXl2d2c2cGlrMG1jUWFqc
+2REbEdxZVg0UW5MUlVTWmpjOWhWeitGZ2hnLzlBTjE2Q3ZGYlNvSDdUVUEvQXFPZ1NXQXJ5NXZCa1ZSc
+CtDcnF5ZWtUM0FmM0FlRkZlKzBoQTBxaUdNUlgvVnZ4blhmMVJ5UkRLaVlrc1hRPT0=
 --------------------------------------------------------------------------------';
 
     /**
@@ -77,20 +80,8 @@ jlEQXEzOWdhbC9HaDNZSmhoQ245bDhhQWVqNEJvY0FKM0JCZ0FRMzdzZ01SVStRPT0=
     /**
      * @var string
      */
-    public $sBaseValue = 'TyUzQTglM0ElMjJzdGRDbGFzcyUyMiUzQTM4JTNBJTdCcyUzQTM0JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfYmxUZXN0bW9kZSUyMiUzQnMlM0ExJTNBJTIyMSUyMiUzQnMlM0EzOSUzQSUyMmQzX2NmZ19tb2RfX2QzaGVpZGVscGF5X3NTZWN1cml0eVNlbmRlciUyMiUzQnMlM0EzMiUzQSUyMjMxSEEwN0JDODE0MkM1QTE3MTc0NUQwMEFENjNEMTgyJTIyJTNCcyUzQTMxJTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc1VzZXJJRCUyMiUzQnMlM0EzMiUzQSUyMjMxaGEwN2JjODE0MmM1YTE3MTc0NGU1YWVmMTFmZmQzJTIyJTNCcyUzQTMzJTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc1Bhc3N3b3JkJTIyJTNCcyUzQTglM0ElMjI5MzE2N0RFNyUyMiUzQnMlM0EzNCUzQSUyMmQzX2NmZ19tb2RfX2QzaGVpZGVscGF5X3NUcmFuc1R5cGUlMjIlM0JzJTNBNCUzQSUyMmF1dGglMjIlM0JzJTNBMzIlM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9zQ2hhbm5lbCUyMiUzQnMlM0EzMiUzQSUyMjMxSEEwN0JDODE0MkM1QTE3MTc0OUE2MEQ5NzlCNkU0JTIyJTNCcyUzQTQwJTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc0NoYW5uZWxfX3NvZm9ydCUyMiUzQnMlM0EzMiUzQSUyMjMxSEEwN0JDODE0MkM1QTE3MTc0OUNEQUE0MzM2NUQyJTIyJTNCcyUzQTQwJTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc0NDSW5wdXRQb3NpdGlvbiUyMiUzQnMlM0E1JTNBJTIyc3RlcDMlMjIlM0JzJTNBMzclM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9ibERlYml0VW5tYXNrJTIyJTNCcyUzQTElM0ElMjIwJTIyJTNCcyUzQTQyJTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfYmxTaG93U3RvcmVkSFBEYXRhJTIyJTNCcyUzQTElM0ElMjIwJTIyJTNCcyUzQTM5JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfYmxTZXJ2aWNlRXJyb3JzJTIyJTNCcyUzQTElM0ElMjIxJTIyJTNCcyUzQTM5JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc1Rlc3RQT1NUU2VydmVyJTIyJTNCcyUzQTQxJTNBJTIyaHR0cHMlM0ElMkYlMkZ0ZXN0LWhlaWRlbHBheS5ocGNndy5uZXQlMkZzZ3clMkZndHd1JTIyJTNCcyUzQTM5JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc0xpdmVQT1NUU2VydmVyJTIyJTNCcyUzQTM2JTNBJTIyaHR0cHMlM0ElMkYlMkZoZWlkZWxwYXkuaHBjZ3cubmV0JTJGc2d3JTJGZ3R3dSUyMiUzQnMlM0EzOCUzQSUyMmQzX2NmZ19tb2RfX2QzaGVpZGVscGF5X3NUZXN0WE1MU2VydmVyJTIyJTNCcyUzQTQwJTNBJTIyaHR0cHMlM0ElMkYlMkZ0ZXN0LWhlaWRlbHBheS5ocGNndy5uZXQlMkZzZ3clMkZ4bWwlMjIlM0JzJTNBMzglM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9zTGl2ZVhNTFNlcnZlciUyMiUzQnMlM0EzNSUzQSUyMmh0dHBzJTNBJTJGJTJGaGVpZGVscGF5LmhwY2d3Lm5ldCUyRnNndyUyRnhtbCUyMiUzQnMlM0EzOCUzQSUyMmQzX2NmZ19tb2RfX2QzaGVpZGVscGF5X3NUZXN0U2VydmVyVHlwJTIyJTNCcyUzQTE0JTNBJTIyQ09OTkVDVE9SX1RFU1QlMjIlM0JzJTNBMzglM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9zVGVzdEVycm9yQ29kZSUyMiUzQnMlM0EwJTNBJTIyJTIyJTNCcyUzQTM5JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc1Rlc3RSZXR1cm5Db2RlJTIyJTNCcyUzQTAlM0ElMjIlMjIlM0JzJTNBMzYlM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9pQ3VybFRpbWVPdXQlMjIlM0JzJTNBMiUzQSUyMjUwJTIyJTNCcyUzQTMyJTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfYUNDVHlwZXMlMjIlM0JzJTNBNDYlM0ElMjJhJTNBMiUzQSU3QnMlM0E0JTNBJTIyVklTQSUyMiUzQnMlM0ExJTNBJTIyMSUyMiUzQnMlM0E2JTNBJTIyTUFTVEVSJTIyJTNCcyUzQTElM0ElMjIwJTIyJTNCJTdEJTIyJTNCcyUzQTMyJTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfYUREVHlwZXMlMjIlM0JzJTNBNDAlM0ElMjJhJTNBMiUzQSU3QnMlM0EyJTNBJTIyREUlMjIlM0JzJTNBMSUzQSUyMjElMjIlM0JzJTNBMiUzQSUyMkFUJTIyJTNCcyUzQTElM0ElMjIwJTIyJTNCJTdEJTIyJTNCcyUzQTM2JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfYVBheW1lbnRMaXN0JTIyJTNCcyUzQTc3MyUzQSUyMmElM0ExMiUzQSU3QnMlM0E4JTNBJTIyYmlsbHNhZmUlMjIlM0JzJTNBMzglM0ElMjJkM19kM2hlaWRlbHBheV9tb2RlbHNfcGF5bWVudF9iaWxsc2FmZSUyMiUzQnMlM0ExMCUzQSUyMmNyZWRpdGNhcmQlMjIlM0JzJTNBNDAlM0ElMjJkM19kM2hlaWRlbHBheV9tb2RlbHNfcGF5bWVudF9jcmVkaXRjYXJkJTIyJTNCcyUzQTklM0ElMjJkZWJpdGNhcmQlMjIlM0JzJTNBMzklM0ElMjJkM19kM2hlaWRlbHBheV9tb2RlbHNfcGF5bWVudF9kZWJpdGNhcmQlMjIlM0JzJTNBMTElM0ElMjJkaXJlY3RkZWJpdCUyMiUzQnMlM0E0MSUzQSUyMmQzX2QzaGVpZGVscGF5X21vZGVsc19wYXltZW50X2RpcmVjdGRlYml0JTIyJTNCcyUzQTMlM0ElMjJlcHMlMjIlM0JzJTNBMzMlM0ElMjJkM19kM2hlaWRlbHBheV9tb2RlbHNfcGF5bWVudF9lcHMlMjIlM0JzJTNBNyUzQSUyMmdpcm9wYXklMjIlM0JzJTNBMzclM0ElMjJkM19kM2hlaWRlbHBheV9tb2RlbHNfcGF5bWVudF9naXJvcGF5JTIyJTNCcyUzQTUlM0ElMjJpZGVhbCUyMiUzQnMlM0EzNSUzQSUyMmQzX2QzaGVpZGVscGF5X21vZGVsc19wYXltZW50X2lkZWFsJTIyJTNCcyUzQTYlM0ElMjJwYXlwYWwlMjIlM0JzJTNBMzYlM0ElMjJkM19kM2hlaWRlbHBheV9tb2RlbHNfcGF5bWVudF9wYXlwYWwlMjIlM0JzJTNBMTAlM0ElMjJwcmVwYXltZW50JTIyJTNCcyUzQTQwJTNBJTIyZDNfZDNoZWlkZWxwYXlfbW9kZWxzX3BheW1lbnRfcHJlcGF5bWVudCUyMiUzQnMlM0ExOCUzQSUyMnNvZm9ydHVlYmVyd2Vpc3VuZyUyMiUzQnMlM0E0OCUzQSUyMmQzX2QzaGVpZGVscGF5X21vZGVsc19wYXltZW50X3NvZm9ydHVlYmVyd2Vpc3VuZyUyMiUzQnMlM0E3JTNBJTIyc2VjdXJlZCUyMiUzQnMlM0E0NSUzQSUyMmQzX2QzaGVpZGVscGF5X21vZGVsc19wYXltZW50X2ludm9pY2Vfc2VjdXJlZCUyMiUzQnMlM0E5JTNBJTIydW5zZWN1cmVkJTIyJTNCcyUzQTQ3JTNBJTIyZDNfZDNoZWlkZWxwYXlfbW9kZWxzX3BheW1lbnRfaW52b2ljZV91bnNlY3VyZWQlMjIlM0IlN0QlMjIlM0JzJTNBNDIlM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9zQ2hhbm5lbF9fYmlsbHNhZmUlMjIlM0JzJTNBMzIlM0ElMjIzMUhBMDdCQzgxNDJFRTZEMDI3MTVGNENBOTdEREQ4QiUyMiUzQnMlM0E0NCUzQSUyMmQzX2NmZ19tb2RfX2QzaGVpZGVscGF5X3NDaGFubmVsX19hc3N1cmVkaW52JTIyJTNCcyUzQTAlM0ElMjIlMjIlM0JzJTNBNDAlM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9zQ2hhbm5lbF9fcGF5cGFsJTIyJTNCcyUzQTMyJTNBJTIyMzFIQTA3QkM4MTI0MzY1Q0E0MUQ0QkRBNzlDQ0NEMjIlMjIlM0JzJTNBMzYlM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9zVkFUcmFuc1R5cGUlMjIlM0JzJTNBNCUzQSUyMmF1dGglMjIlM0JzJTNBMzclM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9zQ2hhbm5lbF9fZXBzJTIyJTNCcyUzQTAlM0ElMjIlMjIlM0JzJTNBMzglM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9zQ2hhbm5lbF9fZ2lybyUyMiUzQnMlM0EzMiUzQSUyMjMxSEEwN0JDODE0MkM1QTE3MTc0MDE2NkFGMjc3RTAzJTIyJTNCcyUzQTM5JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc0NoYW5uZWxfX2lkZWFsJTIyJTNCcyUzQTMyJTNBJTIyMzFIQTA3QkM4MTQyQzVBMTcxNzQ0QjU2RTYxMjgxRTUlMjIlM0JzJTNBNDYlM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9vcmRlckV4ZWN1dGVQb3N0RmllbGRzJTIyJTNCcyUzQTEwMiUzQSUyMm9yZF9hZ2IlMjAlM0QlM0UlMjAxJTBEJTBBb3JkX2N1c3RpbmZvJTIwJTNEJTNFJTIwMSUwRCUwQW94ZG93bmxvYWRhYmxlcHJvZHVjdHNhZ3JlZW1lbnQlMjAlM0QlM0UlMjAxJTBEJTBBb3hzZXJ2aWNlcHJvZHVjdHNhZ3JlZW1lbnQlMjAlM0QlM0UlMjAxJTIyJTNCcyUzQTM2JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfYmxDYXJkc1VzZVJHJTIyJTNCcyUzQTElM0ElMjIwJTIyJTNCcyUzQTQ0JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc0NoYW5uZWxfX3ByemVsZXd5MjQlMjIlM0JzJTNBMzIlM0ElMjIzMUhBMDdCQzgxMUJBRjlCRUQxMTI5RDExNjBCRjMxOCUyMiUzQnMlM0EzNSUzQSUyMmQzX2NmZ19tb2RfX3NEM0hwSEZPcmRlclBlbmRpbmdUaW1lJTIyJTNCcyUzQTIlM0ElMjIyNiUyMiUzQnMlM0EyOSUzQSUyMmQzX2NmZ19tb2RfX3NEM0hwSEZPcmRlckxpbWl0JTIyJTNCcyUzQTMlM0ElMjIxMDAlMjIlM0JzJTNBMzQlM0ElMjJkM19jZmdfbW9kX19zRDNIcEhGT3JkZXJDYW5jZWxUeXBlJTIyJTNCcyUzQTEyJTNBJTIyQ0FOQ0VMX09SREVSJTIyJTNCcyUzQTM4JTNBJTIyZDNfY2ZnX21vZF9fYmxEM0hwSEZTZXRaZXJvT3JkZXJOdW1iZXIlMjIlM0JzJTNBMSUzQSUyMjAlMjIlM0JzJTNBNDQlM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9zQ2hhbm5lbF9fbWFzdGVycGFzcyUyMiUzQnMlM0EzMiUzQSUyMjMxSEEwN0JDODE0OTQ4RTcyRUY2NjlDQTNCQjE0MzFGJTIyJTNCcyUzQTM2JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc1dUVHJhbnNUeXBlJTIyJTNCcyUzQTQlM0ElMjJhdXRoJTIyJTNCJTdE';
-    /**
-     * @var array
-     */
-    public $aRenameTables = array(
-        array(
-            'mOldTableNames' => 'oxhpuid', // is case insensitive
-            'sTableName'     => 'd3hpuid',
-        ),
-        array(
-            'mOldTableNames' => 'oxhperrortexts', // is case insensitive
-            'sTableName'     => 'd3hperrortexts',
-        ),
-    );
+    public $sBaseValue = 'TyUzQTglM0ElMjJzdGRDbGFzcyUyMiUzQTI3JTNBJTdCcyUzQTM0JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfYmxUZXN0bW9kZSUyMiUzQnMlM0ExJTNBJTIyMSUyMiUzQnMlM0EzOSUzQSUyMmQzX2NmZ19tb2RfX2QzaGVpZGVscGF5X3NTZWN1cml0eVNlbmRlciUyMiUzQnMlM0EwJTNBJTIyJTIyJTNCcyUzQTMxJTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc1VzZXJJRCUyMiUzQnMlM0EwJTNBJTIyJTIyJTNCcyUzQTMzJTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc1Bhc3N3b3JkJTIyJTNCcyUzQTAlM0ElMjIlMjIlM0JzJTNBNDMlM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9zU2VjdXJpdHlTZW5kZXJUZXN0JTIyJTNCcyUzQTMyJTNBJTIyMzFIQTA3QkM4MTQyQzVBMTcxNzQ1RDAwQUQ2M0QxODIlMjIlM0JzJTNBMzUlM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9zVXNlcklEVGVzdCUyMiUzQnMlM0EzMiUzQSUyMjMxaGEwN2JjODE0MmM1YTE3MTc0NGU1YWVmMTFmZmQzJTIyJTNCcyUzQTM3JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc1Bhc3N3b3JkVGVzdCUyMiUzQnMlM0E4JTNBJTIyOTMxNjdERTclMjIlM0JzJTNBMzQlM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9zVHJhbnNUeXBlJTIyJTNCcyUzQTQlM0ElMjJhdXRoJTIyJTNCcyUzQTM2JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfYmxDYXJkc1VzZVJHJTIyJTNCcyUzQTElM0ElMjIwJTIyJTNCcyUzQTM2JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc0REVHJhbnNUeXBlJTIyJTNCcyUzQTQlM0ElMjJhdXRoJTIyJTNCcyUzQTM2JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfc1ZBVHJhbnNUeXBlJTIyJTNCcyUzQTQlM0ElMjJhdXRoJTIyJTNCcyUzQTQyJTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfYmxTaG93U3RvcmVkSFBEYXRhJTIyJTNCcyUzQTElM0ElMjIwJTIyJTNCcyUzQTM0JTNBJTIyZDNfY2ZnX21vZF9fZWFzeUNyZWRpdExpbWl0TWluaW11bSUyMiUzQnMlM0EzJTNBJTIyMjAwJTIyJTNCcyUzQTM0JTNBJTIyZDNfY2ZnX21vZF9fZWFzeUNyZWRpdExpbWl0TWF4aW11bSUyMiUzQnMlM0E0JTNBJTIyNTAwMCUyMiUzQnMlM0EzOCUzQSUyMmQzX2NmZ19tb2RfX2ludm9pY2VTZWN1cmVkTGltaXRNaW5pbXVtJTIyJTNCcyUzQTIlM0ElMjIxMCUyMiUzQnMlM0EzOCUzQSUyMmQzX2NmZ19tb2RfX2ludm9pY2VTZWN1cmVkTGltaXRNYXhpbXVtJTIyJTNCcyUzQTQlM0ElMjIxMDAwJTIyJTNCcyUzQTQ2JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfb3JkZXJFeGVjdXRlUG9zdEZpZWxkcyUyMiUzQnMlM0ExMDIlM0ElMjJvcmRfYWdiJTIwJTNEJTNFJTIwMSUwRCUwQW9yZF9jdXN0aW5mbyUyMCUzRCUzRSUyMDElMEQlMEFveGRvd25sb2FkYWJsZXByb2R1Y3RzYWdyZWVtZW50JTIwJTNEJTNFJTIwMSUwRCUwQW94c2VydmljZXByb2R1Y3RzYWdyZWVtZW50JTIwJTNEJTNFJTIwMSUyMiUzQnMlM0E0NiUzQSUyMmQzX2NmZ19tb2RfX2QzaGVpZGVscGF5X2FkZGl0aW9uYWxVcmxQYXJhbWV0ZXIlMjIlM0JzJTNBMTklM0ElMjJ1dG1fbm9vdmVycmlkZSUyMCUzRCUzRSUyMDElMjIlM0JzJTNBMzYlM0ElMjJkM19jZmdfbW9kX19kM2hlaWRlbHBheV9pQ3VybFRpbWVPdXQlMjIlM0JzJTNBMiUzQSUyMjYwJTIyJTNCcyUzQTM5JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfYmxTZXJ2aWNlRXJyb3JzJTIyJTNCcyUzQTElM0ElMjIxJTIyJTNCcyUzQTQ2JTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfb3h0cmFuc3N0YXR1c2Vycm9ybWFpbCUyMiUzQnMlM0EwJTNBJTIyJTIyJTNCcyUzQTQyJTNBJTIyZDNfY2ZnX21vZF9fZDNoZWlkZWxwYXlfb3h0cmFuc3N0YXR1c2Vycm9yJTIyJTNCcyUzQTUlM0ElMjJFUlJPUiUyMiUzQnMlM0EzOSUzQSUyMmQzX2NmZ19tb2RfX2QzaGVpZGVscGF5X2NhcmR0eXBldGltZW91dCUyMiUzQnMlM0EzJTNBJTIyNjAwJTIyJTNCcyUzQTM1JTNBJTIyZDNfY2ZnX21vZF9fc0QzSHBIRk9yZGVyUGVuZGluZ1RpbWUlMjIlM0JzJTNBMiUzQSUyMjI2JTIyJTNCcyUzQTI5JTNBJTIyZDNfY2ZnX21vZF9fc0QzSHBIRk9yZGVyTGltaXQlMjIlM0JzJTNBMyUzQSUyMjEwMCUyMiUzQnMlM0EzNCUzQSUyMmQzX2NmZ19tb2RfX3NEM0hwSEZPcmRlckNhbmNlbFR5cGUlMjIlM0JzJTNBMTMlM0ElMjJQTEVBU0VfQ0hPT1NFJTIyJTNCcyUzQTM4JTNBJTIyZDNfY2ZnX21vZF9fYmxEM0hwSEZTZXRaZXJvT3JkZXJOdW1iZXIlMjIlM0JzJTNBMSUzQSUyMjAlMjIlM0IlN0Q=';
+
     /**
      * @var array
      */
@@ -281,65 +272,7 @@ jlEQXEzOWdhbC9HaDNZSmhoQ245bDhhQWVqNEJvY0FKM0JCZ0FRMzdzZ01SVStRPT0=
     );
 
     // Standardwerte fuer checkFields(), _addTable() und fixFields()
-    /**
-     * @var array
-     */
-    public $aMapArraySettings = array(
-        'Heidelpay_blCCType__AMEX'         => 'd3heidelpay_aCCTypes',
-        'Heidelpay_blCCType__DINERS'       => 'd3heidelpay_aCCTypes',
-        'Heidelpay_blCCType__DISCOVER'     => 'd3heidelpay_aCCTypes',
-        'Heidelpay_blCCType__JCB'          => 'd3heidelpay_aCCTypes',
-        'Heidelpay_blCCType__MASTER'       => 'd3heidelpay_aCCTypes',
-        'Heidelpay_blCCType__VISA'         => 'd3heidelpay_aCCTypes',
-        'Heidelpay_blDCType__4B'           => 'd3heidelpay_aDCTypes',
-        'Heidelpay_blDCType__CARTEBLEUE'   => 'd3heidelpay_aDCTypes',
-        'Heidelpay_blDCType__EURO6000'     => 'd3heidelpay_aDCTypes',
-        'Heidelpay_blDCType__MAESTRO'      => 'd3heidelpay_aDCTypes',
-        'Heidelpay_blDCType__POSTEPAY'     => 'd3heidelpay_aDCTypes',
-        'Heidelpay_blDCType__SERVIRED'     => 'd3heidelpay_aDCTypes',
-        'Heidelpay_blDCType__SOLO'         => 'd3heidelpay_aDCTypes',
-        'Heidelpay_blDCType__VISAELECTRON' => 'd3heidelpay_aDCTypes',
-        'Heidelpay_blDDType__AT'           => 'd3heidelpay_aDDTypes',
-        'Heidelpay_blDDType__DE'           => 'd3heidelpay_aDDTypes',
-    );
-
     // Standardwerte fuer checkIndizes() und fixIndizes()
-    /**
-     * @var array
-     */
-    public $aMapSettings = array(
-        'Heidelpay_blDebitUnmask'          => 'd3_cfg_mod__d3heidelpay_blDebitUnmask',
-        'Heidelpay_blServiceErrors'        => 'd3_cfg_mod__d3heidelpay_blServiceErrors',
-        'Heidelpay_blShowStoredHPData'     => 'd3_cfg_mod__d3heidelpay_blShowStoredHPData',
-        'Heidelpay_blTestmode'             => 'd3_cfg_mod__d3heidelpay_blTestmode',
-        'Heidelpay_iCurlTimeOut'           => 'd3_cfg_mod__d3heidelpay_iCurlTimeOut',
-        'Heidelpay_sChannel'               => 'd3_cfg_mod__d3heidelpay_sChannel',
-        'Heidelpay_sChannel__eps'          => 'd3_cfg_mod__d3heidelpay_sChannel__eps',
-        'Heidelpay_sChannel__giro'         => 'd3_cfg_mod__d3heidelpay_sChannel__giro',
-        'Heidelpay_sChannel__ideal'        => 'd3_cfg_mod__d3heidelpay_sChannel__ideal',
-        'Heidelpay_sChannel__sofort'       => 'd3_cfg_mod__d3heidelpay_sChannel__sofort',
-        'Heidelpay_sCCInputPosition'       => 'd3_cfg_mod__d3heidelpay_sCCInputPosition',
-        'Heidelpay_sPassword'              => 'd3_cfg_mod__d3heidelpay_sPassword',
-        'Heidelpay_sSecuritySender'        => 'd3_cfg_mod__d3heidelpay_sSecuritySender',
-        'Heidelpay_sTransType'             => 'd3_cfg_mod__d3heidelpay_sTransType',
-        'Heidelpay_sUserID'                => 'd3_cfg_mod__d3heidelpay_sUserID',
-        'Heidelpay_blCCType__AMEX'         => 'AMEX',
-        'Heidelpay_blCCType__DINERS'       => 'DINERS',
-        'Heidelpay_blCCType__DISCOVER'     => 'DISCOVER',
-        'Heidelpay_blCCType__JCB'          => 'JCB',
-        'Heidelpay_blCCType__MASTER'       => 'MASTER',
-        'Heidelpay_blCCType__VISA'         => 'VISA',
-        'Heidelpay_blDCType__4B'           => '4B',
-        'Heidelpay_blDCType__CARTEBLEUE'   => 'CARTEBLEUE',
-        'Heidelpay_blDCType__EURO6000'     => 'EURO6000',
-        'Heidelpay_blDCType__MAESTRO'      => 'MAESTRO',
-        'Heidelpay_blDCType__POSTEPAY'     => 'POSTEPAY',
-        'Heidelpay_blDCType__SERVIRED'     => 'SERVIRED',
-        'Heidelpay_blDCType__SOLO'         => 'SOLO',
-        'Heidelpay_blDCType__VISAELECTRON' => 'VISAELECTRON',
-        'Heidelpay_blDDType__AT'           => 'AT',
-        'Heidelpay_blDDType__DE'           => 'DE',
-    );
     /**
      * @var array
      */
@@ -353,24 +286,8 @@ jlEQXEzOWdhbC9HaDNZSmhoQ245bDhhQWVqNEJvY0FKM0JCZ0FRMzdzZ01SVStRPT0=
             'do'    => 'showNoteForStoredData'
         ),
         array(
-            'check' => 'hasOldOxconfigEntries',               // Update 3.2.3.1 XE4 => 4.0.0.0 XE4
-            'do'    => 'migrateOldOxconfigEntries'
-        ),
-        array(
             'check' => 'checkModCfgItemExist', // Prueft auf Datenbankeintrag
             'do'    => 'updateModCfgItemExist'
-        ),
-        array(
-            'check' => 'checkTableOxpaylogsExist', // Prueft ob alte Tabellen geloescht werden muessen
-            'do'    => 'dropTableOxpaylogsExist'   // Update 3.2.3.1 XE4 => 4.0.0.0 XE4
-        ),
-        array(
-            'check' => 'checkTableOxobject2heidelpayExist', // Prueft ob alte Tabellen geloescht werden muessen
-            'do'    => 'migrateOldPaymentAssignments'   // Update 3.2.3.1 XE4 => 4.0.0.0 XE4
-        ),
-        array(
-            'check' => 'checkRenameD3Tables', // Prueft auf umzubenennende Tabellen
-            'do'    => 'renameD3Tables'       // Update 3.2.3.1 XE4 => 4.0.0.0 XE4
         ),
         array(
             'check' => 'checkD3hpuidTableExist',
@@ -389,12 +306,8 @@ jlEQXEzOWdhbC9HaDNZSmhoQ245bDhhQWVqNEJvY0FKM0JCZ0FRMzdzZ01SVStRPT0=
             'do'    => 'updateHPerrortextcontent' // Update 4.0.1.0 XE4 => 4.0.2.0 XE4
         ),
         array(
-            'check' => 'hasLegacyAssignments',
-            'do'    => 'updateLegacyAssigments'
-        ),
-        array(
-            'check' => 'ishpprepaymentdataTableExist',
-            'do'    => 'deletehpprepaymentdataTableExist'
+            'check' => 'hasOldTables',
+            'do'    => 'deleteOldTables'
         ),
         array(
             'check' => 'checkOxcontentEntrysExist', // Pruefte ob oxcontenteintraege schon vorhanden
@@ -423,6 +336,10 @@ jlEQXEzOWdhbC9HaDNZSmhoQ245bDhhQWVqNEJvY0FKM0JCZ0FRMzdzZ01SVStRPT0=
         array(
             'check' => 'usingModCfgStoredDataWithoutRG',
             'do'    => 'updateModCfStoredDataWithRG'
+        ),
+        array(
+            'check' => 'hasModProfileEntries',
+            'do'    => 'createModProfileEntries'
         ),
         array(
             'check' => 'hasOldModuleItems', //nicht vorhandene Moduldatei-Eintraege entfernen
@@ -515,8 +432,8 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
         );
 
         $deleteIds = array();
-        /** @var Heidelpay $reader */
-        $reader = oxNew(Heidelpay::class);
+        /** @var TransactionlogReader $reader */
+        $reader = oxNew(TransactionlogReader::class);
         foreach ($result as $logdata) {
             $transaction = oxNew(d3transactionlog::class, $reader);
             if (false == $transaction->load($logdata['oxid'])) {
@@ -552,7 +469,6 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
         $blUseCombinedLogItem = false == $this->hasExecute();
 
         return $this->_executeMultipleQueries($aDoList, $blUseCombinedLogItem);
-
     }
 
     /**
@@ -580,15 +496,19 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
      * Tabellen anlegen                                 *
      ****************************************************/
     /**
-     * @return bool TRUE, if table is missing
+     * @return bool TRUE, if table exsist
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
      */
-    public function ishpprepaymentdataTableExist()
+    public function hasOldTables()
     {
-        return false == $this->_checkTableNotExist('PrepaymentData')
-            || false == $this->_checkTableNotExist('oxhpprepaymentdata');
+        return $this->_checkTableExist('PrepaymentData')
+            || $this->_checkTableExist('oxhpprepaymentdata')
+            || $this->_checkTableExist('oxpaylogs')
+            || $this->_checkTableExist('oxhpuid')
+            || $this->_checkTableExist('oxhperrortexts')
+            || $this->_checkTableExist('oxobject2heidelpay');
     }
 
     /**
@@ -598,18 +518,42 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
      */
-    public function deletehpprepaymentdataTableExist()
+    public function deleteOldTables()
     {
         $blRet = true;
 
-        if (false == $this->_checkTableNotExist('PrepaymentData')) {
+        if ($this->_checkTableExist('PrepaymentData')) {
             $aRet  = $this->_dropTable('PrepaymentData');
             $blRet = $aRet['blRet'];
             $this->setActionLog('SQL', $aRet['sql'], __METHOD__);
         }
 
-        if (false == $this->_checkTableNotExist('oxhpprepaymentdata')) {
+        if ($this->_checkTableExist('oxhpprepaymentdata')) {
             $aRet  = $this->_dropTable('oxhpprepaymentdata');
+            $blRet = $aRet['blRet'];
+            $this->setActionLog('SQL', $aRet['sql'], __METHOD__);
+        }
+
+        if ($this->_checkTableExist('oxobject2heidelpay')) {
+            $aRet  = $this->_dropTable('oxobject2heidelpay');
+            $blRet = $aRet['blRet'];
+            $this->setActionLog('SQL', $aRet['sql'], __METHOD__);
+        }
+
+        if ($this->_checkTableExist('oxhpuid')) {
+            $aRet  = $this->_dropTable('oxhpuid');
+            $blRet = $aRet['blRet'];
+            $this->setActionLog('SQL', $aRet['sql'], __METHOD__);
+        }
+
+        if ($this->_checkTableExist('oxhperrortexts')) {
+            $aRet  = $this->_dropTable('oxhperrortexts');
+            $blRet = $aRet['blRet'];
+            $this->setActionLog('SQL', $aRet['sql'], __METHOD__);
+        }
+
+        if ($this->_checkTableExist('oxpaylogs')) {
+            $aRet  = $this->_dropTable('oxpaylogs');
             $blRet = $aRet['blRet'];
             $this->setActionLog('SQL', $aRet['sql'], __METHOD__);
         }
@@ -709,7 +653,7 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
         $result = false;
 
         $sCurrentShopId = $this->getConfig()->getShopId();
-        foreach ($this->getShopList() as $oShop) {
+        foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
             $aList = $this->_parseUpdateFile($sFileName);
@@ -759,7 +703,7 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
 
         $sCurrentShopId = $this->getConfig()->getShopId();
 
-        foreach ($this->getShopList() as $oShop) {
+        foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
             $aList = $this->_parseUpdateFile($sFileName);
@@ -814,15 +758,9 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
         return $this->_doUpdateFile('d3/heidelpay/Setup/d3hp_oxpaymentsQuerys.php');
     }
 
-    /****************************************************
-     * Update 4.0.1.0 => 4.0.2.0                        *
-     *                                                  *
-     * UPDATE `d3hperrortexts` SET `OXTYPE` = '2'       *
-     * WHERE `OXCODE` = '800.100.153';                  *
-     ****************************************************/
-
     /**
      * @return bool
+     * @throws ConnectionException
      * @throws DBALException
      * @throws DatabaseConnectionException
      */
@@ -835,7 +773,7 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
             return $blRet;
         }
 
-        foreach ($this->getShopList() as $oShop) {
+        foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
             /** @var $oShop BaseModel */
 
             $query = /** @lang MySQL */
@@ -877,10 +815,6 @@ MySQL;
         return $blRet;
     }
 
-    /****************************************************
-     * Tabellen umbenennen - 3.2.3.1 => 4.0.0.0         *
-     ****************************************************/
-
     /**
      * @return bool
      * @throws DBALException
@@ -898,7 +832,6 @@ MySQL;
             );
 
             if ($this->_checkTableItemNotExist('d3hperrortexts', $aWhere)) {
-
                 $aInsertFields = array(
                     'OXID'       => array(
                         'content'      => "366",
@@ -975,10 +908,6 @@ MySQL;
         return $blRet;
     }
 
-    /****************************************************
-     * Alte Tabellen loeschen - 3.2.3.1 => 4.0.0.0       *
-     ****************************************************/
-
     /**
      * @return bool
      * @throws DBALException
@@ -1009,407 +938,6 @@ MySQL;
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
      */
-    public function dropTableOxpaylogsExist()
-    {
-        $blRet = true;
-
-        if ($this->checkTableOxpaylogsExist()) {
-            $blRet = $this->_dropTable('oxpaylogs');
-        }
-
-        return $blRet;
-    }
-
-    /**
-     * @return bool
-     * FALSE, if table is missing, so nothing is to do
-     * TRUE, if table is not missing, delete it
-     * @throws DBALException
-     * @throws DatabaseConnectionException
-     * @throws DatabaseErrorException
-     */
-    public function checkTableOxpaylogsExist()
-    {
-        $blRet = !($this->_checkTableNotExist('oxpaylogs'));
-
-        return $blRet;
-    }
-
-    /**
-     * @return bool
-     * FALSE, if table is missing, so nothing is to do
-     * TRUE, if table is not missing, delete it
-     * @throws DBALException
-     * @throws DatabaseConnectionException
-     * @throws DatabaseErrorException
-     */
-    public function checkTableOxobject2heidelpayExist()
-    {
-        $blRet = !($this->_checkTableNotExist('oxobject2heidelpay'));
-
-        return $blRet;
-    }
-
-    /**
-     * @return bool
-     * @throws DBALException
-     * @throws ConnectionException
-     * @throws DatabaseConnectionException
-     * @throws DatabaseErrorException
-     */
-    public function migrateOldPaymentAssignments()
-    {
-        $blReturn = true;
-
-        $oDb             = DatabaseProvider::getDb(DatabaseProvider::FETCH_MODE_ASSOC);
-        $sOriginalShopid = Registry::getConfig()->getShopId();
-
-        foreach ($this->getShopList() as $oShop) {
-            /** @var $oShop BaseModel */
-            if ($blReturn === false) {
-                //if error occured, do not keep working
-                continue;
-            }
-
-            $sGetAllPaymentAssigments = <<<MYSQL
-SELECT oxpaymentid AS oxpaymentid, oxtype AS oxtype
-FROM oxobject2heidelpay
-WHERE oxshopid = {$oDb->quote($oShop->getId())}
-MYSQL;
-            $aOldAssigments           = $oDb->getAll($sGetAllPaymentAssigments);
-            $this->_changeToShop($oShop->getId());
-
-            if (false == isset($aOldAssigments[0])) {
-                continue;
-            }
-
-            $oModuleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
-            if (false === $oModuleConfiguration) {
-                continue;
-            }
-            $this->_convertOldAssignmentsToSettings($aOldAssigments, $oModuleConfiguration);
-
-            $aInsertFields = array(
-                'OXVALUE' => array(
-                    'content'      => $oModuleConfiguration->getFieldData('oxvalue'),
-                    'force_update' => true,
-                    'use_quote'    => true,
-                )
-            );
-            $aWhereFields  = array('oxshopid' => $oShop->getId(), 'oxmodid' => $this->sModKey);
-
-            $this->setInitialExecMethod(__METHOD__);
-            $blReturn = $this->_updateTableItem2('d3_cfg_mod', $aInsertFields, $aWhereFields);
-        }
-
-        $this->_changeToShop($sOriginalShopid);
-
-        if ($blReturn) {
-            $blReturn = $this->_dropTable('oxobject2heidelpay');
-        }
-
-
-        return $blReturn;
-    }
-
-    /**
-     * @param array      $aOldAssignments
-     * @param d3_cfg_mod $oModuleConfiguration
-     *
-     */
-    protected function _convertOldAssignmentsToSettings(array $aOldAssignments, d3_cfg_mod $oModuleConfiguration)
-    {
-        $aPayments = array();
-        foreach ($aOldAssignments as $aOldAssignment) {
-            if (false == isset($aOldAssignment['oxpaymentid']) || false == isset($aOldAssignment['oxtype'])) {
-                continue;
-            }
-
-            $sOxidPaymentId             = $aOldAssignment['oxpaymentid'];
-            $sPaymentType               = $aOldAssignment['oxtype'];
-            $aPayments[$sOxidPaymentId] = $sPaymentType;
-        }
-
-        $oModuleConfiguration->setValue('d3_cfg_mod__d3heidelpay_aPaymentList', serialize($aPayments));
-    }
-
-    /**
-     * @return bool
-     * @throws DBALException
-     * @throws ConnectionException
-     * @throws DatabaseConnectionException
-     * @throws DatabaseErrorException
-     */
-    public function hasLegacyAssignments()
-    {
-        $return          = false;
-        $sOriginalShopid = Registry::getConfig()->getShopId();
-
-        foreach ($this->getShopList() as $oShop) {
-            /** @var $oShop BaseModel */
-            $this->_changeToShop($oShop->getId());
-            $modulConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
-            if (false === $modulConfiguration) {
-                continue;
-            }
-            $aOldPayments = (array)unserialize($modulConfiguration->getValue('d3heidelpay_aPaymentList'));
-
-            foreach ($aOldPayments as $sOldValue) {
-                if (in_array(
-                    $sOldValue,
-                    array(
-                        1  => 'CC',
-                        2  => 'DC',
-                        3  => 'DD',
-                        4  => 'OT__eps',
-                        5  => 'OT__giro',
-                        6  => 'OT__ideal',
-                        7  => 'VA__paypal',
-                        8  => 'PP',
-                        9  => 'OT__sofort',
-                        10 => 'IV__assuredinv',
-                        11 => 'IV__nassuredinv',
-                    )
-                )
-                ) {
-                    $return = true;
-                    break 2;
-                }
-            }
-        }
-
-        $this->_changeToShop($sOriginalShopid);
-
-        return $return;
-    }
-
-    /**
-     * @return bool
-     * @throws DBALException
-     * @throws ConnectionException
-     * @throws DatabaseConnectionException
-     * @throws DatabaseErrorException
-     */
-    public function updateLegacyAssigments()
-    {
-        $sOriginalShopid = Registry::getConfig()->getShopId();
-        $return          = true;
-        foreach ($this->getShopList() as $oShop) {
-            /** @var $oShop BaseModel */
-            $this->_changeToShop($oShop->getId());
-
-            $oModuleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
-            if (false === $oModuleConfiguration) {
-                continue;
-            }
-            $aOldPayments = (array)unserialize($oModuleConfiguration->getValue('d3heidelpay_aPaymentList'));
-            $aMapPayments = array(
-                'CC'              => 'D3_Heidelpay_models_payment_creditcard',
-                'DC'              => 'D3_Heidelpay_models_payment_debitcard',
-                'DD'              => 'D3_Heidelpay_models_payment_directdebit',
-                'OT__eps'         => 'D3_Heidelpay_models_payment_eps',
-                'OT__giro'        => 'D3_Heidelpay_models_payment_giropay',
-                'OT__ideal'       => 'D3_Heidelpay_models_payment_ideal',
-                'VA__paypal'      => 'D3_Heidelpay_models_payment_paypal',
-                'PP'              => 'D3_Heidelpay_models_payment_prepayment',
-                'OT__sofort'      => 'D3_Heidelpay_models_payment_sofortueberweisung',
-                'IV__assuredinv'  => 'D3_Heidelpay_models_payment_invoice_secured',
-                'IV__nassuredinv' => 'D3_Heidelpay_models_payment_invoice_unsecured',
-            );
-            $aResult      = array();
-
-            foreach ($aOldPayments as $sPaymentId => $sOldKey) {
-                if ($sOldKey) {
-                    $aResult[$sPaymentId] = $aMapPayments[$sOldKey];
-                }
-            }
-
-            //set value and encode it
-            $oModuleConfiguration->setValue('d3heidelpay_aPaymentList', serialize($aResult));
-
-            $aInsertFields = array(
-                'OXVALUE' => array(
-                    'content'      => $oModuleConfiguration->getFieldData('oxvalue'),
-                    'force_update' => true,
-                    'use_quote'    => true,
-                )
-            );
-            $aWhereFields  = array('oxid' => $oModuleConfiguration->getId(), 'oxshopid' => $oShop->getId(), 'oxmodid' => $this->sModKey);
-
-            $this->setInitialExecMethod(__METHOD__);
-            if (false == $this->_updateTableItem2('d3_cfg_mod', $aInsertFields, $aWhereFields)) {
-                $return = false;
-                break;
-            }
-        }
-
-        $this->_changeToShop($sOriginalShopid);
-
-        return $return;
-    }
-
-    /**
-     * @return bool
-     * @throws DBALException
-     * @throws ConnectionException
-     * @throws DatabaseConnectionException
-     * @throws DatabaseErrorException
-     */
-    public function migrateOldOxconfigEntries()
-    {
-        if (false == $this->hasOldOxconfigEntries()) {
-            return false;
-        }
-
-        $blReturn        = false;
-        $oDb             = DatabaseProvider::getDb(DatabaseProvider::FETCH_MODE_ASSOC);
-        $sOriginalShopid = Registry::getConfig()->getShopId();
-
-        foreach ($this->getShopList() as $oShop) {
-            /** @var $oShop BaseModel */
-            $sGetOldHeidelpayOxconfigEntries = <<<MYSQL
-SELECT `OXVARNAME` as oxvarname
-FROM `oxconfig`
-WHERE
-    `OXVARNAME` LIKE {$oDb->quote('Heidelpay_%')}
-    AND `OXSHOPID` LIKE {$oDb->quote($oShop->getId())}
-MYSQL;
-            $aOldSettings                    = $oDb->getAll($sGetOldHeidelpayOxconfigEntries);
-
-            $this->_changeToShop($oShop->getId());
-
-            if (false == isset($aOldSettings[0])) {
-                continue;
-            }
-
-            $oModuleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
-            if (false === $oModuleConfiguration) {
-                continue;
-            }
-            $this->_convertOldSettingsToModuleConfiguration($aOldSettings, $oModuleConfiguration);
-
-            $aInsertFields = array(
-                'OXVALUE' => array(
-                    'content'      => $oModuleConfiguration->getFieldData('oxvalue'),
-                    'force_update' => true,
-                    'use_quote'    => true,
-                )
-            );
-            $aWhereFields  = array('oxshopid' => $oShop->getId(), 'oxmodid' => $this->sModKey);
-
-            $this->setInitialExecMethod(__METHOD__);
-            $blReturn = $this->_updateTableItem2('d3_cfg_mod', $aInsertFields, $aWhereFields);
-
-            if ($blReturn) {
-                $sDeleteOldHeidelpayOxconfigEntries = <<<MYSQL
-DELETE
-FROM `oxconfig`
-WHERE
-    `OXVARNAME` LIKE {$oDb->quote('Heidelpay_%')}
-    AND `OXSHOPID` LIKE {$oDb->quote($oShop->getId())}
-MYSQL;
-                $blRet                              = $this->sqlExecute($sDeleteOldHeidelpayOxconfigEntries);
-                $aRet                               = array('sql' => $sDeleteOldHeidelpayOxconfigEntries, 'blRet' => $blRet);
-
-                $this->setUpdateBreak(false);
-                $this->setActionLog('SQL', $aRet['sql'], $this->getInitialExecMethod(__METHOD__));
-            }
-        }
-        $this->_changeToShop($sOriginalShopid);
-
-        return $blReturn;
-    }
-
-    /**
-     *
-     * @return bool
-     * @throws DBALException
-     * @throws ConnectionException
-     * @throws DatabaseConnectionException
-     * @throws DatabaseErrorException
-     */
-    public function hasOldOxconfigEntries()
-    {
-
-        $oDb             = DatabaseProvider::getDb(DatabaseProvider::FETCH_MODE_ASSOC);
-        $sOriginalShopid = Registry::getConfig()->getShopId();
-
-        foreach ($this->getShopList() as $oShop) {
-            /** @var $oShop BaseModel */
-            $this->_changeToShop($oShop->getId());
-            $modulConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
-            if (false === $modulConfiguration) {
-                continue;
-            }
-            if (false == version_compare($modulConfiguration->getModVersion(), '4.0.0.0', '<')) {
-                continue;
-            }
-
-            $sCountHeidelpayEntries = <<<MYSQL
-SELECT count(*)
-FROM `oxconfig`
-WHERE
-    `OXVARNAME` LIKE {$oDb->quote('Heidelpay_%')}
-    AND `OXSHOPID` LIKE {$oDb->quote($oShop->getId())}
-MYSQL;
-            if (false == $oDb->getOne($sCountHeidelpayEntries)) {
-                continue;
-            }
-
-            $this->_changeToShop($sOriginalShopid);
-
-            return true;
-        }
-
-        $this->_changeToShop($sOriginalShopid);
-
-        return false;
-    }
-
-    /**
-     * @param array      $aOldSettings
-     * @param d3_cfg_mod $oModuleConfiguration
-     *
-     */
-    protected function _convertOldSettingsToModuleConfiguration(array $aOldSettings, d3_cfg_mod $oModuleConfiguration)
-    {
-        foreach ($aOldSettings as $aOldSetting) {
-            if (false == isset($aOldSetting['oxvarname'])) {
-                continue;
-            }
-
-            $sSettingsName = $aOldSetting['oxvarname'];
-
-            if (isset($this->aMapArraySettings[$sSettingsName])) {
-                $aSettings = $oModuleConfiguration->getValue($this->aMapArraySettings[$sSettingsName]);
-                if (false == $aSettings) {
-                    $aSettings = 'a:0:{}';
-                }
-
-                $aSettings = unserialize($aSettings);
-
-                $aSettings[$this->aMapSettings[$sSettingsName]] = Registry::getConfig()->getConfigParam(
-                    $sSettingsName
-                );
-                $oModuleConfiguration->setValue($this->aMapArraySettings[$sSettingsName], serialize($aSettings));
-
-            } elseif (isset($this->aMapSettings[$sSettingsName])) {
-                $oModuleConfiguration->setValue(
-                    $this->aMapSettings[$sSettingsName],
-                    Registry::getConfig()->getConfigParam($sSettingsName)
-                );
-            }
-        }
-
-    }
-
-    /**
-     * @return bool
-     * @throws DBALException
-     * @throws ConnectionException
-     * @throws DatabaseConnectionException
-     * @throws DatabaseErrorException
-     */
     public function showForChangeHaendlerKontoMsg()
     {
         $oConfirmMessage = oxNew(d3installconfirmmessage::class, $this);
@@ -1420,11 +948,10 @@ MYSQL;
         if ($this->hasExecute() && $this->checkForChangeHaendlerKontoMsg()) {
             $sCurrentShopid = $this->getConfig()->getShopId();
 
-            foreach ($this->getShopList() as $oShop) {
+            foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
                 /** @var $oShop BaseModel */
                 $this->_changeToShop($oShop->getId());
                 $oConfirmMessage->setConfirmMessageConfigRequest('blD3checkForModHaendlerKontoMsg', 1);
-
             }
             $this->_changeToShop($sCurrentShopid);
         }
@@ -1444,14 +971,14 @@ MYSQL;
         $sCurrentShopid = $this->getConfig()->getShopId();
 
         $result = false;
-        foreach ($this->getShopList() as $oShop) {
+        foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
-            $oModuleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
-            if (false === $oModuleConfiguration) {
+            $moduleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
+            if (false === $moduleConfiguration) {
                 continue;
             }
-            $oldVersionNumber = (int)$oModuleConfiguration->getFieldData('oxversionnum');
+            $oldVersionNumber = (int)$moduleConfiguration->getFieldData('oxversionnum');
 
             //check if old module version is new installation or older than 4.0.5.0
             if ($oldVersionNumber <= 0 || $oldVersionNumber >= 67110144) {
@@ -1478,21 +1005,20 @@ MYSQL;
      */
     public function checkModCfgorderExecutePostFields()
     {
-
         $blReturn       = false;
         $sCurrentShopid = $this->getConfig()->getShopId();
         foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
-            $oModuleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
-            if (false === $oModuleConfiguration) {
+            $moduleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
+            if (false === $moduleConfiguration) {
                 continue;
             }
 
             if (false == is_string(
-                    $oModuleConfiguration->getValue('d3heidelpay_orderExecutePostFields')
+                $moduleConfiguration->getValue('d3heidelpay_orderExecutePostFields')
                 ) || strlen(
-                    $oModuleConfiguration->getValue('d3heidelpay_orderExecutePostFields')
+                    $moduleConfiguration->getValue('d3heidelpay_orderExecutePostFields')
                 ) == 0
             ) {
                 $blReturn = true;
@@ -1522,27 +1048,24 @@ MYSQL;
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
             /** @var $oShop BaseModel */
-            /** @var d3_cfg_mod $oModCfg */
-            $oModCfg = d3_cfg_mod::getNoCache($this->sModKey);
-            if (false === $oModCfg) {
-                continue;
-            }
-            if (false === $oModCfg) {
+            /** @var d3_cfg_mod $moduleConfiguration */
+            $moduleConfiguration = d3_cfg_mod::getNoCache($this->sModKey);
+            if (false === $moduleConfiguration) {
                 continue;
             }
 
-            $oModCfg->setValue(
+            $moduleConfiguration->setValue(
                 'd3heidelpay_orderExecutePostFields',
                 $aDefaultConfig->d3_cfg_mod__d3heidelpay_orderExecutePostFields
             );
 
             if ($this->hasExecute()) {
-                $oModCfg->save();
+                $moduleConfiguration->save();
             }
 
-            $sQuery = 'UPDATE ' . $oModCfg->getCoreTableName() //
+            $sQuery = 'UPDATE ' . $moduleConfiguration->getCoreTableName() //
                 . ' SET oxvalue = ' //
-                . DatabaseProvider::getDb(DatabaseProvider::FETCH_MODE_ASSOC)->quote($oModCfg->getFieldData('oxvalue')) //
+                . DatabaseProvider::getDb(DatabaseProvider::FETCH_MODE_ASSOC)->quote($moduleConfiguration->getFieldData('oxvalue')) //
                 . " WHERE oxmodid = " . DatabaseProvider::getDb(DatabaseProvider::FETCH_MODE_ASSOC)->quote($this->sModKey) //
                 . " AND oxshopid = " . DatabaseProvider::getDb(DatabaseProvider::FETCH_MODE_ASSOC)->quote($oShop->getId()) . ";";
 
@@ -1572,7 +1095,7 @@ MYSQL;
         $return        = false;
         $currentShopId = $this->getConfig()->getShopId();
 
-        foreach ($this->getShopList() as $oShop) {
+        foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
 
@@ -1615,7 +1138,7 @@ MYSQL;
         $return        = false;
         $currentShopId = $this->getConfig()->getShopId();
 
-        foreach ($this->getShopList() as $oShop) {
+        foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
             /** @var $oShop BaseModel */
             $this->_changeToShop($oShop->getId());
             $modConfig = d3_cfg_mod::getNoCache($this->sModKey);
@@ -1667,7 +1190,6 @@ WHERE
 MYSQL;
 
         return (bool)$oDb->getOne($sHasEmptyCMSShopIdQuery);
-
     }
 
     /**
@@ -1695,12 +1217,10 @@ MYSQL;
 
     /**
      * @return bool
-     * @throws d3ShopCompatibilityAdapterException
-     * @throws d3_cfg_mod_exception
+     * @throws ConnectionException
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
-     * @throws StandardException
      */
     public function hasMultilangConfigButNoSetting()
     {
@@ -1709,7 +1229,7 @@ MYSQL;
         $return        = false;
         $currentShopId = $this->getConfig()->getShopId();
 
-        foreach ($this->getShopList() as $oShop) {
+        foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
             /** @var $oShop BaseModel */
             if ($currentShopId != $oShop->getId()) {
                 continue;
@@ -1761,6 +1281,7 @@ MYSQL;
 
     /**
      * @return bool
+     * @throws ConnectionException
      */
     public function showMultilangConfigButNoSettingMessage()
     {
@@ -1768,7 +1289,7 @@ MYSQL;
 
         $currentShopId = $this->getConfig()->getShopId();
 
-        foreach ($this->getShopList() as $oShop) {
+        foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
             /** @var $oShop BaseModel */
             if ($currentShopId != $oShop->getId()) {
                 continue;
@@ -1791,5 +1312,78 @@ MYSQL;
         stopProfile(__METHOD__);
 
         return false;
+    }
+
+    /**
+     * @return bool
+     * @throws ConnectionException
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     */
+    public function hasModProfileEntries()
+    {
+        $blReturn       = false;
+        $sCurrentShopid = $this->getConfig()->getShopId();
+        foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
+            /** @var $oShop BaseModel */
+            $this->_changeToShop($oShop->getId());
+            /** @var ModProfile $modProfile */
+            $modProfile = oxNew(ModProfile::class);
+            /** @var Factory $factory */
+            $factory = oxNew(Factory::class, d3_cfg_mod::getNoCache('d3heidelpay'));
+            $oxid    = $factory->getModProfileId();
+            if ($modProfile->exists($oxid)) {
+                continue;
+            }
+            $blReturn = true;
+            break;
+        }
+        $this->_changeToShop($sCurrentShopid);
+
+        return $blReturn;
+    }
+
+    /**
+     * @return bool
+     * @throws ConnectionException
+     * @throws Exception
+     */
+    public function createModProfileEntries()
+    {
+        $blReturn       = false;
+        $sCurrentShopid = $this->getConfig()->getShopId();
+        foreach ($this->getShopListByActiveModule($this->sModKey) as $oShop) {
+            /** @var $oShop BaseModel */
+            $this->_changeToShop($oShop->getId());
+            /** @var ModProfile $modProfile */
+            $modProfile = oxNew(ModProfile::class);
+            /** @var Factory $factory */
+            $d3CfgMod = d3_cfg_mod::getNoCache('d3heidelpay');
+            $factory  = oxNew(Factory::class, $d3CfgMod);
+            $oxid     = $factory->getModProfileId();
+            if ($modProfile->exists($oxid)) {
+                continue;
+            }
+            $oldPaymentlist = $d3CfgMod->getValue('d3heidelpay_aPaymentList');
+            $oxValue = '';
+            if (empty($oldPaymentlist)) {
+                $oxValue = 'TyUzQTglM0ElMjJzdGRDbGFzcyUyMiUzQTEwJTNBJTdCcyUzQTMyJTNBJTIyYzY5MzViN2Q3MDUxY2NmNzY5MTcwYTY4MWU3ZDg3ODIlMjIlM0JzJTNBNDgzJTNBJTIyJTdCJTIyY2FyZFR5cGVUaW1lb3V0JTIyJTNBMCUyQyUyMmhlaWRlbHBheVBheW1lbnRDbGFzc25hbWUlMjIlM0ElMjJEMyU1QyU1Q0hlaWRlbHBheSU1QyU1Q01vZGVscyU1QyU1Q1BheW1lbnQlNUMlNUNDcmVkaXRjYXJkJTIyJTJDJTIyaXNVc2luZ1JlZ2lzdHJhdGlvbiUyMiUzQW51bGwlMkMlMjJpc1VzaW5nU3RvcmVkQ2FyZERhdGElMjIlM0FudWxsJTJDJTIyaWQlMjIlM0ElMjJjNjkzNWI3ZDcwNTFjY2Y3NjkxNzBhNjgxZTdkODc4MiUyMiUyQyUyMmlzQWN0aXZlJTIyJTNBJTIyMSUyMiUyQyUyMnRpdGxlJTIyJTNBJTIyS3JlZGl0a2FydGUlMjIlMkMlMjJwYXltZW50VHlwZSUyMiUzQSUyMkQzJTVDJTVDSGVpZGVscGF5JTVDJTVDTW9kZWxzJTVDJTVDU2V0dGluZ3MlNUMlNUNDaGFubmVscyU1QyU1Q0NyZWRpdENhcmQlMjIlMkMlMjJjaGFubmVsJTIyJTNBJTIyMzFIQTA3QkM4MTQyQzVBMTcxNzQ5QTYwRDk3OUI2RTQlMjIlMkMlMjJ0cmFuc2FjdGlvblR5cGUlMjIlM0ElMjIlMjIlMkMlMjJpc1Rlc3RDb25maWclMjIlM0ElMjIxJTIyJTJDJTIyb3hpZHBheW1lbnRJZHMlMjIlM0ElNUIlNUQlMkMlMjJza2lwUHJvcGVydGllcyUyMiUzQSU1QiUyMm94aWRwYXltZW50SWRzJTIyJTJDJTIyc2tpcFByb3BlcnRpZXMlMjIlMkMlMjJoZWlkZWxwYXlQYXltZW50Q2xhc3NuYW1lJTIyJTVEJTdEJTIyJTNCcyUzQTMyJTNBJTIyYmU2MjE1NzllNDRmYTUzNGUwN2YwZDAzOTk5ZjRhMTclMjIlM0JzJTNBNTIyJTNBJTIyJTdCJTIyY2FyZFR5cGVUaW1lb3V0JTIyJTNBMCUyQyUyMmhlaWRlbHBheVBheW1lbnRDbGFzc25hbWUlMjIlM0ElMjJEMyU1QyU1Q0hlaWRlbHBheSU1QyU1Q01vZGVscyU1QyU1Q1BheW1lbnQlNUMlNUNEZWJpdGNhcmQlMjIlMkMlMjJpc1VzaW5nUmVnaXN0cmF0aW9uJTIyJTNBbnVsbCUyQyUyMmlzVXNpbmdTdG9yZWRDYXJkRGF0YSUyMiUzQW51bGwlMkMlMjJpZCUyMiUzQSUyMmJlNjIxNTc5ZTQ0ZmE1MzRlMDdmMGQwMzk5OWY0YTE3JTIyJTJDJTIyaXNBY3RpdmUlMjIlM0ElMjIxJTIyJTJDJTIydGl0bGUlMjIlM0ElMjJEZWJpdGthcnRlJTIyJTJDJTIycGF5bWVudFR5cGUlMjIlM0ElMjJEMyU1QyU1Q0hlaWRlbHBheSU1QyU1Q01vZGVscyU1QyU1Q1NldHRpbmdzJTVDJTVDQ2hhbm5lbHMlNUMlNUNEZWJpdENhcmQlMjIlMkMlMjJjaGFubmVsJTIyJTNBJTIyMzFIQTA3QkM4MTQyQzVBMTcxNzQ5QTYwRDk3OUI2RTQlMjIlMkMlMjJ0cmFuc2FjdGlvblR5cGUlMjIlM0ElMjIlMjIlMkMlMjJpc1Rlc3RDb25maWclMjIlM0ElMjIxJTIyJTJDJTIyb3hpZHBheW1lbnRJZHMlMjIlM0ElNUIlNUQlMkMlMjJza2lwUHJvcGVydGllcyUyMiUzQSU1QiUyMm94aWRwYXltZW50SWRzJTIyJTJDJTIyc2tpcFByb3BlcnRpZXMlMjIlMkMlMjJoZWlkZWxwYXlQYXltZW50Q2xhc3NuYW1lJTIyJTVEJTJDJTIyb3hpZCUyMiUzQSUyMmJlNjIxNTc5ZTQ0ZmE1MzRlMDdmMGQwMzk5OWY0YTE3JTIyJTdEJTIyJTNCcyUzQTMyJTNBJTIyZGM1MjQ0OTNiMjFjMDBhMjE5YmRmODc3NTY1NjU0ODMlMjIlM0JzJTNBNDI1JTNBJTIyJTdCJTIyaGVpZGVscGF5UGF5bWVudENsYXNzbmFtZSUyMiUzQSUyMkQzJTVDJTVDSGVpZGVscGF5JTVDJTVDTW9kZWxzJTVDJTVDUGF5bWVudCU1QyU1Q0RpcmVjdGRlYml0JTIyJTJDJTIyaWQlMjIlM0ElMjJkYzUyNDQ5M2IyMWMwMGEyMTliZGY4Nzc1NjU2NTQ4MyUyMiUyQyUyMmlzQWN0aXZlJTIyJTNBJTIyMSUyMiUyQyUyMnRpdGxlJTIyJTNBJTIyU2VwYSUyMExhc3RzY2hyaWZ0JTIyJTJDJTIycGF5bWVudFR5cGUlMjIlM0ElMjJEMyU1QyU1Q0hlaWRlbHBheSU1QyU1Q01vZGVscyU1QyU1Q1NldHRpbmdzJTVDJTVDQ2hhbm5lbHMlNUMlNUNEaXJlY3RkZWJpdCU1QyU1Q1Vuc2VjdXJlZCUyMiUyQyUyMmNoYW5uZWwlMjIlM0ElMjIzMUhBMDdCQzgxNDJDNUExNzE3NDlBNjBEOTc5QjZFNCUyMiUyQyUyMnRyYW5zYWN0aW9uVHlwZSUyMiUzQSUyMiUyMiUyQyUyMmlzVGVzdENvbmZpZyUyMiUzQSUyMjElMjIlMkMlMjJveGlkcGF5bWVudElkcyUyMiUzQSU1QiU1RCUyQyUyMnNraXBQcm9wZXJ0aWVzJTIyJTNBJTVCJTIyb3hpZHBheW1lbnRJZHMlMjIlMkMlMjJza2lwUHJvcGVydGllcyUyMiUyQyUyMmhlaWRlbHBheVBheW1lbnRDbGFzc25hbWUlMjIlNUQlN0QlMjIlM0JzJTNBMzIlM0ElMjIwYThkNDczZDZlYzA2MGU3OTBmZGUwMzBjYTdjYjBmNSUyMiUzQnMlM0E0NDYlM0ElMjIlN0IlMjJoZWlkZWxwYXlQYXltZW50Q2xhc3NuYW1lJTIyJTNBJTIyRDMlNUMlNUNIZWlkZWxwYXklNUMlNUNNb2RlbHMlNUMlNUNQYXltZW50JTVDJTVDUHJlcGF5bWVudCUyMiUyQyUyMmlkJTIyJTNBJTIyMGE4ZDQ3M2Q2ZWMwNjBlNzkwZmRlMDMwY2E3Y2IwZjUlMjIlMkMlMjJpc0FjdGl2ZSUyMiUzQSUyMjElMjIlMkMlMjJ0aXRsZSUyMiUzQSUyMlZvcmthc3NlJTIyJTJDJTIycGF5bWVudFR5cGUlMjIlM0ElMjJEMyU1QyU1Q0hlaWRlbHBheSU1QyU1Q01vZGVscyU1QyU1Q1NldHRpbmdzJTVDJTVDQ2hhbm5lbHMlNUMlNUNQcmVwYXltZW50JTIyJTJDJTIyY2hhbm5lbCUyMiUzQSUyMjMxSEEwN0JDODE0MkM1QTE3MTc0OUE2MEQ5NzlCNkU0JTIyJTJDJTIydHJhbnNhY3Rpb25UeXBlJTIyJTNBJTIyJTIyJTJDJTIyaXNUZXN0Q29uZmlnJTIyJTNBJTIyMSUyMiUyQyUyMm94aWRwYXltZW50SWRzJTIyJTNBJTVCJTVEJTJDJTIyc2tpcFByb3BlcnRpZXMlMjIlM0ElNUIlMjJveGlkcGF5bWVudElkcyUyMiUyQyUyMnNraXBQcm9wZXJ0aWVzJTIyJTJDJTIyaGVpZGVscGF5UGF5bWVudENsYXNzbmFtZSUyMiU1RCUyQyUyMm94aWQlMjIlM0ElMjIwYThkNDczZDZlYzA2MGU3OTBmZGUwMzBjYTdjYjBmNSUyMiU3RCUyMiUzQnMlM0EzMiUzQSUyMmJhZDYwNTJlZWZmMTczNDYzNjVjYjZhZWViZTVjNzhhJTIyJTNCcyUzQTQyMCUzQSUyMiU3QiUyMmhlaWRlbHBheVBheW1lbnRDbGFzc25hbWUlMjIlM0ElMjJEMyU1QyU1Q0hlaWRlbHBheSU1QyU1Q01vZGVscyU1QyU1Q1BheW1lbnQlNUMlNUNJbnZvaWNlJTVDJTVDVW5zZWN1cmVkJTIyJTJDJTIyaWQlMjIlM0ElMjJiYWQ2MDUyZWVmZjE3MzQ2MzY1Y2I2YWVlYmU1Yzc4YSUyMiUyQyUyMmlzQWN0aXZlJTIyJTNBJTIyMSUyMiUyQyUyMnRpdGxlJTIyJTNBJTIyUmVjaG51bmclMjIlMkMlMjJwYXltZW50VHlwZSUyMiUzQSUyMkQzJTVDJTVDSGVpZGVscGF5JTVDJTVDTW9kZWxzJTVDJTVDU2V0dGluZ3MlNUMlNUNDaGFubmVscyU1QyU1Q0ludm9pY2UlNUMlNUNVbnNlY3VyZWQlMjIlMkMlMjJjaGFubmVsJTIyJTNBJTIyMzFIQTA3QkM4MTQyQzVBMTcxNzQ5QTYwRDk3OUI2RTQlMjIlMkMlMjJ0cmFuc2FjdGlvblR5cGUlMjIlM0ElMjIlMjIlMkMlMjJpc1Rlc3RDb25maWclMjIlM0ElMjIxJTIyJTJDJTIyb3hpZHBheW1lbnRJZHMlMjIlM0ElNUIlNUQlMkMlMjJza2lwUHJvcGVydGllcyUyMiUzQSU1QiUyMm94aWRwYXltZW50SWRzJTIyJTJDJTIyc2tpcFByb3BlcnRpZXMlMjIlMkMlMjJoZWlkZWxwYXlQYXltZW50Q2xhc3NuYW1lJTIyJTVEJTdEJTIyJTNCcyUzQTMyJTNBJTIyYmE4YTNjYjQ1YjkzMDU0YWFhNGM0ZDgzMzJhMjg1MjMlMjIlM0JzJTNBNDE0JTNBJTIyJTdCJTIyc1ZBVHJhbnNUeXBlJTIyJTNBbnVsbCUyQyUyMmhlaWRlbHBheVBheW1lbnRDbGFzc25hbWUlMjIlM0ElMjJEMyU1QyU1Q0hlaWRlbHBheSU1QyU1Q01vZGVscyU1QyU1Q1BheW1lbnQlNUMlNUNQYXlwYWwlMjIlMkMlMjJpZCUyMiUzQSUyMmJhOGEzY2I0NWI5MzA1NGFhYTRjNGQ4MzMyYTI4NTIzJTIyJTJDJTIyaXNBY3RpdmUlMjIlM0ElMjIxJTIyJTJDJTIydGl0bGUlMjIlM0ElMjJQYXlwYWwlMjIlMkMlMjJwYXltZW50VHlwZSUyMiUzQSUyMkQzJTVDJTVDSGVpZGVscGF5JTVDJTVDTW9kZWxzJTVDJTVDU2V0dGluZ3MlNUMlNUNDaGFubmVscyU1QyU1Q1BheXBhbCUyMiUyQyUyMmNoYW5uZWwlMjIlM0ElMjIzMUhBMDdCQzgxNDJDNUExNzE3NDlBNjBEOTc5QjZFNCUyMiUyQyUyMnRyYW5zYWN0aW9uVHlwZSUyMiUzQSUyMiUyMiUyQyUyMmlzVGVzdENvbmZpZyUyMiUzQSUyMjElMjIlMkMlMjJveGlkcGF5bWVudElkcyUyMiUzQSU1QiU1RCUyQyUyMnNraXBQcm9wZXJ0aWVzJTIyJTNBJTVCJTIyb3hpZHBheW1lbnRJZHMlMjIlMkMlMjJza2lwUHJvcGVydGllcyUyMiUyQyUyMmhlaWRlbHBheVBheW1lbnRDbGFzc25hbWUlMjIlNUQlN0QlMjIlM0JzJTNBMzIlM0ElMjIyNTA2ODkyODAyNzAzN2E0MzI2YWQxYTI0Zjg0MDcxOCUyMiUzQnMlM0E0MDYlM0ElMjIlN0IlMjJoZWlkZWxwYXlQYXltZW50Q2xhc3NuYW1lJTIyJTNBJTIyRDMlNUMlNUNIZWlkZWxwYXklNUMlNUNNb2RlbHMlNUMlNUNQYXltZW50JTVDJTVDU29mb3J0dWViZXJ3ZWlzdW5nJTIyJTJDJTIyaWQlMjIlM0ElMjIyNTA2ODkyODAyNzAzN2E0MzI2YWQxYTI0Zjg0MDcxOCUyMiUyQyUyMmlzQWN0aXZlJTIyJTNBJTIyMSUyMiUyQyUyMnRpdGxlJTIyJTNBJTIyU29mb3J0JTIyJTJDJTIycGF5bWVudFR5cGUlMjIlM0ElMjJEMyU1QyU1Q0hlaWRlbHBheSU1QyU1Q01vZGVscyU1QyU1Q1NldHRpbmdzJTVDJTVDQ2hhbm5lbHMlNUMlNUNTb2ZvcnQlMjIlMkMlMjJjaGFubmVsJTIyJTNBJTIyMzFIQTA3QkM4MTQyQzVBMTcxNzQ5Q0RBQTQzMzY1RDIlMjIlMkMlMjJ0cmFuc2FjdGlvblR5cGUlMjIlM0ElMjIlMjIlMkMlMjJpc1Rlc3RDb25maWclMjIlM0ElMjIxJTIyJTJDJTIyb3hpZHBheW1lbnRJZHMlMjIlM0ElNUIlNUQlMkMlMjJza2lwUHJvcGVydGllcyUyMiUzQSU1QiUyMm94aWRwYXltZW50SWRzJTIyJTJDJTIyc2tpcFByb3BlcnRpZXMlMjIlMkMlMjJoZWlkZWxwYXlQYXltZW50Q2xhc3NuYW1lJTIyJTVEJTdEJTIyJTNCcyUzQTMyJTNBJTIyYmRkYjU3YTQzNGY0ZTExNTZiODc4OGY5NWFlMWFiYTMlMjIlM0JzJTNBNDM5JTNBJTIyJTdCJTIyaGVpZGVscGF5UGF5bWVudENsYXNzbmFtZSUyMiUzQSUyMkQzJTVDJTVDSGVpZGVscGF5JTVDJTVDTW9kZWxzJTVDJTVDUGF5bWVudCU1QyU1Q0dpcm9wYXklMjIlMkMlMjJpZCUyMiUzQSUyMmJkZGI1N2E0MzRmNGUxMTU2Yjg3ODhmOTVhZTFhYmEzJTIyJTJDJTIyaXNBY3RpdmUlMjIlM0ElMjIxJTIyJTJDJTIydGl0bGUlMjIlM0ElMjJHaXJvcGF5JTIyJTJDJTIycGF5bWVudFR5cGUlMjIlM0ElMjJEMyU1QyU1Q0hlaWRlbHBheSU1QyU1Q01vZGVscyU1QyU1Q1NldHRpbmdzJTVDJTVDQ2hhbm5lbHMlNUMlNUNHaXJvcGF5JTIyJTJDJTIyY2hhbm5lbCUyMiUzQSUyMjMxSEEwN0JDODE0MkM1QTE3MTc0MDE2NkFGMjc3RTAzJTIyJTJDJTIydHJhbnNhY3Rpb25UeXBlJTIyJTNBJTIyJTIyJTJDJTIyaXNUZXN0Q29uZmlnJTIyJTNBJTIyMSUyMiUyQyUyMm94aWRwYXltZW50SWRzJTIyJTNBJTVCJTVEJTJDJTIyc2tpcFByb3BlcnRpZXMlMjIlM0ElNUIlMjJveGlkcGF5bWVudElkcyUyMiUyQyUyMnNraXBQcm9wZXJ0aWVzJTIyJTJDJTIyaGVpZGVscGF5UGF5bWVudENsYXNzbmFtZSUyMiU1RCUyQyUyMm94aWQlMjIlM0ElMjJiZGRiNTdhNDM0ZjRlMTE1NmI4Nzg4Zjk1YWUxYWJhMyUyMiU3RCUyMiUzQnMlM0EzMiUzQSUyMjM5OGQ4YjhiNWUzZDAxOGY5YzE0M2UwOGNjZjJkMDI2JTIyJTNCcyUzQTQ1MSUzQSUyMiU3QiUyMmhlaWRlbHBheVBheW1lbnRDbGFzc25hbWUlMjIlM0ElMjJEMyU1QyU1Q0hlaWRlbHBheSU1QyU1Q01vZGVscyU1QyU1Q1BheW1lbnQlNUMlNUNQb3N0ZmluYW5jZSUyMiUyQyUyMmlkJTIyJTNBJTIyMzk4ZDhiOGI1ZTNkMDE4ZjljMTQzZTA4Y2NmMmQwMjYlMjIlMkMlMjJpc0FjdGl2ZSUyMiUzQSUyMjElMjIlMkMlMjJ0aXRsZSUyMiUzQSUyMlBvc3RmaW5hbmNlJTIyJTJDJTIycGF5bWVudFR5cGUlMjIlM0ElMjJEMyU1QyU1Q0hlaWRlbHBheSU1QyU1Q01vZGVscyU1QyU1Q1NldHRpbmdzJTVDJTVDQ2hhbm5lbHMlNUMlNUNQb3N0ZmluYW5jZSUyMiUyQyUyMmNoYW5uZWwlMjIlM0ElMjIzMUhBMDdCQzgxN0U1Q0Y3NDYyNDc0NjkyNTcwM0E1MSUyMiUyQyUyMnRyYW5zYWN0aW9uVHlwZSUyMiUzQSUyMiUyMiUyQyUyMmlzVGVzdENvbmZpZyUyMiUzQSUyMjElMjIlMkMlMjJveGlkcGF5bWVudElkcyUyMiUzQSU1QiU1RCUyQyUyMnNraXBQcm9wZXJ0aWVzJTIyJTNBJTVCJTIyb3hpZHBheW1lbnRJZHMlMjIlMkMlMjJza2lwUHJvcGVydGllcyUyMiUyQyUyMmhlaWRlbHBheVBheW1lbnRDbGFzc25hbWUlMjIlNUQlMkMlMjJveGlkJTIyJTNBJTIyMzk4ZDhiOGI1ZTNkMDE4ZjljMTQzZTA4Y2NmMmQwMjYlMjIlN0QlMjIlM0JzJTNBMzIlM0ElMjJhNDdhNjgwMThhYWI2MTllOTk1ZTY3NjQ5NmM0ZGQyZSUyMiUzQnMlM0E1NTQlM0ElMjIlN0IlMjJzRDNIcEhGT3JkZXJQZW5kaW5nVGltZSUyMiUzQW51bGwlMkMlMjJzRDNIcEhGT3JkZXJDYW5jZWxUeXBlJTIyJTNBbnVsbCUyQyUyMnNEM0hwSEZPcmRlckxpbWl0JTIyJTNBbnVsbCUyQyUyMmJsRDNIcEhGU2V0WmVyb09yZGVyTnVtYmVyJTIyJTNBZmFsc2UlMkMlMjJoZWlkZWxwYXlQYXltZW50Q2xhc3NuYW1lJTIyJTNBJTIyRDMlNUMlNUNIZWlkZWxwYXklNUMlNUNNb2RlbHMlNUMlNUNQYXltZW50JTVDJTVDSWRlYWwlMjIlMkMlMjJpZCUyMiUzQSUyMmE0N2E2ODAxOGFhYjYxOWU5OTVlNjc2NDk2YzRkZDJlJTIyJTJDJTIyaXNBY3RpdmUlMjIlM0ElMjIxJTIyJTJDJTIydGl0bGUlMjIlM0ElMjJpRGVhbCUyMiUyQyUyMnBheW1lbnRUeXBlJTIyJTNBJTIyRDMlNUMlNUNIZWlkZWxwYXklNUMlNUNNb2RlbHMlNUMlNUNTZXR0aW5ncyU1QyU1Q0NoYW5uZWxzJTVDJTVDSWRlYWwlMjIlMkMlMjJjaGFubmVsJTIyJTNBJTIyMzFIQTA3QkM4MTQyQzVBMTcxNzQ0QjU2RTYxMjgxRTUlMjIlMkMlMjJ0cmFuc2FjdGlvblR5cGUlMjIlM0ElMjIlMjIlMkMlMjJpc1Rlc3RDb25maWclMjIlM0ElMjIxJTIyJTJDJTIyb3hpZHBheW1lbnRJZHMlMjIlM0ElNUIlNUQlMkMlMjJza2lwUHJvcGVydGllcyUyMiUzQSU1QiUyMm94aWRwYXltZW50SWRzJTIyJTJDJTIyc2tpcFByb3BlcnRpZXMlMjIlMkMlMjJoZWlkZWxwYXlQYXltZW50Q2xhc3NuYW1lJTIyJTVEJTJDJTIyb3hpZCUyMiUzQSUyMmE0N2E2ODAxOGFhYjYxOWU5OTVlNjc2NDk2YzRkZDJlJTIyJTdEJTIyJTNCJTdE';
+            }
+            $modProfile->setId($oxid);
+            $modProfile->assign([
+                    'oxactive'   => '1',
+                    'oxtitle'    => 'json configuration',
+                    'oxmodid'    => $this->sModKey,
+                    'oxvalue'    => $oxValue,
+                ]);
+
+            if ($modProfile->save()) {
+                $blReturn = true;
+            }
+        }
+        $this->_changeToShop($sCurrentShopid);
+
+        return $blReturn;
     }
 }

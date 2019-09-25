@@ -25,9 +25,8 @@
                     [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sFullImageUrl sBrandIdent=$sBrandIdent}]
                 </label>
                 [{if false == $blD3HeidelpayAllowEasyCredit}]
-                    [{assign_adv var="d3EasycreditLimits" value='array("'|cat:$oHeidelPayment->getMinimumLimit()|cat:'", "'|cat:$oHeidelPayment->getMaximumLimit()|cat:'")'}]
                     <sup id="d3HeidelayEasycreditNotice"
-                         class="alert alert-danger desc">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_EASYCREDIT_NOTICE" args=$d3EasycreditLimits}]</sup>
+                         class="alert alert-danger desc">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_EASYCREDIT_NOTICE" args=$iD3HeidelpayEasycreditLimits}]</sup>
                 [{/if}]
                 [{if false == $blD3HeidelpayHasSameAdresses}]
                     <sup class="alert alert-danger d3HeidelaySameAddressNotice">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_NOTSAMEADDRESS_NOTICE"}]</sup>

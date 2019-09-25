@@ -1,40 +1,54 @@
 ---
 title: Konfiguration der Zahlungsarten
 ---
-
-Ihnen stehen folgende **Zahltypen** für Heidelpay zur Verfügung:
+## 1. verfügbare Zahltypen:
+Ihnen stehen folgende **Zahltypen** im Heidelpay Modul zur Verfügung (abhängig von der eingesetzten Lizenz):
 - Kreditkarte
 - Debitkarte
 - Bankeinzug
 - automatische Vorkasse
 - Sofort by Klarna
-- BillSAFE (nur Bestandskunden)
 - Giropay
 - iDeal (Niederlande)
 - EPS (Österreich)
 - Rechnungskauf (ohne Zahlungssicherung)
 - Rechnungskauf (mit Zahlungssicherung)
+- B2B Rechnungskauf
 - Przelewy 24
 - EasyCredit
 - PayPal
 - MasterPass
 
-Kreditkarte, Bankeinzug und Vorkasse existieren bereits als Shop-Standard-**Zahlungsarten** im Admin-Bereich:
-([ Shopeinstellungen ] / [ Zahlungsarten ]).<br>
-Alle weiteren Zahlungsarten werden durch den Installationsassistenten hinzugefügt.
+## 2. Zuordnung der Shop-Zahlungsarten zu den Heidelpay Zahltypen:
+1. Bereiten Sie die gewünschten Shop-Zahlungsarten unter [ Shopeinstellungen ] / [ Zahlungsarten ] vor.
+    Dise müssen aktiviert, vollständig konfiguriert und im Frontend sichtbar sind.
+    Es werden durch den Installationsassistenten weitere Shop-Zahlungsarten hinzugefügt:
+    - Debitkarte
+    - Sofortüberweisung
+    - iDeal Niederlande
+    - Giropay Deutschland
+    - EPS Österreich
+    - Heidelpay Paypal
+    - Heidelpay PostFinance
+    - Heidelpay Przelewy24
 
-> [i] Achten Sie darauf, dass die gewünschten Zahlungsarten aktiviert, vollständig konfiguriert und im Frontend einstellungsabhängig sichtbar sind.
+2. Gehen Sie anschließend in den Menüpunkt [ (D3) Module ] / [ {$menutitle} ] / [ Channel-Konfigurationen ].  
+(Sie können die bereits mitgelieferten Channel-Konfigurationen verwenden und verändern.)  
+3. Andernfalls geben Sie einen [ Titel ] (bspw. Kreditkarte Inland), den von Heidelpay erhaltenen [ Channel ] ein und wählen Sie den Heidelpay-Zahltyp aus.  
 
-Gehen Sie anschließend in den Menüpunkt [ (D3) Module ] / [ {$menutitle} ] / [ Einstellungen ] und ordnen Sie auf der rechten Seite die gewünschten **Zahlungsarten** den Heidelpay-**Zahltypen** zu.
+> [i] Wenn der Haken bei "Test Modus" gesetzt wird, ist die Channel-Konfiguration erst dann aktiv, wenn das Modul sich im Test Modus befindet. 
 
-> [i] Sie können weitere Zahlungsarten im Shop anlegen (z.B.: um für 
-      Auslandskunden eine separate Zahlungsart anzuzeigen).
-      Ordnen Sie diese Zahlart einfach der gewünschten Heidelpay-Zahlart zu.
+4. Gehen Sie in den Tab [ Zahlungsarten ]. Hier sehen Sie eine Liste der Shop-Zahlungsarten und deren aktuellen Zuordnung.  
+    Wählen Sie für die aktive Channel-Konfiguration die zu verwendente Shop-Zahlungsart in der Spalte [ Zugeordnet? ] aus.  
+    Sobald die Shop-Zahlungsart aktiv und zugeordnet ist, wird die Konfiguration im Frontend angewendet.
+> [i] Sie können mehrere Shop-Zahlungsarten einer Channel-Konfiguration zuordnen.
+ 
+> [i] Eine Shop-Zahlungsart kann jedoch nur einer Channel-Konfiguration zugeordnet werden.
+ 
+> [i] Eine Shopzahlungsart wird grau/inaktiv angezeigt, wenn diese bereits einer anderen Channel-Konfiguration zugeordnet ist
 
-Bei allen **Online-Transfer-Zahlungsarten** (Sofort by Klarna, Giropay etc.), sowie
-**BillSAFE**, **Rechnungskauf mit Zahlungssicherung**, **EasyCredit**, **Przelewy24**, **iDeal**
-und **PayPal** müssen eigene Channels eingetragen werden.<br>
-Die Channel ID's erhalten Sie von Heidelpay
-
-> [i] Für die jeweilige Nutzung muss zwingend der passende Channel
-      eingetragen werden, auch wenn dieser mit dem Standard-Channel identisch ist.
+5. Checkliste
+    - Sind die Shop-Zahlungsarten im Frontend sichtbar?
+    - Ist der Test/Livemodus im Modul aktiv? 
+    - Sind die Channel-Konfigurationen korrekt eingestellt (Aktiv, Test Modus, Zuordnung der Shop-Zahlungsart)?
+    - Sind die Test/Livedaten im Modul hinterlegt?

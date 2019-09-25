@@ -241,7 +241,7 @@
                             [{/if}]
                         [{/foreach}]
                     </table>
-                    [{if $oView->checkDisplayBasicFunctions()}]
+                    [{if $oView->isBasicLicence()}]
                         <div class="extension_warning">[{oxmultilang ident="D3_HEIDELPAY_RESTRICTIONINFO_ORDER"}]</div>
                     [{/if}]
 

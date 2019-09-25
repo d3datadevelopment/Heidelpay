@@ -7,6 +7,11 @@
                      cl="d3_heidelpay_controllers_admin_order_heidelpay"/>
             </SUBMENU>
         </MAINMENU>
+        <MAINMENU id="mxshopsett">
+            <SUBMENU id="mxpaymeth" cl="admin_payment" list="payment_list">
+                <TAB id="d3_heidelpay_controllers_admin_payment_heidelpay" cl="d3_heidelpay_controllers_admin_payment_heidelpay" />
+            </SUBMENU>
+        </MAINMENU>
     </OXMENU>
     <OXMENU id="d3mxd3modules">
         <MAINMENU id="d3mxheidelpay">
@@ -20,6 +25,11 @@
                 <TAB id="d3tbcllog_main" cl="d3_cfg_log_main"/>
             </SUBMENU>
             <SUBMENU id="d3mxheidelpaytransactionlog" cl="d3_heidelpay_controllers_admin_transactionloglist"/>
+            <SUBMENU id="d3_heidelpay_controllers_admin_channels_base" cl="d3_heidelpay_controllers_admin_channels_base"
+                     list="d3_heidelpay_controllers_admin_channels_list">
+                <TAB id="d3_heidelpay_controllers_admin_channels_main" cl="d3_heidelpay_controllers_admin_channels_main"/>
+                <TAB id="d3_heidelpay_controllers_admin_channels_payments" cl="d3_heidelpay_controllers_admin_channels_payments"/>
+            </SUBMENU>
         </MAINMENU>
     </OXMENU>
 </OX>

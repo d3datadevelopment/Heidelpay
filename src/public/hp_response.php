@@ -30,6 +30,9 @@ if (isset($_POST['CRITERION_cutsomerip'])) {
     $_SERVER["HTTP_X_FORWARDED_FOR"] = $_POST['CRITERION_cutsomerip'];
 }
 
+if (false == defined('D3_HEIDELPAY_PUBLIC_FILE')) {
+    define('D3_HEIDELPAY_PUBLIC_FILE', basename(__FILE__));
+}
 /**
  * Returns shop base path.
  *
@@ -37,18 +40,18 @@ if (isset($_POST['CRITERION_cutsomerip'])) {
  */
 function getShopBasePath()
 {
-    return realpath(dirname(__FILE__) . '/../../../../') . '/';
+    return realpath(dirname(__FILE__).'/../../../../').'/';
 }
 
-require_once getShopBasePath() . "/bootstrap.php";
+require_once getShopBasePath()."/bootstrap.php";
 ksort($_POST);
 try {
     d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
         d3log::INFO,
-        basename(__FILE__),
+        D3_HEIDELPAY_PUBLIC_FILE,
         'none',
         __LINE__,
-        basename(__FILE__) . " got requested",
+        D3_HEIDELPAY_PUBLIC_FILE." got requested",
         var_export($_POST, true)
     );
 } catch (Exception $e) {
@@ -60,34 +63,28 @@ try {
 $oResponse = oxNew(Response::class);
 try {
     $sReturn      = $oResponse->init();
-    $urlParameter = $oResponse->d3GetHeidelpayURLParameter();
 } catch (Exception $e) {
     writeToLog($e->getMessage());
     writeToLog($e->getTraceAsString());
 }
 
-if ($sReturn !== Response::REDIRECT && false === empty($urlParameter)) {
-    $sReturn .= "&" . $urlParameter;
-}
-
 try {
     d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
         d3log::INFO,
-        basename(__FILE__),
+        D3_HEIDELPAY_PUBLIC_FILE,
         'none',
         __LINE__,
-        basename(__FILE__) . " return value",
-        $sReturn . PHP_EOL . $oResponse->getRedirectUrl()
+        D3_HEIDELPAY_PUBLIC_FILE." return value",
+        $sReturn
     );
 } catch (Exception $e) {
     writeToLog($e->getMessage());
     writeToLog($e->getTraceAsString());
 }
 
-
-if ($sReturn === Response::REDIRECT) {
+if ($sReturn === Response::RESPONSE_REDIRECT) {
     header("HTTP/1.1 200 OK");
-    header("Location: " . $oResponse->getRedirectUrl());
+    header("Location: ".$sReturn);
     header("Connection: close");
 } else {
     echo $sReturn;

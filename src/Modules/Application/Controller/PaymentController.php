@@ -14,8 +14,6 @@ use D3\Heidelpay\Models\Payment\Invoice\Unsecured;
 use D3\Heidelpay\Models\Payment\Payment as HeidelpayAbstractPayment;
 use D3\Heidelpay\Models\Payment\Paypal;
 use D3\Heidelpay\Models\Payment\Przelewy24;
-use D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException;
-use D3\Heidelpay\Models\Settings\Heidelpay;
 use D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay as ReaderHeidelpay;
 use D3\Heidelpay\Models\Viewconfig;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
@@ -39,13 +37,6 @@ use OxidEsales\Eshop\Core\UtilsView;
  */
 class PaymentController extends PaymentController_parent
 {
-
-    /**
-     * Bool-Wert fuer das Handling von vorhandenen Kreditkarten-Kunden-Registrierungsdaten in Schritt3
-     *
-     * @var bool
-     */
-    protected $sHeidelpayFieldsForPayment;
 
     /**
      * Initiate and register module classes
@@ -77,9 +68,6 @@ class PaymentController extends PaymentController_parent
             return;
         }
 
-        $settings = oxNew(Heidelpay::class, d3_cfg_mod::get('d3heidelpay'));
-        Registry::set(Heidelpay::class, $settings);
-
         /** @var Factory $oFactory */
         $oFactory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
         $this->d3HeidelpaySetErrorMessage($oFactory);
@@ -106,13 +94,7 @@ class PaymentController extends PaymentController_parent
             return;
         }
 
-        /** @var Heidelpay $oHeidelPaySettings */
-        $oHeidelPaySettings = oxNew(
-            Heidelpay::class,
-            d3_cfg_mod::get('d3heidelpay')
-        );
-
-        if ($oHeidelPaySettings->isAssignedToHeidelPayment($payment)) {
+        if ($oFactory->getSettings()->isAssignedToHeidelPayment($payment)) {
             Registry::getSession()->deleteVariable('sess_challenge');
         }
     }
@@ -179,10 +161,13 @@ class PaymentController extends PaymentController_parent
 
         $paymentId = $this->getD3PaymentId();
 
+        /** @var Payment $payment */
         $payment = oxNew(Payment::class);
         $payment->load($paymentId);
 
-        $heidelPaySettings = oxNew(Heidelpay::class, d3_cfg_mod::get('d3heidelpay'));
+        /** @var Factory $factory */
+        $factory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+        $heidelPaySettings = $factory->getSettings();
         if (false == $heidelPaySettings->isAssignedToHeidelPayment($payment)) {
             return $return;
         }
@@ -218,7 +203,8 @@ class PaymentController extends PaymentController_parent
             return $return;
         }
 
-        if (($heidelPayment instanceof Easycredit
+        if ((
+            $heidelPayment instanceof Easycredit
                 || $heidelPayment instanceof Przelewy24
                 || $heidelPayment instanceof Ideal
                 || $heidelPayment instanceof Paypal
@@ -341,7 +327,6 @@ class PaymentController extends PaymentController_parent
      * @return string
      * @throws PaymentNotReferencedToHeidelpayException
      * @throws StandardException
-     * @throws EmptyPaymentlistException
      * @throws d3ShopCompatibilityAdapterException
      * @throws d3_cfg_mod_exception
      * @throws DBALException
@@ -402,7 +387,6 @@ class PaymentController extends PaymentController_parent
      * @return bool
      * @throws PaymentNotReferencedToHeidelpayException
      * @throws StandardException
-     * @throws EmptyPaymentlistException
      * @throws d3ShopCompatibilityAdapterException
      * @throws d3_cfg_mod_exception
      * @throws DBALException
@@ -437,8 +421,8 @@ class PaymentController extends PaymentController_parent
     public function render()
     {
         $mReturn = parent::render();
-
         $this->addTplParam('blD3HeidelpayEasycreditNotChecked', $this->isEasyCreditConsentNotConfirmed());
+        $this->addTplParam('iD3HeidelpayEasycreditLimits', $this->getEasyCreditLimits());
         $this->addTplParam(
             'blD3HeidelpayAllowEasyCredit',
             $this->isHeidelpayEasycreditAllowed(Registry::getSession()->getBasket())
@@ -448,9 +432,11 @@ class PaymentController extends PaymentController_parent
         $blD3HeidelpayAllowBtoBBillPurchase = $this->isHeidelpayBtoBBillPurchaseAllowed($basket);
 
         $this->addTplParam('blD3HeidelpayAllowBtoBBillPurchase', $blD3HeidelpayAllowBtoBBillPurchase);
+        $this->addTplParam('iD3HeidelpayBtoBBillPurchaseLimits', $this->getBtoBBillPurchaseLimits());
         $this->addTplParam('blD3HeidelpayAllowPostFinance', $this->isPaymentAllowedForCountryAndCurrency('CH', 'CHF'));
         $this->addTplParam('blD3HeidelpayAllowPrzelewy24', $this->isPaymentAllowedForCountryAndCurrency('PL', 'PLN'));
         $this->addTplParam('blD3HeidelpayAllowIdeal', $this->isPaymentAllowedForCountryAndCurrency('NL', 'EUR'));
+        $this->addTplParam('iD3HeidelpayInvoiceSecuredLimits', $this->getInvoiceSecuredLimits());
         $this->addTplParam('blD3HeidelpayHasSameAdresses', $this->d3HeidelpayHasSameAdresses());
         $this->addTplParam(
             'blD3HeidelpayAllowInvoiceSecured',
@@ -478,6 +464,9 @@ class PaymentController extends PaymentController_parent
      * @param Basket $oxBasket
      *
      * @return bool
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function isHeidelpayEasycreditAllowed(Basket $oxBasket)
     {
@@ -486,7 +475,7 @@ class PaymentController extends PaymentController_parent
         }
 
         /** @var Easycredit $easyCreditPayment */
-        $easyCreditPayment = oxNew(Easycredit::class);
+        $easyCreditPayment = oxNew(Easycredit::class, 'TODO: get the correct oxPaymentId');
 
         if (false == $this->isHeidelpayBasketAmountInLimits($oxBasket, $easyCreditPayment)) {
             return false;
@@ -570,7 +559,6 @@ class PaymentController extends PaymentController_parent
             $oDelAdress->getFieldData('oxcity')
         );
 
-
         if ($userAdress == $deliverAdress) {
             return true;
         }
@@ -582,6 +570,9 @@ class PaymentController extends PaymentController_parent
      * @param Basket $oxBasket
      *
      * @return bool
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     public function isHeidelpayInvoiceSecuredAllowed(Basket $oxBasket)
     {
@@ -590,7 +581,7 @@ class PaymentController extends PaymentController_parent
         }
 
         /** @var Secured $InvoicePayment */
-        $InvoicePayment = oxNew(Secured::class);
+        $InvoicePayment = oxNew(Secured::class, 'TODO: get the correct oxPaymentId');
 
         return $this->isHeidelpayBasketAmountInLimits($oxBasket, $InvoicePayment);
     }
@@ -610,6 +601,8 @@ class PaymentController extends PaymentController_parent
 
     /**
      * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     protected function addHeidelpayFormularParameter()
     {
@@ -617,7 +610,9 @@ class PaymentController extends PaymentController_parent
 
         $paymentList = $this->getPaymentList();
 
-        $settings = Registry::get(Heidelpay::class);
+        /** @var Factory $factory */
+        $factory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+        $settings = $factory->getSettings();
         try {
             foreach ($paymentList as $paymentId => $payment) {
                 /** @var $payment Payment */
@@ -653,7 +648,7 @@ class PaymentController extends PaymentController_parent
         }
 
         $birthdateParameters = [$paymentId => $heidelpayParameters[$paymentId]['COMPANY.EXECUTIVE.1.BIRTHDATE']];
-        if (strtolower(CompanyData::REGISTERED) !== strtolower($heidelpayParameters[$paymentId]['COMPANY.REGISTRATIONTYPE'])
+        if (strtolower(CompanyData::COMPANYDATA_REGISTERED) !== strtolower($heidelpayParameters[$paymentId]['COMPANY.REGISTRATIONTYPE'])
             && $this->d3HasInvalidBirthdateInput($birthdateParameters, $paymentId)) {
             d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(
                 d3log::WARNING,
@@ -679,32 +674,99 @@ class PaymentController extends PaymentController_parent
      * @param HeidelpayAbstractPayment $payment
      *
      * @return bool
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     protected function isHeidelpayBasketAmountInLimits(Basket $oxBasket, HeidelpayAbstractPayment $payment)
     {
+        /** @var Factory $factory */
+        $factory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+
         $oxPrice  = $oxBasket->getPrice();
         $price    = $oxPrice->getPrice();
-        $minPrice = $payment->getMinimumLimit();
-        $maxPrice = $payment->getMaximumLimit();
+        $minPrice = $payment->getMinimumLimit($factory->getModuleProvider());
+        $maxPrice = $payment->getMaximumLimit($factory->getModuleProvider());
 
         if (false == ($price >= $minPrice && $maxPrice >= $price)) {
             return false;
         }
 
         return true;
-}
+    }
 
     /**
      * @param Basket $basket
      *
      * @return bool
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
      */
     protected function isHeidelpayBtoBBillPurchaseAllowed(Basket $basket)
     {
         $isInGermanyAllowed = $this->isPaymentAllowedForCountryAndCurrency('DE', $basket->getBasketCurrency()->name);
         $isInAustriaAllowed = $this->isPaymentAllowedForCountryAndCurrency('AT', $basket->getBasketCurrency()->name);
-        $bToBBillPurchase = oxNew(Btobbillpurchase::class);
+        /** @var Btobbillpurchase $bToBBillPurchase */
+        $bToBBillPurchase = oxNew(Btobbillpurchase::class, 'TODO: get the correct oxPaymentId');
 
         return ($isInGermanyAllowed || $isInAustriaAllowed) && $this->isHeidelpayBasketAmountInLimits($basket, $bToBBillPurchase);
-}
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     */
+    protected function getEasyCreditLimits()
+    {
+        /** @var Easycredit $easyCreditPayment */
+        $easyCreditPayment = oxNew(Easycredit::class, 'TODO: get the correct oxPaymentId');
+        /** @var Factory $factory */
+        $factory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+
+        return [
+            $easyCreditPayment->getMinimumLimit($factory->getModuleProvider()),
+            $easyCreditPayment->getMaximumLimit($factory->getModuleProvider())
+        ];
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     */
+    protected function getInvoiceSecuredLimits()
+    {
+        /** @var Secured $invoiceSecurePayment */
+        $invoiceSecurePayment = oxNew(Secured::class, 'TODO: get the correct oxPaymentId');
+        /** @var Factory $factory */
+        $factory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+
+        return [
+            $invoiceSecurePayment->getMinimumLimit($factory->getModuleProvider()),
+            $invoiceSecurePayment->getMaximumLimit($factory->getModuleProvider())
+        ];
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     * @throws DatabaseConnectionException
+     * @throws DatabaseErrorException
+     */
+    protected function getBtoBBillPurchaseLimits()
+    {
+        /** @var Btobbillpurchase $btobbillpurchase */
+        $btobbillpurchase = oxNew(Btobbillpurchase::class, 'TODO: get the correct oxPaymentId');
+        /** @var Factory $factory */
+        $factory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+
+        return [
+            $btobbillpurchase->getMinimumLimit($factory->getModuleProvider()),
+            $btobbillpurchase->getMaximumLimit($factory->getModuleProvider())
+        ];
+    }
 }
