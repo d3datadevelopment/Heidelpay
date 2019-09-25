@@ -1,3 +1,4 @@
+[{oxscript include="js/libs/jquery.min.js"}]
 [{oxscript include=$oViewConf->getModuleUrl('d3heidelpay', 'out/src/js/jquery.simple.timer/jquery.simple.timer.js')}]
 
 [{assign var="payment" value=$oView->getPayment()}]

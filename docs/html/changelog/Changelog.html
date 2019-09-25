@@ -45,7 +45,7 @@
 
         <div class="Collapsible__content">
             <!-- Navigation -->
-            <ul class='Nav'><li class='Nav__item Nav__item--active'><a href="../changelog/Changelog.html">Changelog</a></li></ul>
+            <ul class='Nav'><li class='Nav__item Nav__item--active'><a href="../changelog/Changelog.html">Changelog</a></li><li class='Nav__item '><a href="../changelog/Channel_Rekonfiguration.html">(6.1.0.0) Umstellung der Konfiguration</a></li></ul>
             <div class='versionselector'>Version wechseln: 
 <select onchange="window.location.href=this.options[this.selectedIndex].value" size="1">
 
@@ -91,16 +91,23 @@
     <div class="Page__header">
         <h1><a href="../changelog/Changelog.html">Changelog</a></h1>
                 <span class="ModifiedDate">
-                        07.06.2019        </span>
+                        25.09.2019        </span>
                     </div>
 
     <div class="s-content">
-        <h2 id="page_6-0-3-1">6.0.3.1</h2>
-<p>0008863: 6.0.3.0 Fehler bei nicht Heidelpay zugeordneten Zahlungsarten - keine Bestellung möglich
-0000000: <span class="navi_element">cronjob collectPayments</span> parameter FRONTEND.ENABLED=true causing a order delete for Przelewy24 and iDeal payments
-0000000: <span class="navi_element">cronjob collectPayments</span> set referenceid before temporaray order is finalized
-0000000: <span class="navi_element">cronjob collectPayments</span> reduced NOTICE in collectpayments.php 0000000: <span class="navi_element">general</span> added new criterion info parameter &quot;heidelPaymentMethod&quot;
-0000000: replaced deprecated method &quot;getShopEdition&quot; for request parameter
+        <h2 id="page_6-1-0-0">6.1.0.0</h2>
+<p><strong>0000000: <span class="navi_element">Important</span> the setup routine has a backwards compatibility break (BC break)! Only module configurations greater than or equal to modul version 6.0.0.0 will be fully migrated!</strong><br />
+0000000: <span class="navi_element">Configuration</span> rebuild channel configuration see: <a href="https://docs.oxidmodule.com/Heidelpay/6.1.0.0/changelog/Channel_Rekonfiguration.html" class="Link--external">(6.1.0.0) Umstellung der Konfiguration</a><br />
+0000000: <span class="navi_element">Refactor</span> \D3\Heidelpay\Models\Factory class refactored to a factory pattern<br />
+0000000: <span class="navi_element">Refactor</span> split /public/hp_response.php calls into separated front controller (f.e. /public/Creditcard.php, /public/Debitcard.php)<br />
+0000000: <span class="navi_element">Bug</span> additional redirect parameters will not add in redirect url of the public response file's (like utm_nooverride=1)<br />
+0000000: <span class="navi_element">Info</span> replaced https://faq.oxidmodule.com/ links with https://faq.d3data.de</p>
+<h2 id="page_6-0-3-1">6.0.3.1</h2>
+<p>0008863: 6.0.3.0 Fehler bei nicht Heidelpay zugeordneten Zahlungsarten - keine Bestellung möglich<br />
+0000000: <span class="navi_element">cronjob collectPayments</span> parameter FRONTEND.ENABLED=true causing a order delete for Przelewy24 and iDeal payments<br />
+0000000: <span class="navi_element">cronjob collectPayments</span> set referenceid before temporaray order is finalized<br />
+0000000: <span class="navi_element">cronjob collectPayments</span> reduced NOTICE in collectpayments.php 0000000: <span class="navi_element">general</span> added new criterion info parameter &quot;heidelPaymentMethod&quot;<br />
+0000000: replaced deprecated method &quot;getShopEdition&quot; for request parameter<br />
 0000000: changing url in metadata to https://docs.oxidmodule.com/Heidelpay/</p>
 <h2 id="page_6-0-3-0">6.0.3.0</h2>
 <p>0008145: OT Zahlungsarten auf Länder und Währung einschränken<br />
@@ -502,7 +509,7 @@ Einbau ELV</p>
 
         <nav>
         <ul class="Pager">
-            <li class=Pager--prev><a href="../index.html">Zurück</a></li>            <li class=Pager--next><a href="../configuration/index.html">Weiter</a></li>        </ul>
+            <li class=Pager--prev><a href="../index.html">Zurück</a></li>            <li class=Pager--next><a href="../changelog/Channel_Rekonfiguration.html">Weiter</a></li>        </ul>
     </nav>
     </article>
 

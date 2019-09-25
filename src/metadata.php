@@ -12,6 +12,7 @@ use D3\Heidelpay\Modules\Application\Model;
 use D3\Heidelpay\Modules\Core;
 use D3\Heidelpay\Setup\CleanupRoutine;
 use D3\Heidelpay\Setup\InstallRoutine;
+use D3\Heidelpay\Setup\UpdateRoutine;
 use D3\ModCfg\Application\Model\d3counter;
 use D3\ModCfg\Application\Model\d3utils;
 use D3\ModCfg\Application\Model\Install\d3install;
@@ -30,7 +31,7 @@ $aModule = array(
         'en' => '',
     ),
     'thumbnail'      => 'picture.png',
-    'version'        => '6.0.3.1',
+    'version'        => '6.1.0.0',
     'author'         => 'D&sup3; Data Development, Inh. Thomas Dartsch',
     'email'          => 'support@shopmodule.com',
     'url'            => 'https://docs.oxidmodule.com/Heidelpay/',
@@ -40,6 +41,7 @@ $aModule = array(
     'd3SetupClasses' => array(
         InstallRoutine::class,
         CleanupRoutine::class,
+        UpdateRoutine::class,
     ),
     'extend'         => array(
         d3counter::class                         => Core\Counter::class,
@@ -60,13 +62,32 @@ $aModule = array(
         'd3_heidelpay_controllers_admin_log'                => D3\Heidelpay\Controllers\Admin\Log::class,
         'd3_heidelpay_controllers_admin_loglist'            => D3\Heidelpay\Controllers\Admin\LogList::class,
         'd3_heidelpay_controllers_admin_transactionloglist' => D3\Heidelpay\Controllers\Admin\TransactionlogList::class,
-        'd3_heidelpay_controllers_admin_order_heidelpay'    => D3\Heidelpay\Controllers\Admin\Order\Heidelpay::class
+        'd3_heidelpay_controllers_admin_order_heidelpay'    => D3\Heidelpay\Controllers\Admin\Order\Heidelpay::class,
+        'd3_heidelpay_controllers_admin_payment_heidelpay'  => D3\Heidelpay\Controllers\Admin\Payment\Heidelpay::class,
+        'd3_heidelpay_controllers_admin_channels_base'      => D3\Heidelpay\Controllers\Admin\Channels\Base::class,
+        'd3_heidelpay_controllers_admin_channels_list'      => D3\Heidelpay\Controllers\Admin\Channels\AdminList::class,
+        'd3_heidelpay_controllers_admin_channels_main'      => D3\Heidelpay\Controllers\Admin\Channels\Main::class,
+        'd3_heidelpay_controllers_admin_channels_payments'  => D3\Heidelpay\Controllers\Admin\Channels\Payments::class,
     ),
     'templates'      => array(
         #admin
         'd3_heidelpay_views_admin_tpl_settings.tpl'                      => 'd3/heidelpay/views/admin/tpl/settings.tpl',
         'd3_heidelpay_views_admin_tpl_order.tpl'                         => 'd3/heidelpay/views/admin/tpl/order.tpl',
         'd3_heidelpay_views_admin_tpl_transactionloglist.tpl'            => 'd3/heidelpay/views/admin/tpl/transactionloglist.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_main.tpl'                 => 'd3/heidelpay/views/admin/tpl/channels/main.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_new.tpl'                  => 'd3/heidelpay/views/admin/tpl/channels/new.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_list.tpl'                 => 'd3/heidelpay/views/admin/tpl/channels/list.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_payments.tpl'             => 'd3/heidelpay/views/admin/tpl/channels/payments.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_sub_paypal.tpl'           => 'd3/heidelpay/views/admin/tpl/channels/sub/paypal.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_sub_creditcard.tpl'       => 'd3/heidelpay/views/admin/tpl/channels/sub/creditcard.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_sub_easycredit.tpl'       => 'd3/heidelpay/views/admin/tpl/channels/sub/easycredit.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_sub_debitcard.tpl'        => 'd3/heidelpay/views/admin/tpl/channels/sub/debitcard.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_sub_masterpass.tpl'       => 'd3/heidelpay/views/admin/tpl/channels/sub/masterpass.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_sub_ideal.tpl'            => 'd3/heidelpay/views/admin/tpl/channels/sub/ideal.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_sub_przelewy24.tpl'       => 'd3/heidelpay/views/admin/tpl/channels/sub/przelewy24.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_sub_directdebit_secured.tpl' => 'd3/heidelpay/views/admin/tpl/channels/sub/directdebit/secured.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_sub_invoice_secured.tpl' => 'd3/heidelpay/views/admin/tpl/channels/sub/invoice/secured.tpl',
+        'd3_heidelpay_views_admin_tpl_payment.tpl'                       => 'd3/heidelpay/views/admin/tpl/payment.tpl',
         // allgemeine Templates
         'd3_heidelpay_views_tpl_payment_img.tpl'                         => 'd3/heidelpay/views/tpl/payment_img.tpl',
         'd3_heidelpay_views_tpl_redirect_postformular.tpl'               => 'd3/heidelpay/views/tpl/redirect_postformular.tpl',

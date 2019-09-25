@@ -1,14 +1,21 @@
 ---
 title: Changelog
 ---
+## 6.1.0.0
+**0000000: [ Important ] the setup routine has a backwards compatibility break (BC break)! Only module configurations greater than or equal to modul version 6.0.0.0 will be fully migrated!**  
+0000000: [ Configuration ] rebuild channel configuration see: [(6.1.0.0) Umstellung der Konfiguration](https://docs.oxidmodule.com/Heidelpay/6.1.0.0/changelog/Channel_Rekonfiguration.html)  
+0000000: [ Refactor ] \D3\Heidelpay\Models\Factory class refactored to a factory pattern   
+0000000: [ Refactor ] split /public/hp_response.php calls into separated front controller (f.e. /public/Creditcard.php, /public/Debitcard.php)  
+0000000: [ Bug ] additional redirect parameters will not add in redirect url of the public response file's (like utm_nooverride=1)  
+0000000: [ Info ] replaced https://faq.oxidmodule.com/ links with https://faq.d3data.de  
 
 ## 6.0.3.1
-0008863: 6.0.3.0 Fehler bei nicht Heidelpay zugeordneten Zahlungsarten - keine Bestellung möglich
-0000000: [cronjob collectPayments] parameter FRONTEND.ENABLED=true causing a order delete for Przelewy24 and iDeal payments 
-0000000: [cronjob collectPayments] set referenceid before temporaray order is finalized
-0000000: [cronjob collectPayments] reduced NOTICE in collectpayments.php 0000000: [general] added new criterion info parameter "heidelPaymentMethod"
-0000000: replaced deprecated method "getShopEdition" for request parameter
-0000000: changing url in metadata to https://docs.oxidmodule.com/Heidelpay/
+0008863: 6.0.3.0 Fehler bei nicht Heidelpay zugeordneten Zahlungsarten - keine Bestellung möglich  
+0000000: [cronjob collectPayments] parameter FRONTEND.ENABLED=true causing a order delete for Przelewy24 and iDeal payments  
+0000000: [cronjob collectPayments] set referenceid before temporaray order is finalized  
+0000000: [cronjob collectPayments] reduced NOTICE in collectpayments.php 0000000: [general] added new criterion info parameter "heidelPaymentMethod"  
+0000000: replaced deprecated method "getShopEdition" for request parameter  
+0000000: changing url in metadata to https://docs.oxidmodule.com/Heidelpay/  
 
 ## 6.0.3.0
 0008145: OT Zahlungsarten auf Länder und Währung einschränken  

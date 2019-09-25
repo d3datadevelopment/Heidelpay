@@ -188,7 +188,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '42';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('42', '100.100.101', 1, 'Kreditkarten- oder Kontonummer ungültig', 'invalid creditcard/bank account number', 'invalid creditcard/bank account number');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('42', '100.100.101', 1, 'Kreditkarten- oder Kontonummer ungÃ¼ltig', 'invalid creditcard/bank account number', 'invalid creditcard/bank account number');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '43';",
@@ -196,7 +196,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '44';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('44', '100.100.201', 1, 'Ungültiger Monat', 'invalid month', 'invalid month');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('44', '100.100.201', 1, 'UngÃ¼ltiger Monat', 'invalid month', 'invalid month');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '45';",
@@ -204,7 +204,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '46';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('46', '100.100.301', 1, 'Ungültiges Jahr', 'invalid year', 'invalid year');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('46', '100.100.301', 1, 'UngÃ¼ltiges Jahr', 'invalid year', 'invalid year');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '47';",
@@ -212,7 +212,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '48';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('48', '100.100.304', 1, 'Karte nicht gültig', 'card not yet valid', 'card not yet valid');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('48', '100.100.304', 1, 'Karte nicht gÃ¼ltig', 'card not yet valid', 'card not yet valid');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '49';",
@@ -229,23 +229,23 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '52';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('52', '100.100.500', 1, 'Kein Kreditkartentyp gewählt', 'request contains no credit card brand', 'request contains no credit card brand');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('52', '100.100.500', 1, 'Kein Kreditkartentyp gewÃ¤hlt', 'request contains no credit card brand', 'request contains no credit card brand');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '53';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('53', '100.100.501', 1, 'Ungültiger Kreditkartentyp', 'invalid credit card brand', 'invalid credit card brand');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('53', '100.100.501', 1, 'UngÃ¼ltiger Kreditkartentyp', 'invalid credit card brand', 'invalid credit card brand');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '54';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('54', '100.100.600', 1, 'Keine Prüfziffer eingetragen', 'empty CVV for VISA,MASTER, AMEX not allowed', 'empty CVV for VISA,MASTER, AMEX not allowed');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('54', '100.100.600', 1, 'Keine PrÃ¼fziffer eingetragen', 'empty CVV for VISA,MASTER, AMEX not allowed', 'empty CVV for VISA,MASTER, AMEX not allowed');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '55';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('55', '100.100.601', 1, 'Falsche Prüfziffer/KK-Typ Kombination', 'invalid CVV/brand combination', 'invalid CVV/brand combination');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('55', '100.100.601', 1, 'Falsche PrÃ¼fziffer/KK-Typ Kombination', 'invalid CVV/brand combination', 'invalid CVV/brand combination');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '56';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('56', '100.100.602', 1, 'Ungültige Prüfziffer2', 'invalid CVV2', 'invalid CVV2');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('56', '100.100.602', 1, 'UngÃ¼ltige PrÃ¼fziffer2', 'invalid CVV2', 'invalid CVV2');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '57';",
@@ -253,11 +253,11 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '58';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('58', '100.100.651', 1, 'ungültige Kreditkartennummer', 'invalid cc number', 'invalid CreditCardIssueNumber');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('58', '100.100.651', 1, 'ungÃ¼ltige Kreditkartennummer', 'invalid cc number', 'invalid CreditCardIssueNumber');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '59';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('59', '100.100.700', 1, 'Ungültige Nummer/Kartentyp Kombination', 'invalid cc number/brand combination', 'invalid cc number/brand combination');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('59', '100.100.700', 1, 'UngÃ¼ltige Nummer/Kartentyp Kombination', 'invalid cc number/brand combination', 'invalid cc number/brand combination');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '60';",
@@ -311,7 +311,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '72';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('72', '100.200.101', 1, 'Ungültige Kreditkarten bzw. Kontonummer', 'invalid creditcard/bank account number', 'invalid creditcard/bank account number');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('72', '100.200.101', 1, 'UngÃ¼ltige Kreditkarten bzw. Kontonummer', 'invalid creditcard/bank account number', 'invalid creditcard/bank account number');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '73';",
@@ -319,7 +319,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '74';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('74', '100.200.103', 1, 'BLZ und Kontonummer Kombination ungültig', 'bank account has invalid bankcode/name account number combination', 'bank account has invalid bankcode/name account number combination');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('74', '100.200.103', 1, 'BLZ und Kontonummer Kombination ungÃ¼ltig', 'bank account has invalid bankcode/name account number combination', 'bank account has invalid bankcode/name account number combination');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '75';",
@@ -950,7 +950,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '228';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('228', '100.700.102', 1, 'Ungültiger Familienname', 'invalid family name (contains no vowel)', 'invalid family name (contains no vowel)');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('228', '100.700.102', 1, 'UngÃ¼ltiger Familienname', 'invalid family name (contains no vowel)', 'invalid family name (contains no vowel)');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '229';",
@@ -963,15 +963,15 @@ $aQueries = array(
     //-------------------------------------------
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '231';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('231', '100.700.202', 1, 'Ungültiger Vorname', 'invalid given name (contains no vowel)', 'invalid given name (contains no vowel)');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('231', '100.700.202', 1, 'UngÃ¼ltiger Vorname', 'invalid given name (contains no vowel)', 'invalid given name (contains no vowel)');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '232';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('232', '100.700.300', 1, 'Ungültige Anrede', 'invalid salutation', 'invalid salutation');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('232', '100.700.300', 1, 'UngÃ¼ltige Anrede', 'invalid salutation', 'invalid salutation');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '233';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('233', '100.700.400', 1, 'Ungültiger Titel', 'invalid title', 'invalid title');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('233', '100.700.400', 1, 'UngÃ¼ltiger Titel', 'invalid title', 'invalid title');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '234';",
@@ -979,7 +979,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '235';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('235', '100.700.600', 1, 'Vor- oder Familienname ungültig', 'family and/or given name invalid', 'family and/or given name invalid');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('235', '100.700.600', 1, 'Vor- oder Familienname ungÃ¼ltig', 'family and/or given name invalid', 'family and/or given name invalid');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '236';",
@@ -999,16 +999,16 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '240';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('240', '100.800.100', 1, 'Keine Straße angegeben', 'request contains no street', 'request contains no street');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('240', '100.800.100', 1, 'Keine StraÃŸe angegeben', 'request contains no street', 'request contains no street');",
     ),
     //-------------------------------------------
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '241';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('241', '100.800.101', 1, 'Straßenname zu lang', 'street too long', 'street too long');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('241', '100.800.101', 1, 'StraÃŸenname zu lang', 'street too long', 'street too long');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '242';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('242', '100.800.102', 1, 'Ungültige Straße', 'invalid street', 'invalid street');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('242', '100.800.102', 1, 'UngÃ¼ltige StraÃŸe', 'invalid street', 'invalid street');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '243';",
@@ -1020,7 +1020,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '245';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('245', '100.800.202', 1, 'Ungültige Postleitzahl', 'invalid zip', 'invalid zip');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('245', '100.800.202', 1, 'UngÃ¼ltige Postleitzahl', 'invalid zip', 'invalid zip');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '246';",
@@ -1032,11 +1032,11 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '248';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('248', '100.800.302', 1, 'Ungültige Stadt', 'invalid city', 'invalid city');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('248', '100.800.302', 1, 'UngÃ¼ltige Stadt', 'invalid city', 'invalid city');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '249';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('249', '100.800.400', 1, 'Ungültige Staat/Land-Kombination', 'invalid state/country combination', 'invalid state/country combination');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('249', '100.800.400', 1, 'UngÃ¼ltige Staat/Land-Kombination', 'invalid state/country combination', 'invalid state/country combination');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '250';",
@@ -1045,11 +1045,11 @@ $aQueries = array(
     //-------------------------------------------
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '251';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('251', '100.800.500', 1, 'Kein Land übergeben', 'request contains no country', 'request contains no country');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('251', '100.800.500', 1, 'Kein Land Ã¼bergeben', 'request contains no country', 'request contains no country');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '252';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('252', '100.800.501', 1, 'Ungültiges Land', 'invalid country', 'invalid country');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('252', '100.800.501', 1, 'UngÃ¼ltiges Land', 'invalid country', 'invalid country');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '253';",
@@ -1057,7 +1057,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '254';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('254', '100.900.101', 1, 'Ungültige eMail-Adresse', 'invalid email address (probably invalid syntax)', 'invalid email address (probably invalid syntax)');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('254', '100.900.101', 1, 'UngÃ¼ltige eMail-Adresse', 'invalid email address (probably invalid syntax)', 'invalid email address (probably invalid syntax)');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '255';",
@@ -1073,11 +1073,11 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '258';",
-        'do'    => 'INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES("258", "100.900.200", 1, "Ungültige Tel.-Nr", "invalid phone number (has to start with a digit or a \"+\", at least 7 and max 25 chars long)", "invalid phone number (has to start with a digit or a \"+\", at least 7 and max 25 chars long)");',
+        'do'    => 'INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES("258", "100.900.200", 1, "UngÃ¼ltige Tel.-Nr", "invalid phone number (has to start with a digit or a \"+\", at least 7 and max 25 chars long)", "invalid phone number (has to start with a digit or a \"+\", at least 7 and max 25 chars long)");',
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '259';",
-        'do'    => 'INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES("259", "100.900.300", 1, "Ungültige Mobiltel.-Nr", "invalid mobile phone number (has to start with a digit or a \"+\", at least 7 and max 25 chars long)", "invalid mobile phone number (has to start with a digit or a \"+\", at least 7 and max 25 chars long)");',
+        'do'    => 'INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES("259", "100.900.300", 1, "UngÃ¼ltige Mobiltel.-Nr", "invalid mobile phone number (has to start with a digit or a \"+\", at least 7 and max 25 chars long)", "invalid mobile phone number (has to start with a digit or a \"+\", at least 7 and max 25 chars long)");',
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '260';",
@@ -1090,11 +1090,11 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '262';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('262', '100.900.401', 1, 'Ungültige IP-Nummer', 'invalid ip number', 'invalid ip number');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('262', '100.900.401', 1, 'UngÃ¼ltige IP-Nummer', 'invalid ip number', 'invalid ip number');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '263';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('263', '100.900.450', 1, 'ungültiges Geburtsdatum', 'invalid birthdate', 'invalid birthdate');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('263', '100.900.450', 1, 'ungÃ¼ltiges Geburtsdatum', 'invalid birthdate', 'invalid birthdate');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '264';",
@@ -1508,7 +1508,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '364';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('364', '800.100.151', 3, 'Ungültige Karte', 'transaction declined (invalid card)', 'transaction declined (invalid card)');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('364', '800.100.151', 3, 'UngÃ¼ltige Karte', 'transaction declined (invalid card)', 'transaction declined (invalid card)');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '365';",
@@ -1516,7 +1516,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '366';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('366', '800.100.153', 2, 'Ungültige Prüfziffer', 'transaction declined (invalid CVV)', 'transaction declined (invalid CVV)');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('366', '800.100.153', 2, 'UngÃ¼ltige PrÃ¼fziffer', 'transaction declined (invalid CVV)', 'transaction declined (invalid CVV)');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '367';",
@@ -1881,7 +1881,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '455';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('455', '900.100.100', 2, 'Bank sendet keine Rückmeldung.', 'unexpected communication error with connector/acquirer', 'unexpected communication error with connector/acquirer');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('455', '900.100.100', 2, 'Bank sendet keine RÃ¼ckmeldung.', 'unexpected communication error with connector/acquirer', 'unexpected communication error with connector/acquirer');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '456';",
@@ -1906,7 +1906,7 @@ $aQueries = array(
     //-------------------------------------------
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '461';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('461', '900.100.400', 2, 'Bank sendet keine Rückmeldung.', 'timeout at connectors/acquirer side', 'timeout at connectors/acquirer side');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('461', '900.100.400', 2, 'Bank sendet keine RÃ¼ckmeldung.', 'timeout at connectors/acquirer side', 'timeout at connectors/acquirer side');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '462';",

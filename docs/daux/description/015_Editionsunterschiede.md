@@ -53,6 +53,7 @@ Die Unterschiede zwischen den Lizenzen können Sie hier einsehen:
 |BillSAFE (nur Bestandskunden)|**X**|**X**
 |Rechnungskauf ohne Zahlungssicherung|**X**|**X**
 |Rechnungskauf mit Zahlungssicherung| |**X**
+|B2B Rechnungskauf mit Zahlungssicherung| |**X**
 |EasyCredit (Ratenkauf)| |**X**
 
 | Admin-Bereich an den Bestellungen | Basic | Premium

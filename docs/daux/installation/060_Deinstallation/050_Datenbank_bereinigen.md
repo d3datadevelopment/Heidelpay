@@ -20,4 +20,4 @@ und diese Felder in bestehenden Tabellen:
 sowie diese Einträge bestehenden Tabellen:
 
 * in Tabelle `d3_cfg_mod`:  
-  * den/die Eintrag/Einträge `oxmodid = "{$modcfgident}"`
+  * den/die Eintrag/Einträge `oxmodid = "{$moduleConfigurationident}"`

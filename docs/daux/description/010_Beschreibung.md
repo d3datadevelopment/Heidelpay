@@ -26,6 +26,7 @@ Details zu PCI finden Sie unter https://www.pcisecuritystandards.org/ .
 - iDeal *
 - EPS *
 - Rechnungskauf (mit Zahlungssicherung) *
+- B2B Rechnungskauf (mit Zahlungssicherung) *
 - Przelewy 24 *
 - MasterPass *
 - EasyCredit *

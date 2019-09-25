@@ -29,5 +29,4 @@ class BasketItem extends BasketItem_parent
     {
         $this->_oArticle = $oArticle;
     }
-
 }

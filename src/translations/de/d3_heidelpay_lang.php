@@ -242,4 +242,3 @@ Schalten Sie ggf. das D³ Logging (/Heidelpay/Einstellungen/Einstellungen zu Mod
     'D3HEIDELPAY_PAYMENT_COMPANY_EXECUTIVE_INFOS'                                              => 'Angaben zum Inhaber',
     'D3HEIDELPAY_PAYMENT_COMPANY_INFOS'                                                        => 'Angabe zum Unternehmen',
 );
-

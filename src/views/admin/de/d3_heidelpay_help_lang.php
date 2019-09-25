@@ -30,60 +30,18 @@ $aLang     = array(
         . 'an den Moduleinstellungen hinterlegt werden.<br><br>' //
         . '<b>Hinweis: <br>Testdaten erhalten Sie direkt von ' //
         . '<a href="https://dev.heidelpay.de/testumgebung/" target="heidelpay">Heidelpay</a>.</b>',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_SOFORT'             => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für Sofort ein. <br><br>Beim Bezahlvorgang erfolgt eine Weiterleitung zum ' //
-        . 'persönlichen Online-Banking des Käufers. Sensible Bankdaten werden somit nicht im Shop eingegeben.',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_EPS'                => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für eps ein. <br><br>Electronic Payment Standard, kurz eps, ist ein von den ' //
-        . 'größten Banken Österreichs konzipiertes Online-Überweisungsverfahren. Die Funktionsweise ist vergleichbar ' //
-        . 'mit den deutschen Bezahlmethoden Sofort und Giropay. ',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_GIROPAY'            => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für Giropay ein. <br><br>Giropay ist ein in Deutschland verbreitetes ' //
-        . 'Online-Banking-Verfahren. Es ermöglicht sichere Bezahlen per Vorkasse im Internet. Im Gegenzug zu einer ' //
-        . 'direkten Überweisung müssen Käufer keine sensiblen Bankdaten an Händler übermitteln.',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_IDEAL'              => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für iDeal ein. <br><br>iDeal ist die beliebteste Bezahlmethode im ' //
-        . 'niederländischen E-Commerce. Über einen Kunden-Account werden Zahlungen per Online Transfer direkt ' //
-        . 'zwischen den Bankkonten transferiert.',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_POSTFINANCE'        => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für Postfinance ein. <br><br>Die Postfinance AG gehört zu den führenden ' //
-        . 'Finanzinstituten der Schweiz. Mit dem eigenen E-Finance-Dienst können Kunden im Netz Zahlungen überweisen. ',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_ASSUREDINVOICE'     => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für Rechnungskauf mit Zahlungssicherung ein. <br><br>Dies ist eine der beliebtesten Zahlungsmethoden in ' //
-        . 'Deutschland. Neben einer umfangreichen Bonitätsprüfung beinhaltet der gesicherte Rechnungskauf eine ' //
-        . 'Zahlungsgarantie durch Heidelpay.',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_ASSUREDDIRECTDEBIT' => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für Lastschrift mit Zahlungssicherung ein. <br><br>Beinhaltet einen umfassenden Schutz vor ' //
-        . 'Zahlungsausfällen. ' //
-        . 'Heidelpay führt in Echtzeit einen speziellen "Kombi-Check" über eine Bonitätsprüfungsplattform durch. ' //
-        . 'Fällt der Check positiv aus, dürfen Kunden den Bezahlvorgang per Lastschriftzahlung abschließen. ' //
-        . 'Ebenfalls gesichert sind ungerechtfertigte Lastschriftrückgaben seitens der Käufer zu späteren Zeitpunkten.',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_PRZELEWY24'         => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für Przelewy24 ein. <br><br>Przelewy24 ist die beliebteste Online-Bezahlmethode ' //
-        . 'Polens. Diese ermöglicht eine einfache und sichere Zahlung direkt vom eigenen Konto oder der Kreditkarte. ' //
-        . 'Vorausgesetzt wird ein Konto bei einer Przelewy24 unterstützenden Bank. ',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_PAYPAL'             => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für Paypal ein. <br><br>Paypal stellt als Tochterunternehmen von Ebay, den ' //
-        . 'gleichnamigen Online-Bezahldienst "paypal" zur Verfügung. Mit dieser Zahlart kann ein Kunde einfach und '
-        . 'sicher bargeldlos bezahlen.',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_MASTERPASS'         => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für MasterPass ein. <br><br>MasterPass ist ein für mobile Endgeräte konzipiertes ' //
-        . 'Bezahlsystem.',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_EASYCREDIT'         => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für easyCredit ein.',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_BTOBBILLPURCHASE'         => 'Tragen Sie hier den von Heidelpay erhaltenen ' //
-        . 'Channel für B2B Rechnungskauf ein.',
-    'HELP_D3DYN_HEIDELPAY_LOGIN_AND_CHANNEL_HEAD'           => 'Für den Livebetrieb werden Ihre Heidelpay-Daten benötigt. ' //
+    'HELP_D3DYN_HEIDELPAY_LOGIN_LIVE_HEADER'           => 'Für den Livebetrieb werden Ihre Heidelpay-Daten benötigt. ' //
+        . 'Diese werden nur bei <b>inaktivem Testmodus</b> genutzt.<br><br>' //
         . 'Tragen Sie Ihre Daten in die folgenden Felder ein. ' //
-        . '<b>Die Livedaten werden Ihnen von Heidelpay gestellt!</b><br><br>' //
-        . 'Die folgenden Felder enthalten nach der Erstinstallation <b>Demodaten</b> zum Testen des Moduls. ' //
-        . 'Diese <b>funktionieren nur mit aktiven Testmodus!</b><br><br>' //
+        . '<b>Die Livedaten werden Ihnen von Heidelpay bereitgestellt!</b><br><br>' //
         . 'Sollte nach Eingabe Ihrer Daten das Modul nicht ordnungsgemäß arbeiten, kontrollieren Sie die Werte ' //
         . 'auf Richtigkeit und fragen beim Heidelpay-Support nach, ob der Account mit allen gewünschten Zahlungsarten ' //
         . 'aktiv ist.',
-    'HELP_D3DYN_HEIDELPAY_PARAM_SECURITYSENDER'             => 'Tragen Sie hier den von Heidelpay erhaltenen "Security Sender" ein.',
-    'HELP_D3DYN_HEIDELPAY_PARAM_USERID'                     => 'Tragen Sie hier die von Heidelpay erhaltene "UserID" ein.',
-    'HELP_D3DYN_HEIDELPAY_PARAM_PASSWORD'                   => 'Tragen Sie hier das von Heidelpay erhaltene "Password" ein.',
+    'HELP_D3DYN_HEIDELPAY_LOGIN_TEST_HEADER' =>  'Die folgenden Felder enthalten nach der Erstinstallation <b>Demodaten</b> zum Testen des Moduls. ' //
+        . 'Diese werden nur im <b>aktivem Testmodus</b> genutzt.<br><br>' //
+        . 'Sollte nach Eingabe Ihrer Daten das Modul nicht ordnungsgemäß arbeiten, kontrollieren Sie die Werte ' //
+        . 'auf Richtigkeit und fragen beim Heidelpay-Support nach, ob der Account mit allen gewünschten Zahlungsarten ' //
+        . 'aktiv ist.',
     'HELP_D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE'                => 'Hier stehen folgende Optionen zur Verfügung:<br><br>' //
         . '<ul>' //
         . '<li><b>\'Betrag sofort abbuchen\'</b><br> Die Karte des Kunden wird sofort nach Bestellabschluss belastet.</li>' //
@@ -93,9 +51,6 @@ $aLang     = array(
         . '<li><b>\'Inland buchen, Ausland reservieren\'</b><br> Mix der beiden Auswahloptionen für die Kundengruppen ' //
         . '"Inlandskunde" und "Auslandskunde</li>' //
         . '</ul>',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_STANDARD'           => 'Grundsätzlich muss der "Channel (Standard)" von Ihnen ' //
-        . 'eingetragen werden. Alle anderen, abweichenden Channels sind nachfolgend aufgeführt und namentlich ' //
-        . 'gekennzeichnet.',
     'HELP_D3DYN_HEIDELPAY_PARAM_BOOKINGTYPE_PAYPAL'         => 'Hier stehen folgende Otionen zur Verfügung:<br><br>' //
         . '<ul>' //
         . '<li><b>\'Betrag sofort abbuchen\'</b><br> Das Paypal-Konto des Kunden wird sofort nach Bestellabschluss ' //
@@ -127,7 +82,10 @@ $aLang     = array(
         . 'Wir empfehlen zu Beginn das Logging des Heidelpay-Moduls auf ' //
         . '"<b>alle Fehler- und Infolevel</b>" zu setzen, um evtl. Fehlkonfigurationen nachvollziehen zu können.<br>' //
         . 'Sie können das Logging später auf bspw. "Fehler und Warnungen" herab setzen.<br><br>' //
-        . '<b>Hinweis<br>Für Supportanfragen und Analysen wird das vollständige Log ("alle Fehler und Infolevel") benötigt!</b>',
+        . '<strong>Hinweise:</strong>' //
+        . '<br><strong>D</strong>iese Einstellung regelt wie viel Einträge in die MySQL Tabelle d3log geschrieben werden.'//
+        . '<br><strong>B</strong>eachten Sie, dass die Einstellung "alle Fehler- und Infolevel" sehr viele Einträge schreibt und ggf. die Tabelle d3log gewartet werden muss.'//
+        . '<br><strong>F</strong>ür Supportanfragen und Analysen wird das vollständige Log ("alle Fehler und Infolevel") benötigt!',
     'HELP_D3DYN_HEIDELPAY_PARAM_DEBITUNMASK'                => 'Geben Sie an ob die Bankdaten im Shop vollständig ' //
         . 'angezeigt oder mit * teilweise maskiert werden sollen.',
     'HELP_D3DYN_HEIDELPAY_PARAM_STOREDDATA'                 => 'Das Modul unterstützt die Speicherung der ' //
@@ -153,7 +111,7 @@ z.B. "Kartenummer nicht korrekt".<br><br><b>Hinweis: Sicherheitsrelevante Meldun
         'oxserviceproductsagreement => 1</i></pre>',
     'HELP_D3DYN_HEIDELPAY_ADDITIONAL_URL_PARAMETER'         => 'Hinterlegen Sie in diesem Feld alle zusätzlichen URL parameter die für evtl. Trackings gebraucht werden. ' //
         . 'Die Syntax ist : Parametername => Parameterwert<br> <br>' //
-        . 'Bspw. Google Analytics -> utm_nooverride => 1<br> <br>', //
+        . 'Bspw. Google Analytics -> utm_nooverride => 1<br> <br>',//
     'HELP_D3HEIDELPAY_DIFFERENCE_IN_ORDER_ERRRORMAIL'       => 'Geben Sie hier eine E-Mail Adresse an, ' //
         . 'welche Benachrichtungen in "Fehlerfällen" erhalten soll. Diese Fälle können bspw. ' //
         . 'Abweichungen zum Transaktionsbetrag bei einer Bestellung sein.<br><br>' //
@@ -174,7 +132,7 @@ z.B. "Kartenummer nicht korrekt".<br><br><b>Hinweis: Sicherheitsrelevante Meldun
         . 'hier ein. Die Sessionzeit wird über die PHP Variable "session.gc_maxlifetime" definiert.'
         . 'Diese ist zu finden unter <pre><i>Service > Systeminfo</i></pre><br>' //
         . 'Der Standardwert ist 600 Sekunden (10 Minuten).',
-    'HELP_D3DYN_HEIDELPAY_PARAM_CURLTIMEOUTSEK'             => 'Geben Sie hier das Zeitlimit für Curl Anfragen an.<br>Der Standardwert sind 50 Sekunden.',
+    'HELP_D3DYN_HEIDELPAY_PARAM_CURLTIMEOUTSEK'             => 'Geben Sie hier das Zeitlimit für Curl Anfragen an.<br>Der Standardwert sind 60 Sekunden.',
     'HELP_D3DYN_HEIDELPAY_PARAM_CSSPATH'                    => 'Mit der CSS-Datei erhalten Sie die Möglichkeit, das iFrame von Heidelpay optisch anzupassen. '
         . 'Wenn der Status grün ist, wird die CSS Datei vom Modul erkannt und an Heidelpay übergeben (ohne Inhaltsprüfung). '
         . 'Das iFrame kommt derzeit bei Kredit- und Debitkarte zum Einsatz.<br><br>'
@@ -214,4 +172,11 @@ Dieser wird ausgewertet und die Bestellung wird auf bezahlt, sowie der Transakti
 Die Shop-Benachrichtigungs-URL muss bei Heidelpay (per E-Mail) eingereicht werden.<br>
 Die URL setzt sich aus der Shopdomain (Hauptdomain bei EE Versionen, die Shop-Id wird in den Transaktionen überliefert) und dem Pfad zu der notify.php zusammen:<br>
 https://www.meine-shop-dom.ain/modules/d3/heidelpay/public/notify.php<br>',
+    'HELP_D3HEIDELPAY_CONFIG_TITLE'       => 'Der Titel der Konfiguration wird nur für interne Zwecke genutzt.',
+    'HELP_D3HEIDELPAY_CONFIG_CHANNEL'     => 'Tragen Sie hier den von Heidelpay erhaltenen Channel ein.',
+    'HELP_D3HEIDELPAY_CONFIG_PAYMENTTYPE' => 'Wählen Sie hier die zugehörige Heidelpay Zahlungsart aus, die zu dem eingetragenen Channel passt.',
+    'HELP_D3HEIDELPAY_CONFIG_ISTESTCONFIG' => 'Wenn diese Option aktiv ist, wird die Kommunikation an das Heidelpay Testsystem, anstatt an das Livesystem übertragen.<br>
+Es werden auf dem Test Server keine realen Buchungen durchgeführt!<br><br>' //
+        . '<b>Hinweis: <br>Testdaten können Sie direkt von ' //
+        . '<a href="https://dev.heidelpay.de/testumgebung/" target="heidelpay">Heidelpay</a> beziehen.</b>'
 );

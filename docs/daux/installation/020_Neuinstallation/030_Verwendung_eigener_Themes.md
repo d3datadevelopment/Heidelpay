@@ -11,4 +11,4 @@ Verwenden Sie in Ihrem Shop ein angepasstes Verzeichnis für Ihre Templates (neu
 
 Ähnelt Ihr neues Theme technisch einem der OXID-Originale, können Sie dieses darauf umleiten. Childs von originalen OXID- Themes benötigen keine Umleitung.
 
-Weitere Informationen zur Umleitung finden Sie in unserer [FAQ](http://faq.oxidmodule.com/Modulinstallation/Modulanpassungen/themespezifische-Templatebloecke-fuer-eigenes-Theme-verwenden.html).
+Weitere Informationen zur Umleitung finden Sie in unserer [FAQ](https://faq.d3data.de/oxid-eshop/module-oxid-eshop/anpassungen/template-bloecke-dem-eigenen-theme-zuordnen/).

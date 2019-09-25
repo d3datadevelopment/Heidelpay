@@ -23,6 +23,10 @@
         border-radius:3px;
         margin-bottom:2px;
     }
+    form fieldset.active {
+        border-color: #1fb71f;
+        border-width: 2px;
+    }
 </style>
 
 [{if $readonly}]
@@ -93,13 +97,7 @@
     <input type="hidden" name="cl" value="[{$oViewConf->getActiveClassName()}]">
     <input type="hidden" name="editlanguage" value="[{$editlanguage}]">
 </form>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-    <tr>
-        <td width="2%"></td>
-        <!-- Anfang linke Seite -->
-        <td valign="top" class="edittext" align="left" width="48%">
-
-            <form name="myedit" id="myedit" action="[{$oViewConf->getSelfLink()}]" method="post">
+<form name="myedit" id="myedit" action="[{$oViewConf->getSelfLink()}]" method="post">
                 [{$oViewConf->getHiddenSid()}]
                 <input type="hidden" name="cl" value="[{$oViewConf->getActiveClassName()}]">
                 <input type="hidden" name="fnc" value="">
@@ -140,10 +138,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
-                            <fieldset title="[{oxmultilang ident="D3DYN_HEIDELPAY_LOGIN_AND_CHANNEL_HEAD"}]">
+                        <td>
+                            <fieldset title="[{oxmultilang ident="D3DYN_HEIDELPAY_LOGIN_LIVE_HEADER"}]" [{if $edit->getValue('d3heidelpay_blTestmode') == 0}] class="active"[{/if}]>
                                 <legend>
-                                    <b>[{oxmultilang ident="D3DYN_HEIDELPAY_LOGIN_AND_CHANNEL_HEAD"}]</b>[{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_LOGIN_AND_CHANNEL_HEAD"}]
+                                    <b>[{oxmultilang ident="D3DYN_HEIDELPAY_LOGIN_LIVE_HEADER"}]</b>[{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_LOGIN_LIVE_HEADER"}]
                                 </legend>
                                 <table cellspacing="5" cellpadding="0" border="0" width="100%">
                                     <tr>
@@ -151,14 +149,13 @@
                                             [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_SECURITYSENDER"}]
                                         </td>
                                         <td class="edittext">
-                                            [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_SECURITYSENDER"}]
                                             <input type="text"
                                                    class="editinput"
                                                    name="value[d3_cfg_mod__d3heidelpay_sSecuritySender]"
                                                    id="d3_cfg_mod__d3heidelpay_sSecuritySender"
                                                    value="[{$edit->getValue('d3heidelpay_sSecuritySender')}]"
                                                    title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_SECURITYSENDER"}]"
-                                                   style="width:220px;">
+                                                   style="width:230px;">
                                         </td>
                                     </tr>
                                     <tr>
@@ -166,14 +163,13 @@
                                             [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_USERID"}]
                                         </td>
                                         <td class="edittext">
-                                            [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_USERID"}]
                                             <input type="text"
                                                    class="editinput"
                                                    name="value[d3_cfg_mod__d3heidelpay_sUserID]"
                                                    id="d3_cfg_mod__d3heidelpay_sUserID"
                                                    value="[{$edit->getValue('d3heidelpay_sUserID')}]"
                                                    title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_USERID"}]"
-                                                   style="width:220px;">
+                                                   style="width:230px">
                                         </td>
                                     </tr>
                                     <tr>
@@ -181,213 +177,64 @@
                                             [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_PASSWORD"}]
                                         </td>
                                         <td class="edittext">
-                                            [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_PASSWORD"}]
                                             <input type="text"
                                                    class="editinput"
                                                    name="value[d3_cfg_mod__d3heidelpay_sPassword]"
                                                    id="d3_cfg_mod__d3heidelpay_sPassword"
                                                    value="[{$edit->getValue('d3heidelpay_sPassword')}]"
                                                    title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_PASSWORD"}]"
-                                                   style="width:220px;">
+                                            >
+                                        </td>
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </td>
+                        <td>
+                            <fieldset title="[{oxmultilang ident="D3DYN_HEIDELPAY_LOGIN_TEST_HEADER"}]" [{if $edit->getValue('d3heidelpay_blTestmode') == 1}] class="active"[{/if}]>
+                                <legend>
+                                    <b>[{oxmultilang ident="D3DYN_HEIDELPAY_LOGIN_TEST_HEADER"}]</b>[{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_LOGIN_TEST_HEADER"}]
+                                </legend>
+                                <table cellspacing="5" cellpadding="0" border="0" width="100%">
+                                    <tr>
+                                        <td class="edittext">
+                                            [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_SECURITYSENDER"}]
+                                        </td>
+                                        <td class="edittext">
+                                            <input type="text"
+                                                   class="editinput"
+                                                   name="value[d3_cfg_mod__d3heidelpay_sSecuritySenderTest]"
+                                                   id="d3_cfg_mod__d3heidelpay_sSecuritySenderTest"
+                                                   value="[{$edit->getValue('d3heidelpay_sSecuritySenderTest')}]"
+                                                   title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_SECURITYSENDER"}]"
+                                                   style="width:230px;">
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">
-                                            <div class="groupExp">
-                                                <div>
-                                                    <a href="#" onclick="_groupExp(this);return false;"
-                                                       class="rc"><b>[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_HEADER"}]</b></a>
-                                                    <dl>
-                                                        <dd>
-                                                            <table cellspacing="2" cellpadding="0" border="0" width="100%">
-                                                                <tr>
-                                                                    <td class="edittext">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_STANDARD"}]
-                                                                    </td>
-                                                                    <td class="edittext">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_STANDARD"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel]"
-                                                                               id="d3_cfg_mod__d3heidelpay_sChannel"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel')}]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_STANDARD"}]"
-                                                                               style="width:220px;">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr><td colspan="2"><hr></td></tr>
-                                                                <tr>
-                                                                    <td class="edittext">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_SOFORT"}]
-                                                                    </td>
-                                                                    <td class="edittext">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_SOFORT"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__sofort]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_SOFORT"}]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__sofort')}]">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_EPS"}]
-                                                                    </td>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_EPS"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__eps]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_EPS"}]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__eps')}]" [{$blBasicRestriction}]>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_GIROPAY"}]
-                                                                    </td>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_GIROPAY"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__giro]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_GIROPAY"}]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__giro')}]" [{$blBasicRestriction}]>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_IDEAL"}]
-                                                                    </td>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_IDEAL"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__ideal]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_IDEAL"}]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__ideal')}]" [{$blBasicRestriction}]>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_POSTFINANCE"}]
-                                                                    </td>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_POSTFINANCE"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__postfinance]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__postfinance')}]" [{$blBasicRestriction}]>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_ASSUREDINVOICE"}]
-                                                                    </td>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_ASSUREDINVOICE"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__assuredinv]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_ASSUREDINVOICE"}]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__assuredinv')}]" [{$blBasicRestriction}]>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_ASSUREDDIRECTDEBIT"}]
-                                                                    </td>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_ASSUREDDIRECTDEBIT"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__assureddirectdebit]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_ASSUREDDIRECTDEBIT"}]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__assureddirectdebit')}]" [{$blBasicRestriction}]>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_PRZELEWY24"}]
-                                                                    </td>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_PRZELEWY24"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__przelewy24]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_PRZELEWY24"}]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__przelewy24')}]" [{$blBasicRestriction}]>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="edittext">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_PAYPAL"}]
-                                                                    </td>
-                                                                    <td class="edittext">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_PAYPAL"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__paypal]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_PAYPAL"}]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__paypal')}]">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_MASTERPASS"}]
-                                                                    </td>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_MASTERPASS"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__masterpass]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_MASTERPASS"}]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__masterpass')}]" [{$blBasicRestriction}]>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_EASYCREDIT"}]
-                                                                    </td>
-                                                                    <td class="edittext [{$blBasicRestriction}]">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_EASYCREDIT"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__easycredit]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_EASYCREDIT"}]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__easycredit')}]" [{$blBasicRestriction}]>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="edittext">
-                                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_BTOBBILLPURCHASE"}]
-                                                                    </td>
-                                                                    <td class="edittext">
-                                                                        [{oxinputhelp ident="HELP_D3DYN_HEIDELPAY_PARAM_CHANNEL_BTOBBILLPURCHASE"}]
-                                                                        <input type="text"
-                                                                               class="editinput"
-                                                                               style="width:220px;"
-                                                                               name="value[d3_cfg_mod__d3heidelpay_sChannel__Btobbillpurchase]"
-                                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_CHANNEL_BTOBBILLPURCHASE"}]"
-                                                                               value="[{$edit->getValue('d3heidelpay_sChannel__Btobbillpurchase')}]" [{$blBasicRestriction}]>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </dd>
-                                                    </dl>
-                                                </div>
-                                            </div>
+                                        <td class="edittext">
+                                            [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_USERID"}]
+                                        </td>
+                                        <td class="edittext">
+                                            <input type="text"
+                                                   class="editinput"
+                                                   name="value[d3_cfg_mod__d3heidelpay_sUserIDTest]"
+                                                   id="d3_cfg_mod__d3heidelpay_sUserID"
+                                                   value="[{$edit->getValue('d3heidelpay_sUserIDTest')}]"
+                                                   title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_USERID"}]"
+                                                   style="width:230px;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="edittext">
+                                            [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_PASSWORD"}]
+                                        </td>
+                                        <td class="edittext">
+                                            <input type="text"
+                                                   class="editinput"
+                                                   name="value[d3_cfg_mod__d3heidelpay_sPasswordTest]"
+                                                   id="d3_cfg_mod__d3heidelpay_sPasswordTest"
+                                                   value="[{$edit->getValue('d3heidelpay_sPasswordTest')}]"
+                                                   title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_PASSWORD"}]"
+                                            >
                                         </td>
                                     </tr>
                                 </table>
@@ -855,67 +702,7 @@
                             </div>
                         </td>
                     </tr>
-            <tr><td colspan="2"><br></td></tr>
-                    <tr>
-                        <td colspan="2" style="white-space:normal">
-                            <div class="groupExp">
-                                <div>
-                                    <a href="#" onclick="_groupExp(this);return false;"
-                                       class="rc"><b>[{oxmultilang ident="D3DYN_HEIDELPAY_TESTVALUES_HEAD"}]</b>
-                                    </a>[{oxinputhelp ident="D3DYN_HEIDELPAY_TESTVALUES"}]
-                                    <dl>
-                                        <dt>
-                                            <table cellspacing="0" cellpadding="0" border="0" width="100%">
-                                                <tr>
-                                                    <td class="edittext">
-                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_TESTSERVERTYPE"}]
-                                                    </td>
-                                                    <td class="edittext">
-                                                        <select name="value[d3_cfg_mod__d3heidelpay_sTestServerTyp]"
-                                                                class="editinput"
-                                                                title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_TESTSERVERTYPE"}]">
-                                                            <option [{if $edit->getValue('d3heidelpay_sTestServerTyp') == "CONNECTOR_TEST"}]selected[{/if}]>
-                                                                CONNECTOR_TEST
-                                                            </option>
-                                                            <option [{if $edit->getValue('d3heidelpay_sTestServerTyp') == "INTEGRATOR_TEST"}]selected[{/if}]>
-                                                                INTEGRATOR_TEST
-                                                            </option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="edittext">
-                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_TESTMOD_ERRORCODE"}]
-                                                    </td>
-                                                    <td class="edittext">
-                                                        <input type="text"
-                                                               class="editinput"
-                                                               style="width:100px;"
-                                                               name="value[d3_cfg_mod__d3heidelpay_sTestErrorCode]"
-                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_TESTMOD_ERRORCODE"}]"
-                                                               value="[{$edit->getValue('d3heidelpay_sTestErrorCode')}]">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="edittext">
-                                                        [{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_TESTMOD_RETURNCODE"}]
-                                                    </td>
-                                                    <td class="edittext">
-                                                        <input type="text"
-                                                               class="editinput"
-                                                               style="width:100px;"
-                                                               name="value[d3_cfg_mod__d3heidelpay_sTestReturnCode]"
-                                                               title="[{oxmultilang ident="D3DYN_HEIDELPAY_PARAM_TESTMOD_RETURNCODE"}]"
-                                                               value="[{$edit->getValue('d3heidelpay_sTestReturnCode')}]">
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </dt>
-                                    </dl>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                    <tr><td colspan="2"><br></td></tr>
                     <tr>
                         <td class="edittext"></td>
                         <td class="edittext">
@@ -929,103 +716,6 @@
                     </tr>
                 </table>
             </form>
-        </td>
-
-        <td width="2%">&nbsp;</td>
-        <!-- Anfang rechte Seite -->
-        <td valign="top" class="edittext" width="48%">
-            <fieldset title="[{oxmultilang ident="D3DYN_HEIDELPAY_ACTIVEPAYMENTS"}]">
-                <legend>[{oxmultilang ident="D3DYN_HEIDELPAY_ACTIVEPAYMENTS"}]</legend>
-
-                <div>[{oxmultilang ident="D3DYN_HEIDELPAY_CURRENTPAYMENTS"}]</div>
-
-                [{foreach from=$aAssignedOxpayments item='oPayment' key='sPaymentId' name="existpaylist"}]
-                    <form name="existpaylist[{$smarty.foreach.existpaylist.iteration}]"
-                          id="paylist[{$smarty.foreach.existpaylist.iteration}]"
-                          action="[{$oViewConf->getSelfLink()}]"
-                          method="post">
-                        <table cellspacing="5" cellpadding="0" border="0" width="100%">
-                            <tr>
-                                <td class="edittext">
-                                    [{$oViewConf->getHiddenSid()}]
-                                    <input type="hidden" name="cl" value="[{$oViewConf->getActiveClassName()}]">
-                                    <input type="hidden" name="fnc" value="save">
-                                    <input type="hidden" name="oxid" value="[{$oxid}]">
-                                    <input type="hidden" name="editval[d3_cfg_mod__oxid]" value="[{$oxid}]">
-
-                                    [{$oPayment->oxpayments__oxdesc->value}]
-                                </td>
-                                <td class="edittext" align="right">
-                                    [{oxmultilang ident="D3DYN_HEIDELPAY_PAYTYPE"}]&nbsp;
-
-                                    <select class="edittext"
-                                            name="changepayment[[{$oPayment->getId()}]]"
-                                            title="[{oxmultilang ident="D3DYN_HEIDELPAY_PAYTYPE"}]"
-                                            onChange="document.existpaylist[{$smarty.foreach.existpaylist.iteration}].submit();">
-                                        <option value="">--</option>
-                                        [{foreach from=$aHeidelpayPaymentList item="oHeidelPayment"}]
-                                            <option value="[{$oHeidelPayment}]"
-                                                    [{if $oHeidelPayment == $oPayment->sHeidelPaymentClass}]selected[{/if}]>
-                                                [{oxmultilang ident=$oHeidelPayment|strtolower}]
-                                            </option>
-                                        [{/foreach}]
-                                    </select>
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
-                    [{foreachelse}]
-                    <table cellspacing="5" cellpadding="0" border="0" width="100%">
-                        <tr>
-                            <td class="edittext">
-                                <div style="color:red; font-weight: bold;">[{oxmultilang ident="D3DYN_HEIDELPAY_NOACTIVEPAYMENTS"}]</div>
-                            </td>
-                        </tr>
-                    </table>
-                [{/foreach}]
-            </fieldset>
-            <br>
-            <fieldset title="[{oxmultilang ident="D3DYN_HEIDELPAY_NOCURRENTPAYMENT"}]">
-                <legend>[{oxmultilang ident="D3DYN_HEIDELPAY_NOCURRENTPAYMENT"}]</legend>
-
-                [{foreach from=$aFreeOxpayments item='oPayment' key='sPaymentId' name="paylist"}]
-                    <form name="paylist[{$smarty.foreach.paylist.iteration}]"
-                          id="paylist[{$smarty.foreach.paylist.iteration}]"
-                          action="[{$oViewConf->getSelfLink()}]"
-                          method="post">
-                        <table cellspacing="5" cellpadding="0" border="0" width="100%">
-                            <tr>
-                                <td class="edittext">
-                                    [{$oViewConf->getHiddenSid()}]
-                                    <input type="hidden" name="cl" value="[{$oViewConf->getActiveClassName()}]">
-                                    <input type="hidden" name="fnc" value="save">
-                                    <input type="hidden" name="oxid" value="[{$oxid}]">
-                                    <input type="hidden" name="editval[d3_cfg_mod__oxid]" value="[{$oxid}]">
-
-                                    <input type="hidden" name="oxpaymentid"
-                                           value="[{$oPayment->oxpayments__oxid->value}]">
-                                    [{$oPayment->oxpayments__oxdesc->value}]
-                                </td>
-                                <td class="edittext" align="right" nowrap>
-                                    [{oxmultilang ident="D3DYN_HEIDELPAY_PAYTYPE"}]&nbsp;
-                                    <select class="edittext"
-                                            name="changepayment[[{$oPayment->getId()}]]"
-                                            title="[{oxmultilang ident="D3DYN_HEIDELPAY_PAYTYPE"}]"
-                                            onChange="document.paylist[{$smarty.foreach.paylist.iteration}].submit();">
-                                        <option value="">--</option>
-                                        [{foreach from=$aHeidelpayPaymentList item="oHeidelPayment"}]
-                                            <option value="[{$oHeidelPayment}]">[{oxmultilang ident=$oHeidelPayment|strtolower}]</option>
-                                        [{/foreach}]
-                                    </select>
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
-                [{/foreach}]
-            </fieldset>
-        </td>
-    </tr>
-</table>
 
 [{if $blRefreshList}]
     [{oxscript add="top.oxid.admin.updateList();"}]

@@ -5,8 +5,7 @@ namespace D3\Heidelpay\Modules\Application\Model;
 use D3\Heidelpay\Controllers\PaymentGateway as ControllerPaymentGateway;
 use D3\Heidelpay\Models\Factory;
 use D3\Heidelpay\Models\Response\Parser;
-use D3\Heidelpay\Models\Settings\Exception\EmptyPaymentlistException;
-use D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay;
+use D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay as TransactionlogReader;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
 use D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception;
 use D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException;
@@ -32,7 +31,6 @@ class PaymentGateway extends PaymentGateway_parent
      * @param object $oOrder
      *
      * @return bool|int|string
-     * @throws EmptyPaymentlistException
      * @throws d3ShopCompatibilityAdapterException
      * @throws d3_cfg_mod_exception
      * @throws DBALException
@@ -61,7 +59,7 @@ class PaymentGateway extends PaymentGateway_parent
             /** @var d3transactionlog $oTransAction */
             $oTransAction = oxNew(
                 d3transactionlog::class,
-                oxNew(Heidelpay::class),
+                oxNew(TransactionlogReader::class),
                 $oFactory->getReferenceNumber()
             );
             $oTransAction->setTransactiondata('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><response/>');
@@ -86,7 +84,7 @@ class PaymentGateway extends PaymentGateway_parent
             print_r(var_export($mReturn, true), true)
         );
 
-        if (ControllerPaymentGateway::CALLPARENT === $mReturn) {
+        if (ControllerPaymentGateway::PAYMENTGATEWAY_CALLPARENT === $mReturn) {
             return parent::executePayment($dAmount, $oOrder);
         }
 

@@ -40,9 +40,8 @@
                     [{/if}]
                 </b></label>
             [{if false == $blShowPaymentMethod}]
-                [{assign_adv var="d3InvoiceSecuredLimits" value='array("'|cat:$oHeidelPayment->getMinimumLimit()|cat:'", "'|cat:$oHeidelPayment->getMaximumLimit()|cat:'")'}]
                 <sup id="d3HeidelayInvoiceSecuredNotice"
-                     class="alert alert-danger desc">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INVOICESECURED_NOTICE" args=$d3InvoiceSecuredLimits}]</sup>
+                     class="alert alert-danger desc">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INVOICESECURED_NOTICE" args=$iD3HeidelpayInvoiceSecuredLimits}]</sup>
             [{/if}]
             [{if false == $blD3HeidelpayHasSameAdresses}]
                 <sup class="alert alert-danger d3HeidelaySameAddressNotice">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_NOTSAMEADDRESS_NOTICE"}]</sup>
@@ -57,7 +56,7 @@
                            name='d3birthdate[[{$sPaymentID}]][day]' type="text" data-fieldsize="xsmall" maxlength="2"
                            value="[{if $iBirthdayDay > 0 }][{$iBirthdayDay }][{/if}]"/>
                     [{oxscript include="js/widgets/oxinnerlabel.js" priority=10 }]
-                    [{oxscript add='$(\'#oxDay_'|cat:$sPaymentID'\').oxInnerLabel();'}]
+                    [{oxscript add='$(\'#oxDay_'|cat:$sPaymentID|cat:'\').oxInnerLabel();'}]
                     <select class='oxMonth js-oxValidate js-oxValidate_date js-oxValidate_notEmpty'
                             name='d3birthdate[[{$sPaymentID}]][month]'>
                         [{section name="month" start=1 loop=13 }]
@@ -71,7 +70,7 @@
                            name='d3birthdate[[{$sPaymentID}]][year]' type="text" data-fieldsize="small" maxlength="4"
                            value="[{if $iBirthdayYear }][{$iBirthdayYear }][{/if}]"/>
                     [{oxscript include="js/widgets/oxinnerlabel.js" priority=10 }]
-                    [{oxscript add='$(\'#oxYear_'|cat:$sPaymentID'\').oxInnerLabel();'}]
+                    [{oxscript add='$(\'#oxYear_'|cat:$sPaymentID|cat:'\').oxInnerLabel();'}]
                     <p class="oxValidateError">
                         <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>
                         <span class="js-oxError_incorrectDate">[{ oxmultilang ident="ERROR_MESSAGE_INCORRECT_DATE" }]</span>
