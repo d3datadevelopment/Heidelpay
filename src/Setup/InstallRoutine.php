@@ -20,6 +20,7 @@ use OxidEsales\Eshop\Core\Exception\ConnectionException;
 use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
 use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
 use OxidEsales\Eshop\Core\Exception\StandardException;
+use OxidEsales\Eshop\Core\Exception\SystemComponentException;
 use OxidEsales\Eshop\Core\Model\BaseModel;
 use OxidEsales\Eshop\Core\Registry;
 
@@ -50,7 +51,7 @@ class InstallRoutine extends d3install_updatebase
     /**
      * @var string
      */
-    public $sModVersion = '6.1.0.0';
+    public $sModVersion = '6.1.0.1';
 
     /**
      * @var string
@@ -58,18 +59,18 @@ class InstallRoutine extends d3install_updatebase
     public $sMinModCfgVersion = '5.2.0.2';
 
     /** @var string @deprecated since 2016-04-13 */
-    public $sModRevision = '6100';
+    public $sModRevision = '6101';
 
     /**
      * @var string
      */
     public $sBaseConf = '--------------------------------------------------------------------------------
-Chev2==K1F5cnhsZHc3NkFxcVlyK1JidlFXTTFWWWEyeFdIaUo1aU1HT3RFU0ppK1orcDh1ZEVSSUY5T
-2cra05TQ3hQZjQ3YlVkbXRSUjdQUTlMUHcyWWJvekVVeFhHUG1FYTJNeTZYMGI3Vzh4bDFOT0dqOWxMY
-zRzWWlYQ202b0o1MnZGOVJkSXk5VE5YaUVMK1B4TE1OOHlCaC9JYUJSY1lYVFZRT2NsaVNCMnljb3h3R
-GhSZUc0cncxVkFsREx3VG5VT2h5cGF2c2V2L1E5cFBpcm5QWnB0S2wxRktCeXl2d2c2cGlrMG1jUWFqc
-2REbEdxZVg0UW5MUlVTWmpjOWhWeitGZ2hnLzlBTjE2Q3ZGYlNvSDdUVUEvQXFPZ1NXQXJ5NXZCa1ZSc
-CtDcnF5ZWtUM0FmM0FlRkZlKzBoQTBxaUdNUlgvVnZ4blhmMVJ5UkRLaVlrc1hRPT0=
+wTbv2==bnRIcFNSTnQ3VGNTQ2RmQi80dnZlS1UwTndJRkFCOWxpb2FsZVVYZlI4QVV6SC9DUFNYMU1ZT
+lQ2NTFWN0tKbW9LZ1Q5cDZmaVI5ZmdSTUFlanRXVktMUExxRjFic1ViRmVWZnd1K2RJRXlxYm5sTlNid
+2FWUHlHM2g1R3pWUzZEbjgyWDZyaDAwN0VIYjVBQVExdVZhZzVWVzJRczM1K3djMU9MU2RaaWJ4YXowd
+ldKTGdwaE1kNmMzUEhRUWN5VFd5eTZDRE8rOFlGNGZEQW9oaHQ4LzFoaFBQWGN4WkxERzlJekFRS2ZLO
+WJRTXNwOXNYeU5ncEtVOXdsZC90WUlSZk1YaTI0Um8yNkVOSTNGTHF2Uy8xVTR5SHV3WS9TRWh5eVl6W
+kcxWnRHYzlGRllTM2dCRS9peXA0THhjNldhdFRuVGk1S1BDQ05NLzMyZnY4eFdnPT0=
 --------------------------------------------------------------------------------';
 
     /**
@@ -368,6 +369,7 @@ CtDcnF5ZWtUM0FmM0FlRkZlKzBoQTBxaUdNUlgvVnZ4blhmMVJ5UkRLaVlrc1hRPT0=
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function hasToShowNoteForStoredData()
     {
@@ -394,6 +396,7 @@ CtDcnF5ZWtUM0FmM0FlRkZlKzBoQTBxaUdNUlgvVnZ4blhmMVJ5UkRLaVlrc1hRPT0=
      * @return bool
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function showNoteForStoredData()
     {
@@ -632,6 +635,7 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
      * @return bool
      * @throws ConnectionException
      * @throws DatabaseConnectionException
+     * @throws SystemComponentException
      */
     public function checkOxcontentItemsExist()
     {
@@ -646,6 +650,7 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
      * @return bool
      * @throws ConnectionException
      * @throws DatabaseConnectionException
+     * @throws SystemComponentException
      */
     protected function _hasExecuteFileQuery($sFileName)
     {
@@ -676,6 +681,7 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
      * @throws ConnectionException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function insertOxcontentItemsIfNotExist()
     {
@@ -693,6 +699,7 @@ WHERE d3transactionlog.oxid IS NOT NULL;'
      * @throws ConnectionException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     protected function _executeFileQueries($sFileName)
     {
@@ -937,6 +944,7 @@ MySQL;
      * @throws ConnectionException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function showForChangeHaendlerKontoMsg()
     {
@@ -965,6 +973,7 @@ MySQL;
      * @throws ConnectionException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function checkForChangeHaendlerKontoMsg()
     {
@@ -1002,6 +1011,7 @@ MySQL;
      * @throws ConnectionException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function checkModCfgorderExecutePostFields()
     {
@@ -1087,6 +1097,7 @@ MySQL;
      * @throws ConnectionException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function usingModCfgStoredDataWithoutRG()
     {
@@ -1221,6 +1232,7 @@ MYSQL;
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function hasMultilangConfigButNoSetting()
     {
@@ -1282,6 +1294,7 @@ MYSQL;
     /**
      * @return bool
      * @throws ConnectionException
+     * @throws SystemComponentException
      */
     public function showMultilangConfigButNoSettingMessage()
     {
@@ -1320,6 +1333,7 @@ MYSQL;
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function hasModProfileEntries()
     {

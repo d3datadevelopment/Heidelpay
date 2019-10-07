@@ -29,6 +29,7 @@ use OxidEsales\Eshop\Application\Model\Payment;
 use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
 use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
 use OxidEsales\Eshop\Core\Exception\StandardException;
+use OxidEsales\Eshop\Core\Exception\SystemComponentException;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\Request;
 use OxidEsales\Eshop\Core\UtilsView;
@@ -417,6 +418,7 @@ class PaymentController extends PaymentController_parent
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function render()
     {
@@ -467,6 +469,7 @@ class PaymentController extends PaymentController_parent
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function isHeidelpayEasycreditAllowed(Basket $oxBasket)
     {
@@ -500,6 +503,7 @@ class PaymentController extends PaymentController_parent
      * @param $sCurrencyName
      *
      * @return bool
+     * @throws SystemComponentException
      */
     public function isPaymentAllowedForCountryAndCurrency($sCountryIsoAlpha2, $sCurrencyName)
     {
@@ -518,6 +522,7 @@ class PaymentController extends PaymentController_parent
 
     /**
      * @return bool
+     * @throws SystemComponentException
      */
     protected function d3HeidelpayHasSameAdresses()
     {
@@ -573,6 +578,7 @@ class PaymentController extends PaymentController_parent
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function isHeidelpayInvoiceSecuredAllowed(Basket $oxBasket)
     {
@@ -603,6 +609,7 @@ class PaymentController extends PaymentController_parent
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     protected function addHeidelpayFormularParameter()
     {
@@ -677,6 +684,7 @@ class PaymentController extends PaymentController_parent
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     protected function isHeidelpayBasketAmountInLimits(Basket $oxBasket, HeidelpayAbstractPayment $payment)
     {
@@ -702,6 +710,7 @@ class PaymentController extends PaymentController_parent
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     protected function isHeidelpayBtoBBillPurchaseAllowed(Basket $basket)
     {
@@ -718,6 +727,7 @@ class PaymentController extends PaymentController_parent
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     protected function getEasyCreditLimits()
     {
@@ -737,6 +747,7 @@ class PaymentController extends PaymentController_parent
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     protected function getInvoiceSecuredLimits()
     {
@@ -756,6 +767,7 @@ class PaymentController extends PaymentController_parent
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     protected function getBtoBBillPurchaseLimits()
     {
