@@ -47,6 +47,7 @@ use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
 use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
 use OxidEsales\Eshop\Core\Exception\InputException;
 use OxidEsales\Eshop\Core\Exception\StandardException;
+use OxidEsales\Eshop\Core\Exception\SystemComponentException;
 use OxidEsales\Eshop\Core\Model\BaseModel;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\Request;
@@ -172,6 +173,7 @@ class UpdateRoutine extends d3install_updatebase
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
      * @throws ConnectionException
+     * @throws SystemComponentException
      */
     public function hasModCfgConfiguration()
     {

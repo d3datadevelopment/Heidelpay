@@ -20,6 +20,7 @@ use OxidEsales\Eshop\Core\Database\Adapter\DatabaseInterface;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
 use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
+use OxidEsales\Eshop\Core\Exception\SystemComponentException;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Facts\Facts;
 
@@ -35,6 +36,7 @@ class CleanupRoutine extends d3install_updatebase
     /**
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function cleanUpStoredDataShopids()
     {

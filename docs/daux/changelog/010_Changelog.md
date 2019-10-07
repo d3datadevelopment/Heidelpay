@@ -1,6 +1,10 @@
 ---
 title: Changelog
 ---
+## 6.1.0.1
+0009155: 6.1.0.0: Too few arguments to function D3\Heidelpay\Controllers\Admin\Order\Heidelpay::isBasicLicence()
+0000000: 6.1.0.0: incorrect redirect to mydomain.tld/modules/d3/heidelpay/public/redirect -> should be redirect to payment/start page
+
 ## 6.1.0.0
 **0000000: [ Important ] the setup routine has a backwards compatibility break (BC break)! Only module configurations greater than or equal to modul version 6.0.0.0 will be fully migrated!**  
 0000000: [ Configuration ] rebuild channel configuration see: [(6.1.0.0) Umstellung der Konfiguration](https://docs.oxidmodule.com/Heidelpay/6.1.0.0/changelog/Channel_Rekonfiguration.html)  

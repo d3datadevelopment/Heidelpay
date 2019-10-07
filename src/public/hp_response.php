@@ -62,7 +62,8 @@ try {
 /** @var Response $oResponse */
 $oResponse = oxNew(Response::class);
 try {
-    $sReturn      = $oResponse->init();
+    $sReturn   = $oResponse->init();
+    $returnUrl = $oResponse->getRedirectUrl();
 } catch (Exception $e) {
     writeToLog($e->getMessage());
     writeToLog($e->getTraceAsString());
@@ -75,7 +76,7 @@ try {
         'none',
         __LINE__,
         D3_HEIDELPAY_PUBLIC_FILE." return value",
-        $sReturn
+        $sReturn."::".$returnUrl
     );
 } catch (Exception $e) {
     writeToLog($e->getMessage());
@@ -84,10 +85,10 @@ try {
 
 if ($sReturn === Response::RESPONSE_REDIRECT) {
     header("HTTP/1.1 200 OK");
-    header("Location: ".$sReturn);
+    header("Location: ".$returnUrl);
     header("Connection: close");
 } else {
-    echo $sReturn;
+    echo $returnUrl;
 }
 
 Registry::getConfig()->pageClose();

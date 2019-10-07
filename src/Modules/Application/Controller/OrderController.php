@@ -25,6 +25,7 @@ use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
 use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
 use OxidEsales\Eshop\Core\Exception\StandardException;
+use OxidEsales\Eshop\Core\Exception\SystemComponentException;
 use OxidEsales\Eshop\Core\Model\BaseModel;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\Request;
@@ -217,6 +218,7 @@ class OrderController extends OrderController_parent
      * @return array
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function getUserHPStoreIDs($sPaymentId)
     {
@@ -300,6 +302,7 @@ class OrderController extends OrderController_parent
      *
      * @return string
      * @throws DatabaseConnectionException
+     * @throws SystemComponentException
      */
     public function getUserHPStoreID($sPaymentId)
     {
@@ -454,6 +457,7 @@ class OrderController extends OrderController_parent
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     protected function d3GetHeidelpayURLParameter()
     {
@@ -468,6 +472,7 @@ class OrderController extends OrderController_parent
      * @throws DBALException
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
+     * @throws SystemComponentException
      */
     public function d3GetHeidelpayPostparameter()
     {

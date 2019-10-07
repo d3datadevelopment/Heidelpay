@@ -35,6 +35,7 @@ use OxidEsales\Eshop\Core\Exception\ArticleException;
 use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
 use OxidEsales\Eshop\Core\Exception\DatabaseErrorException;
 use OxidEsales\Eshop\Core\Exception\StandardException;
+use OxidEsales\Eshop\Core\Exception\SystemComponentException;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\UtilsObject;
 use oxNoArticleException;
@@ -502,6 +503,7 @@ class Order extends Order_parent
      * @throws ArticleException
      * @throws oxArticleInputException
      * @throws oxNoArticleException
+     * @throws SystemComponentException
      */
     public function d3GetOrderBasket()
     {
