@@ -1,28 +1,27 @@
 ## D3 Heidelpay
 - Heidelpay Homepage: https://www.heidelpay.de
-- D³ Data Development: http://www.shopmodule.com 
+- DÂ³ Data Development: https://www.shopmodule.com 
 - Mail: support@shopmodule.com
 
 ### Beschreibung
-Die Heidelpay GmbH bietet Händlern ein Zahlungssystem für alle gängigen
-Zahlungsverfahren für die Payment Abwicklung im Internet. Heidelpay ist
-Komplettlösungsanbieter für den Ecommerce Händler. Das bedeutet, dass Heidelpay
-als Member Service Provider (MSP) von Visa und Mastercard eCommerce Händler
-direkt einen Akzeptanzvertrag vergibt. Sie müssen keine zusätzlichen Gespräche mit einer
-Bank führen.
+Die Heidelpay GmbH bietet HÃ¤ndlern ein Zahlungssystem fÃ¼r alle gÃ¤ngigen
+Zahlungsverfahren fÃ¼r die Payment Abwicklung im Internet. Heidelpay ist
+KomplettlÃ¶sungsanbieter fÃ¼r den Ecommerce HÃ¤ndler. Das bedeutet, dass Heidelpay
+als Member Service Provider (MSP) von Visa und Mastercard eCommerce HÃ¤ndler
+direkt einen Akzeptanzvertrag vergibt. Sie mÃ¼ssen keine zusÃ¤tzlichen GesprÃ¤che mit einer
+Bank fÃ¼hren.
 
 ## Systemanforderungen:
 - installierter OXID eShop
-- PHP-Version, für die Installationspakete verfügbar sind
+- PHP-Version, fÃ¼r die Installationspakete verfÃ¼gbar sind
 - Installation via Composer
 - ionCubeLoader
 - D3 Modul Connector
 
-Die jeweils geforderten Versionen und sonstige Anforderungen entnehmen Sie bitte der Dokumentation im docs-Verzeichnis dieses Paketes.   
-Bitte lesen Sie dazu die PDF Datei: docs/Heidelpay_Installation.pdf  
+Die jeweils geforderten Versionen und sonstige Anforderungen entnehmen Sie bitte der Dokumentation unter https://docs.oxidmodule.com/Heidelpay/
 
 ## Installation:
-Bitte lesen Sie die Installationsanleitung im docs-Verzeichnis dieses Pakets.
+Bitte lesen Sie die Installationsanleitung unter https://docs.oxidmodule.com/Heidelpay/
 
 ## Konfiguration
-Bitte lesen Sie dazu die PDF Datei: docs/Heidelpay_Konfiguration.pdf
+Bitte lesen Sie dazu die Konfiguration unter https://docs.oxidmodule.com/Heidelpay/

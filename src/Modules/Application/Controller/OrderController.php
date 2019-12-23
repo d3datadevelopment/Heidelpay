@@ -136,7 +136,6 @@ class OrderController extends OrderController_parent
                 );
             }
         }
-
         /** @var Factory $oFactory */
         $oFactory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
 
@@ -203,8 +202,10 @@ class OrderController extends OrderController_parent
             $oUsrStoreData->load($storeId['OXID']);
 
             $oUsrStoreData->aDynValue          = unserialize($oUsrStoreData->d3hpuid__oxpaymentdata->rawValue);
-            $oUsrStoreData->aDynValue['oxuid'] = $oUsrStoreData->getFieldData('oxuid');
-            $storedData[$storeId['OXID']]      = $oUsrStoreData;
+            if (is_array($oUsrStoreData->aDynValue)) {
+                $oUsrStoreData->aDynValue['oxuid'] = $oUsrStoreData->getFieldData('oxuid');
+                $storedData[$storeId['OXID']]      = $oUsrStoreData;
+            }
         }
 
         return $storedData;
@@ -478,15 +479,7 @@ class OrderController extends OrderController_parent
     {
         /** @var Factory $factory */
         $factory                   = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
-        $mPostFields             =  $factory->getModuleProvider();
-        $aPostFields             = explode(PHP_EOL, $mPostFields);
-        $aHeidelpayPostparameter = array();
-        foreach ($aPostFields as $sFieldDefinition) {
-            list($sFieldName, $sValue) = explode('=>', $sFieldDefinition);
-            $aHeidelpayPostparameter[trim($sFieldName)] = trim($sValue);
-        }
-
-        return $aHeidelpayPostparameter;
+        return $factory->getModuleProvider()->getOrderExecutePostFields();
     }
 
     /**
@@ -563,26 +556,26 @@ class OrderController extends OrderController_parent
      */
     public function getHeidelpayEasyCreditInformations()
     {
-        /** @var Basket $oBasket */
-        $oBasket    = $this->getBasket();
-        $sPaymentid = $oBasket->getPaymentId();
+        /** @var Basket $basket */
+        $basket    = $this->getBasket();
+        $sPaymentid = $basket->getPaymentId();
 
         /** @var Factory $factory */
         $factory   = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
-        $oSettings = $factory->getSettings();
+        $settings = $factory->getSettings();
 
-        /** @var Payment $oPayment */
-        $oPayment  = oxNew(Payment::class);
-        $oPayment->load($sPaymentid);
-        if (false == $oSettings->isAssignedToHeidelPayment($oPayment)) {
+        /** @var Payment $payment */
+        $payment  = oxNew(Payment::class);
+        $payment->load($sPaymentid);
+        if (false == $factory->getChannelProvider()->isOxPaymentIdAssignedToChannel($payment->getId())) {
             return null;
         }
 
-        $oHeidelpayment = $oSettings->getPayment($oPayment);
+        $heidelpayment = $settings->getPayment($payment);
 
-        if ($oHeidelpayment instanceof Easycredit) {
+        if ($heidelpayment instanceof Easycredit) {
             /** @var d3transactionlog $transaction */
-            $transaction = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'))->getLatestTransactionByObject();
+            $transaction = $factory->getLatestTransactionByObject();
 
             if (false === ($transaction instanceof ReaderHeidelpay)) {
                 return null;
