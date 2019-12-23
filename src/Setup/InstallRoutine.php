@@ -59,18 +59,18 @@ class InstallRoutine extends d3install_updatebase
     public $sMinModCfgVersion = '5.2.0.2';
 
     /** @var string @deprecated since 2016-04-13 */
-    public $sModRevision = '6101';
+    public $sModRevision = '6110';
 
     /**
      * @var string
      */
     public $sBaseConf = '--------------------------------------------------------------------------------
-wTbv2==bnRIcFNSTnQ3VGNTQ2RmQi80dnZlS1UwTndJRkFCOWxpb2FsZVVYZlI4QVV6SC9DUFNYMU1ZT
-lQ2NTFWN0tKbW9LZ1Q5cDZmaVI5ZmdSTUFlanRXVktMUExxRjFic1ViRmVWZnd1K2RJRXlxYm5sTlNid
-2FWUHlHM2g1R3pWUzZEbjgyWDZyaDAwN0VIYjVBQVExdVZhZzVWVzJRczM1K3djMU9MU2RaaWJ4YXowd
-ldKTGdwaE1kNmMzUEhRUWN5VFd5eTZDRE8rOFlGNGZEQW9oaHQ4LzFoaFBQWGN4WkxERzlJekFRS2ZLO
-WJRTXNwOXNYeU5ncEtVOXdsZC90WUlSZk1YaTI0Um8yNkVOSTNGTHF2Uy8xVTR5SHV3WS9TRWh5eVl6W
-kcxWnRHYzlGRllTM2dCRS9peXA0THhjNldhdFRuVGk1S1BDQ05NLzMyZnY4eFdnPT0=
+38kv2==RkNqL2lJVW9nMnk4TW5Ib2ZLTXlBS3BRbEhqem9waFUyajZrUHVtNW8rR21icDNhY3B6TFMxb
+nREWEM5MzdOaENXK0ZTMkpJZnFOVUM2T3lwdDVXUjRoZVc0Ymo5WUNRakRzMHNDdlB3emF3STh1OEIrY
+XdpK0xocitGNU9pdW9XSjFvNzU3dHpwZXpzdExKVG55N1o0UFR0ODg3dEw2TmhwR01MQllTSEF0S0JLa
+UVBVXV3VURsV09hdDV1eWFmbDg2V0NqeC93T1F3OTYzOC9EZnY5K0RmUU9MbE00S2I5Wm9aanZCbHRKL
+y80VlpnamtKcFNqVVdkK3ZLdVpYMnBIeE9YclN1K01EVTloQXAyK3RiUTRkOHZOQzZNOU9GZXhhd0I3c
+HJIZlo4TFQrMUw1QWZZUTNDbmN0MU50bytab2VtbTJCUnFINTVSUjVZVXh6Ym5RPT0=
 --------------------------------------------------------------------------------';
 
     /**

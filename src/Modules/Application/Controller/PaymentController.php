@@ -69,20 +69,20 @@ class PaymentController extends PaymentController_parent
             return;
         }
 
-        /** @var Factory $oFactory */
-        $oFactory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
-        $this->d3HeidelpaySetErrorMessage($oFactory);
-        $oFactory->initReferenceNumber();
+        /** @var Factory $factory */
+        $factory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+        $this->d3HeidelpaySetErrorMessage($factory);
+        $factory->initReferenceNumber();
 
         $oHeidelpayViewConfig = oxNew(
             Viewconfig::class,
             d3_cfg_mod::get('d3heidelpay'),
             Registry::get(Registry::class),
-            $oFactory
+            $factory
         );
         $this->addTplParam('oHeidelpayViewConfig', $oHeidelpayViewConfig);
 
-        $oFactory->resetPaymentSuccess();
+        $factory->resetPaymentSuccess();
 
         $paymentId = Registry::getSession()->getBasket()->getPaymentId();
         if (empty($paymentId)) {
@@ -95,7 +95,7 @@ class PaymentController extends PaymentController_parent
             return;
         }
 
-        if ($oFactory->getSettings()->isAssignedToHeidelPayment($payment)) {
+        if ($factory->getChannelProvider()->isOxPaymentIdAssignedToChannel($payment->getId())) {
             Registry::getSession()->deleteVariable('sess_challenge');
         }
     }
@@ -168,11 +168,11 @@ class PaymentController extends PaymentController_parent
 
         /** @var Factory $factory */
         $factory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
-        $heidelPaySettings = $factory->getSettings();
-        if (false == $heidelPaySettings->isAssignedToHeidelPayment($payment)) {
+        if (false == $factory->getChannelProvider()->isOxPaymentIdAssignedToChannel($payment->getId())) {
             return $return;
         }
 
+        $heidelPaySettings = $factory->getSettings();
         $heidelPayment = $heidelPaySettings->getPayment($payment);
         if ($heidelPayment instanceof Secured
             || $heidelPayment instanceof Unsecured
@@ -322,7 +322,7 @@ class PaymentController extends PaymentController_parent
     }
 
     /**
-     * @param Payment $oPayment
+     * @param Payment $payment
      * @param string  $mappedThemeId
      *
      * @return string
@@ -334,7 +334,7 @@ class PaymentController extends PaymentController_parent
      * @throws DatabaseConnectionException
      * @throws DatabaseErrorException
      */
-    public function d3GetPaymentFormTemplateName(Payment $oPayment, $mappedThemeId = '')
+    public function d3GetPaymentFormTemplateName(Payment $payment, $mappedThemeId = '')
     {
         if (empty($mappedThemeId)) {
             $mappedThemeId = d3_cfg_mod::get('d3heidelpay')->getMappedThemeId();
@@ -342,17 +342,19 @@ class PaymentController extends PaymentController_parent
 
         $mappedThemeId = strtolower($mappedThemeId);
 
-        /** @var Viewconfig $oHeidelpayViewConfig */
-        $oHeidelpayViewConfig = oxNew(
+        /** @var Factory $factory */
+        $factory              = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+        /** @var Viewconfig $heidelpayViewConfig */
+        $heidelpayViewConfig = oxNew(
             Viewconfig::class,
             d3_cfg_mod::get('d3heidelpay'),
             Registry::get(Registry::class),
-            oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'))
+            $factory
         );
-        $oHeidelPaySettings   = $oHeidelpayViewConfig->getSettings();
-        $return               = $this->d3GetDefaultPaymentFormTemplateName($oPayment);
-        if ($oHeidelPaySettings->isAssignedToHeidelPayment($oPayment)) {
-            $heidelpayPayment = $oHeidelPaySettings->getPayment($oPayment);
+        $settings = $heidelpayViewConfig->getSettings();
+        $return   = $this->d3GetDefaultPaymentFormTemplateName($payment);
+        if ($factory->getChannelProvider()->isOxPaymentIdAssignedToChannel($payment->getId())) {
+            $heidelpayPayment = $settings->getPayment($payment);
             $result           = $heidelpayPayment->getTemplateName($mappedThemeId);
             if (false == empty($result)) {
                 return $result;
@@ -396,21 +398,10 @@ class PaymentController extends PaymentController_parent
      */
     public function d3IsHeidelpayPaymentMethode(Payment $oPayment)
     {
-        /** @var Viewconfig $oHeidelpayViewConfig */
-        $oHeidelpayViewConfig = oxNew(
-            Viewconfig::class,
-            d3_cfg_mod::get('d3heidelpay'),
-            Registry::get(Registry::class),
-            oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'))
-        );
-        $oHeidelPaySettings   = $oHeidelpayViewConfig->getSettings();
-        if ($oHeidelPaySettings->isAssignedToHeidelPayment($oPayment)) {
-            $oHeidelPayment = $oHeidelPaySettings->getPayment($oPayment);
+        /** @var Factory $factory */
+        $factory = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
 
-            return $oHeidelPayment instanceof HeidelpayAbstractPayment;
-        }
-
-        return false;
+        return $factory->getChannelProvider()->isOxPaymentIdAssignedToChannel($oPayment->getId());
     }
 
     /**
@@ -623,7 +614,7 @@ class PaymentController extends PaymentController_parent
         try {
             foreach ($paymentList as $paymentId => $payment) {
                 /** @var $payment Payment */
-                if ($settings->isAssignedToHeidelPayment($payment)) {
+                if ($factory->getChannelProvider()->isOxPaymentIdAssignedToChannel($payment->getId())) {
                     $d3hpPaymentFormulars[$paymentId] = $settings->getPayment($payment)->getFormularParameter();
                 }
             }

@@ -65,15 +65,15 @@ class Order extends Order_parent
         }
         /** @var Factory $factory */
         $factory   = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
-        $oSettings = $factory->getSettings();
-        /** @var OxidPayment $oPayment */
-        $oPayment  = oxNew(OxidPayment::class);
-        $oPayment->load($this->getFieldData('oxpaymenttype'));
-        if (false == $oSettings->isAssignedToHeidelPayment($oPayment)) {
+        /** @var OxidPayment $payment */
+        $payment  = oxNew(OxidPayment::class);
+        $payment->load($this->getFieldData('oxpaymenttype'));
+        if (false == $factory->getChannelProvider()->isOxPaymentIdAssignedToChannel($payment->getId())) {
             return false;
         }
 
-        $oHeidelpayment = $oSettings->getPayment($oPayment);
+        $settings       = $factory->getSettings();
+        $oHeidelpayment = $settings->getPayment($payment);
 
         if (
             $oHeidelpayment instanceof Prepayment
@@ -104,19 +104,19 @@ class Order extends Order_parent
     {
         /** @var Factory $factory */
         $factory   = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
-        $oSettings = $factory->getSettings();
-        /** @var OxidPayment $oPayment */
-        $oPayment = oxNew(OxidPayment::class);
-        $oPayment->load($this->getFieldData('oxpaymenttype'));
-        if (false == $oSettings->isAssignedToHeidelPayment($oPayment)) {
+        /** @var OxidPayment $payment */
+        $payment = oxNew(OxidPayment::class);
+        $payment->load($this->getFieldData('oxpaymenttype'));
+        if (false == $factory->getChannelProvider()->isOxPaymentIdAssignedToChannel($payment->getId())) {
             return null;
         }
 
-        $oHeidelpayment = $oSettings->getPayment($oPayment);
+        $settings = $factory->getSettings();
+        $heidelpayment = $settings->getPayment($payment);
 
-        if ($oHeidelpayment instanceof Easycredit) {
+        if ($heidelpayment instanceof Easycredit) {
             /** @var d3transactionlog $transaction */
-            $transaction = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'))->getLatestTransactionByObject($this);
+            $transaction = $factory->getLatestTransactionByObject($this);
 
             if (false === ($transaction instanceof d3transactionlog)) {
                 return null;
@@ -251,19 +251,19 @@ class Order extends Order_parent
 
         /** @var Factory $factory */
         $factory   = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
-        $oSettings = $factory->getSettings();
 
-        /** @var OxidPayment $oPayment */
-        $oPayment = oxNew(OxidPayment::class);
-        $oPayment->load($sPaymentId);
+        /** @var OxidPayment $payment */
+        $payment = oxNew(OxidPayment::class);
+        $payment->load($sPaymentId);
 
-        if (false == $oSettings->isAssignedToHeidelPayment($oPayment)) {
+        if (false == $factory->getChannelProvider()->isOxPaymentIdAssignedToChannel($payment->getId())) {
             parent::_setOrderStatus($sStatus);
 
             return;
         }
 
-        $blIsPrepayment = $oSettings->getPayment($oPayment) instanceof Prepayment;
+        $settings       = $factory->getSettings();
+        $blIsPrepayment = $settings->getPayment($payment) instanceof Prepayment;
         $blIsWaiting    = $sOldStatus == 'PENDING' && $sPaid == '0000-00-00 00:00:00';
         if ($blIsPrepayment && $blIsWaiting) {
             $sStatus = "PENDING";

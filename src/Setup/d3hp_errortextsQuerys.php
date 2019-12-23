@@ -725,7 +725,7 @@ $aQueries = array(
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '173';",
-        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('173', '100.396.102', 1, 'kein Passwort eingegeben', 'password empty', 'Not confirmed by user');",
+        'do'    => "INSERT IGNORE INTO `d3hperrortexts` (`OXID`, `OXCODE`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXREALTEXT`) VALUES('173', '100.396.102', 1, 'Kundenabbruch', 'Canceled by user', 'Not confirmed by user');",
     ),
     array(
         'check' => "SELECT if(count(OXID), 0, 1) FROM d3hperrortexts WHERE oxid = '174';",

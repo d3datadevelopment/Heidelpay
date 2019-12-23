@@ -22,7 +22,7 @@
                     [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sImageUrl|cat:'logo_postfinance.png' sBrandIdent=$sBrandIdent}]
                 </label>
                 [{if false == $blD3HeidelpayAllowPostFinance}]
-                    <sup id="d3HeidelayPostfinanceNotice">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_POSTFINANCE_NOTICE"}]</sup>
+                    <sup id="d3HeidelayPostfinanceNotice" class="alert alert-danger">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_POSTFINANCE_NOTICE"}]</sup>
                 [{/if}]
             </dt>
             <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">

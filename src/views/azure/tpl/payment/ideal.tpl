@@ -27,19 +27,26 @@
         </dt>
         <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
             [{if $blD3HeidelpayAllowIdeal}]
-                <ul class="form">
-                    <li>
-                        <label for="payment_[{$sPaymentID}]_1">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK"}]</label>
-                        <input type="hidden" name="dynvalue[lsland]" value="NL">
-                        <select id="payment_[{$sPaymentID}]_1" name="dynvalue[lsbankname]">
-                            <option value="">[{oxmultilang ident="D3PAYMENT_EXT_SELECTPLEASE"}]</option>
-                            [{foreach from=$aBrands item='sBrandName' key='sBrandIdent'}]
-                                <option value="[{$sBrandIdent}]"
-                                        [{if ($dynvalue.lsbankname == $sBrandIdent)}]selected[{/if}]>[{$sBrandName}]</option>
-                            [{/foreach}]
-                        </select>
-                    </li>
-                </ul>
+                [{if is_array($aBrands) && 1 < count($aBrands)}]
+                    <ul class="form">
+                        <li>
+                            <label for="payment_[{$sPaymentID}]_1">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK"}]</label>
+                            <input type="hidden" name="dynvalue[lsland]" value="NL">
+                            <select id="payment_[{$sPaymentID}]_1" name="dynvalue[lsbankname]">
+                                <option value="">[{oxmultilang ident="D3PAYMENT_EXT_SELECTPLEASE"}]</option>
+                                [{foreach from=$aBrands item='sBrandName' key='sBrandIdent'}]
+                                    <option value="[{$sBrandIdent}]"
+                                            [{if ($dynvalue.lsbankname == $sBrandIdent)}]selected[{/if}]>[{$sBrandName}]</option>
+                                [{/foreach}]
+                            </select>
+                        </li>
+                    </ul>
+                [{elseif is_array($aBrands)}]
+                    [{assign var='current' value=$aBrands|@current}]
+                    <input type="hidden" name="dynvalue[lsbankname]" value="[{$current}]"/>
+                [{else}]
+                    <input type="hidden" name="dynvalue[lsbankname]" value="IDEAL_BRAND"/>
+                [{/if}]
             [{/if}]
 
             [{if $paymentmethod->oxpayments__oxlongdesc->value}]

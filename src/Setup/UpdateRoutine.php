@@ -159,7 +159,7 @@ class UpdateRoutine extends d3install_updatebase
             $this->_changeToShop($sCurrentShopId);
             $currentLanguage             = Registry::getLang();
             $currentLanguage->setBaseLanguage($currentBaseLanguageId);
-            $currentLanguage->setTplLanguage($currentTplLanguageId);
+//            $currentLanguage->setTplLanguage($currentTplLanguageId);
         }
 
         stopProfile(__METHOD__);

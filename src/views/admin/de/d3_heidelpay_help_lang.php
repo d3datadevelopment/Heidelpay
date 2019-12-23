@@ -15,7 +15,7 @@ $aLang     = array(
         . 'Nach Ablauf der Zeit greift die Einstellung "Aktion nach Lebenszeit".<br>' //
         . 'Tragen Sie eine 0 ein, um keine Aktion durchzuf&uuml;hren.<br>' //
         . 'Heidelpay emfiehlt eine Einstellung auf mindestens 26 Stunden.',
-    'HELP_D3HEIDELPAY_sD3HpHFOrderCancelType'               => 'W&auml;hlen Sie die Art, wie die PENDING-Bestellungen abgearbeitet werden.',
+    'HELP_D3HEIDELPAY_sD3HpHFOrderCancelType'               => 'W&auml;hlen Sie die Art, wie die PENDING-Bestellungen abgearbeitet werden.<br>Im Standard wird die Bestellung auf NOT_FINISHED (oxtransstatus) gestellt.',
     'HELP_D3HEIDELPAY_sD3HpHFOrderLimit'                    => 'Bei vielen Bestellungen kann es zu Ressourcenlimits des Servers kommen.<br>' //
         . 'Daher können Sie hier ein Limit für die Anzahl der zu bearbeitenden Bestellungen angeben.<br>' //
         . '100 ist Standard, kann je nach Bedarf angepasst werden.',

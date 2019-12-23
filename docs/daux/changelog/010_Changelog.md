@@ -1,14 +1,27 @@
 ---
 title: Changelog
 ---
+## unreleased
+
+## 6.1.1.0
+0000000: iDeal + Przelewy24 orders with no incoming payment and no "after lifetime action" will set to NOT_FINISHED after span of life  
+0000000: missing active check of channel provider data integrated  
+0000000: Initialization of JavaScript (web integration) heidelpayInstance may only be created once  
+0005712: Distinction between test and live configuration when assigning "Heidelpay Channel - Oxid Payment Methods"  
+0009201: different modcfg version in composer.josn & InstallRoutine  
+0000000: Inactive channel configuration was displayed in the frontend, if an active oxid-paymenttype-assignment exists  
+0000000: OT payments are not redirecting, if user switch to OrderController and send order:execute again  
+0000000: navigation on other language causes admin template language to standard (0)  
+0000000: fixed use saved data doesn't work in wave -> missing post order execute parameter  
+
 ## 6.1.0.1
-0009155: 6.1.0.0: Too few arguments to function D3\Heidelpay\Controllers\Admin\Order\Heidelpay::isBasicLicence()
-0000000: 6.1.0.0: incorrect redirect to mydomain.tld/modules/d3/heidelpay/public/redirect -> should be redirect to payment/start page
+0009155: 6.1.0.0: Too few arguments to function D3\Heidelpay\Controllers\Admin\Order\Heidelpay::isBasicLicence()  
+0000000: 6.1.0.0: incorrect redirect to mydomain.tld/modules/d3/heidelpay/public/redirect -> should be redirect to payment/start page  
 
 ## 6.1.0.0
 **0000000: [ Important ] the setup routine has a backwards compatibility break (BC break)! Only module configurations greater than or equal to modul version 6.0.0.0 will be fully migrated!**  
 0000000: [ Configuration ] rebuild channel configuration see: [(6.1.0.0) Umstellung der Konfiguration](https://docs.oxidmodule.com/Heidelpay/6.1.0.0/changelog/Channel_Rekonfiguration.html)  
-0000000: [ Refactor ] \D3\Heidelpay\Models\Factory class refactored to a factory pattern   
+0000000: [ Refactor ] \D3\Heidelpay\Models\Factory class refactored to a factory pattern  
 0000000: [ Refactor ] split /public/hp_response.php calls into separated front controller (f.e. /public/Creditcard.php, /public/Debitcard.php)  
 0000000: [ Bug ] additional redirect parameters will not add in redirect url of the public response file's (like utm_nooverride=1)  
 0000000: [ Info ] replaced https://faq.oxidmodule.com/ links with https://faq.d3data.de  

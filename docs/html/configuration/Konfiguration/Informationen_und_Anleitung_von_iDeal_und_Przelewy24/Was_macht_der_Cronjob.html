@@ -91,16 +91,28 @@
     <div class="Page__header">
         <h1><a href="../../../configuration/Konfiguration/Konfiguration_der_Zahlungsarten.html">Konfiguration</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../../../configuration/Konfiguration/Informationen_und_Anleitung_von_iDeal_und_Przelewy24/Was_hat_sich_im_Bestellprozess_geaendert.html">Informationen und Anleitung von iDeal und Przelewy24</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../../../configuration/Konfiguration/Informationen_und_Anleitung_von_iDeal_und_Przelewy24/Was_macht_der_Cronjob.html">Was macht der Cronjob?</a></h1>
                 <span class="ModifiedDate">
-                        07.10.2019        </span>
+                        22.12.2019        </span>
                     </div>
 
     <div class="s-content">
         <p>Der Cronjob holt sich eine Liste von Bestellungen die auf <code>PENDING</code> gesetzt und nicht storniert sind.<br>
 Pro Bestellung werden alle Transaktionen von dem Heidelpay Server eingeholt.</p>
-<p>Transaktionen die nicht im Shop vorhanden sind, werden in die Datenbank gespeichert.</p>
+<p>Transaktionen, die nicht im Shop vorhanden sind, werden in die Datenbank gespeichert.</p>
 <p>Anhand des Status der Transaktion wird die Bestellung abgearbeitet.</p>
 <p>Bei einer erfolgreichen Receipt <code>OT.RC</code> wird die Bestellung abgeschlossen.</p>
 <p>Die E-Mails werden zu <strong>diesem Zeitpunkt</strong> verschickt.</p>
+<p>Wenn eine Bestellung das Ende der <span class="navi_element">Lebenszeit einer PENDING-Bestellung (in Stunden)</span> erreicht hat,<br />
+tritt die <span class="navi_element">Aktion nach Lebenszeit</span> in Kraft.<br />
+Sie können zwischen folgenden Bearbeitungsoptionen wählen:</p>
+<dl>
+<dt>NOT_FINISHED (oxorder__oxtransstatus)</dt>
+<dd>Bis 6.1.0.2 blieb die Bestellung unverändert.</dd>
+<dd>Ab 6.1.0.2 wird der Bestellstatus (oxorder__oxtransstatus) PENDING auf NOT_FINISHED gesetzt.</dd>
+<dt>Bestellung stornieren</dt>
+<dd>Die Bestellung wird über die reguläre Routine des Shops storniert (Order::cancelOrder()).</dd>
+<dt>Bestellung l&ouml;schen</dt>
+<dd>Die Bestellung wird unwiderruflich gelöscht. Die Löschung erfolg über den Shop selbst (order::delete()) </dd>
+</dl>
     </div>
 
         <nav>

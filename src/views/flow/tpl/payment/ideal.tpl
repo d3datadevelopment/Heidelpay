@@ -42,22 +42,29 @@
                     [{/if}]
                 [{/if}]
                 [{if $blD3HeidelpayAllowIdeal}]
-                    <div class="form-group">
-                        <label class="req control-label col-lg-3"
-                               for="payment_[{$sPaymentID}]_1">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK"}]</label>
-                        <input type="hidden" name="dynvalue[lsland]" value="NL">
-                        <div class="col-lg-9">
-                            <select class="form-control js-oxValidate js-oxValidate_notEmpty"
-                                    id="payment_[{$sPaymentID}]_1"
-                                    name="dynvalue[lsbankname]">
-                                <option>[{oxmultilang ident="D3PAYMENT_EXT_SELECTPLEASE"}]</option>
-                                [{foreach from=$aBrands item='sBrandName' key='sBrandIdent'}]
-                                    <option value="[{$sBrandIdent}]"
-                                            [{if ($dynvalue.lsbankname == $sBrandIdent)}]selected[{/if}]>[{$sBrandName}]</option>
-                                [{/foreach}]
-                            </select>
+                    [{if is_array($aBrands) && 1 < count($aBrands)}]
+                        <div class="form-group">
+                            <label class="req control-label col-lg-3"
+                                   for="payment_[{$sPaymentID}]_1">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_INPUT_BANK"}]</label>
+                            <input type="hidden" name="dynvalue[lsland]" value="NL">
+                            <div class="col-lg-9">
+                                <select class="form-control js-oxValidate js-oxValidate_notEmpty"
+                                        id="payment_[{$sPaymentID}]_1"
+                                        name="dynvalue[lsbankname]">
+                                    <option>[{oxmultilang ident="D3PAYMENT_EXT_SELECTPLEASE"}]</option>
+                                    [{foreach from=$aBrands item='sBrandName' key='sBrandIdent'}]
+                                        <option value="[{$sBrandIdent}]"
+                                                [{if ($dynvalue.lsbankname == $sBrandIdent)}]selected[{/if}]>[{$sBrandName}]</option>
+                                    [{/foreach}]
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                    [{elseif is_array($aBrands)}]
+                        [{assign var='current' value=$aBrands|@current}]
+                        <input type="hidden" name="dynvalue[lsbankname]" value="[{$current}]"/>
+                    [{else}]
+                        <input type="hidden" name="dynvalue[lsbankname]" value="IDEAL_BRAND"/>
+                    [{/if}]
                 [{/if}]
 
                 [{block name="checkout_payment_longdesc"}]
