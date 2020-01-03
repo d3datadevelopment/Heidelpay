@@ -4,6 +4,7 @@ title: Changelog
 ## unreleased
 
 ## 6.1.1.0
+0008760: add Wave Theme support
 0000000: iDeal + Przelewy24 orders with no incoming payment and no "after lifetime action" will set to NOT_FINISHED after span of life  
 0000000: missing active check of channel provider data integrated  
 0000000: Initialization of JavaScript (web integration) heidelpayInstance may only be created once  
