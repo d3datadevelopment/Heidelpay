@@ -17,7 +17,7 @@ und diese Felder in bestehenden Tabellen:
 * in Tabelle `oxorder`:  
   * das Feld `D3HEIDELPAYVOUCHERS`
   
-sowie diese Einträge bestehenden Tabellen:
+sowie diese Einträge in bestehenden Tabellen:
 
 * in Tabelle `d3_cfg_mod`:  
   * den/die Eintrag/Einträge `oxmodid = "{$moduleConfigurationident}"`

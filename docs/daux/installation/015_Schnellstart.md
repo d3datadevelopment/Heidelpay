@@ -5,7 +5,7 @@ title: Schnellstart
 ## Schnellstart per Composer
 
 ```bash
-php composer require {$composerident} –-update-no-dev
+php composer require {$composerident} --update-no-dev
 ```
 
 Detailliertere Angaben zur Installation entnehmen Sie bitte der [Installationsanleitung](installation/020_Neuinstallation/020_Modul_hinzufuegen.md).

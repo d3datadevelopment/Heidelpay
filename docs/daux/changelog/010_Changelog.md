@@ -3,6 +3,10 @@ title: Changelog
 ---
 ## unreleased
 
+## 6.1.1.1
+### fixed
+0009389: Modulversion 6.1.1.0 - Installation unvollständig (falsche Versionsnummer in Installationsroutine)
+
 ## 6.1.1.0
 0008760: add Wave Theme support
 0000000: iDeal + Przelewy24 orders with no incoming payment and no "after lifetime action" will set to NOT_FINISHED after span of life  
