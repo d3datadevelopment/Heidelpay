@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>New Test</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">New Test</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>admin/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>id=usr</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=usr</td>
+	<td>${adminUserName}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=pwd</td>
+	<td>${adminPassword}</td>
+</tr>
+<tr>
+	<td>submitAndWait</td>
+	<td>id=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>css=#adminnav</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=a[href*='${settingsController}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>relative=top</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>css=#edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=input[type='checkbox'][name*='oxactive']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#myedit input[type='hidden'][name='fnc']</td>
+	<td>save</td>
+</tr>
+<tr>
+	<td>check</td>
+	<td>css=input[type='checkbox'][name*='oxactive']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>check</td>
+	<td>css=input[type='checkbox'][name*='blTestmode']</td>
+	<td></td>
+</tr>
+<tr>
+    <td>type</td>
+    <td>css=select[name*='sTransType']</td>
+    <td>preauth</td>
+</tr>
+<tr>
+	<td>submitAndWait</td>
+	<td>css=#myedit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>relative=top</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>?force_sid=reset</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>
