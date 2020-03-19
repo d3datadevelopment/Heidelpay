@@ -31,7 +31,7 @@ $aModule = array(
         'en' => '',
     ),
     'thumbnail'      => 'picture.png',
-    'version'        => '6.1.1.1',
+    'version'        => '6.1.1.2',
     'author'         => 'D&sup3; Data Development, Inh. Thomas Dartsch',
     'email'          => 'support@shopmodule.com',
     'url'            => 'https://docs.oxidmodule.com/Heidelpay/',
@@ -86,6 +86,7 @@ $aModule = array(
         'd3_heidelpay_views_admin_tpl_channels_sub_przelewy24.tpl'       => 'd3/heidelpay/views/admin/tpl/channels/sub/przelewy24.tpl',
         'd3_heidelpay_views_admin_tpl_channels_sub_directdebit_secured.tpl' => 'd3/heidelpay/views/admin/tpl/channels/sub/directdebit/secured.tpl',
         'd3_heidelpay_views_admin_tpl_channels_sub_invoice_secured.tpl' => 'd3/heidelpay/views/admin/tpl/channels/sub/invoice/secured.tpl',
+        'd3_heidelpay_views_admin_tpl_channels_sub_prepayment.tpl'      => 'd3/heidelpay/views/admin/tpl/channels/sub/prepayment.tpl',
         // allgemeine Templates
         'd3_heidelpay_views_tpl_payment_img.tpl'                         => 'd3/heidelpay/views/tpl/payment_img.tpl',
         'd3_heidelpay_views_tpl_redirect_postformular.tpl'               => 'd3/heidelpay/views/tpl/redirect_postformular.tpl',

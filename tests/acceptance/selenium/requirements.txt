@@ -1,0 +1,23 @@
+admin user:
+user: support@shopmodule.com
+pass: 268090
+
+frontend user:
+user: d3test1@shopmodule.com
+pass: 268090
+
+prepared payments:
+Rechnung
+Vorauskasse
+Bankeinzug/Lastschrift ELV
+Kreditkarte Visa
+Nachnahme
+Heidelpay Paypal paypal
+Debitkarte VisaElectron	Maestro
+EPS Österreich EPS (channel is missing)
+Giropay Deutschland Giropay
+iDeal Niederlande iDeal (how??)
+Sofortüberweisung ELV
+
+NOTE:
+2013-09-20: ideal and eps can't be tested

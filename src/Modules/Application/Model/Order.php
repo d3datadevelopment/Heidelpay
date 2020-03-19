@@ -15,6 +15,8 @@ use D3\Heidelpay\Models\Payment\Payment;
 use D3\Heidelpay\Models\Payment\Prepayment;
 use D3\Heidelpay\Models\Response\Parser;
 use D3\Heidelpay\Models\Transactionlog\Reader\Heidelpay as TransactionlogReader;
+use D3\Heidelpay\Models\Viewconfig;
+use D3\Heidelpay\Modules\Application\Controller\PaymentController as HPPaymentController;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
 use D3\ModCfg\Application\Model\Exception\d3_cfg_mod_exception;
 use D3\ModCfg\Application\Model\Exception\d3ShopCompatibilityAdapterException;
@@ -23,6 +25,7 @@ use D3\ModCfg\Application\Model\Transactionlog\d3transactionlog;
 use Doctrine\DBAL\DBALException;
 use Exception;
 use oxArticleInputException;
+use OxidEsales\Eshop\Application\Controller\PaymentController;
 use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Application\Model\Basket;
 use OxidEsales\Eshop\Application\Model\Payment as OxidPayment;
@@ -553,6 +556,31 @@ class Order extends Order_parent
      */
     public function finalizeOrder(Basket $oxBasket, $oxUser, $blRecalculatingOrder = false)
     {
+        $paymentId = $oxBasket->getPaymentId();
+        $payment = oxNew( OxidPayment::class);
+        $payment->load($paymentId);
+
+        /** @var Factory $factory */
+        $factory              = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+        /** @var Viewconfig $heidelpayViewConfig */
+        $heidelpayViewConfig = oxNew(
+            Viewconfig::class,
+            d3_cfg_mod::get('d3heidelpay'),
+            Registry::get(Registry::class),
+            $factory
+        );
+        $settings = $heidelpayViewConfig->getSettings();
+
+        $heidelPayment = $settings->getPayment($payment);
+
+        if ($heidelPayment instanceof Secured) {
+            /** @var HPPaymentController $paymentController */
+            $paymentController = oxNew(PaymentController::class);
+            if (false == $paymentController->isHeidelpayInvoiceSecuredAllowed($oxBasket)) {
+                return self::ORDER_STATE_PAYMENTERROR;
+            }
+        }
+
         $return             = parent::finalizeOrder($oxBasket, $oxUser, $blRecalculatingOrder);
         $registry           = Registry::get(Registry::class);
         $modulConfiguration = d3_cfg_mod::get('d3heidelpay');

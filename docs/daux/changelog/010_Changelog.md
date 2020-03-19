@@ -1,29 +1,53 @@
 ---
 title: Changelog
 ---
-## unreleased
 
-## 6.1.1.1
+## 6.1.1.2 - (2020-03-19)
 ### fixed
-0009389: Modulversion 6.1.1.0 - Installation unvollständig (falsche Versionsnummer in Installationsroutine)
+- 0009550: Manipulationsprävention bei Zahlung mit abgesichertem Rechnungskauf integriert
+- 0009539: fehlerhafte Aufrufe bei Ausführung des Cronjobs für Rechnungskauf oder Vorkasse korrigiert
+- 0009540: fehlendes Admintemplate "d3_heidelpay_views_admin_tpl_channels_sub_prepayment.tpl" eingefügt
+- 0009553: fehlende Bankdaten bei Vorkasse
+- 0009554: cron_bankaccount.php - falscher Channel bei Vorkassse
 
-## 6.1.1.0
-0008760: add Wave Theme support
-0000000: iDeal + Przelewy24 orders with no incoming payment and no "after lifetime action" will set to NOT_FINISHED after span of life  
-0000000: missing active check of channel provider data integrated  
-0000000: Initialization of JavaScript (web integration) heidelpayInstance may only be created once  
-0005712: Distinction between test and live configuration when assigning "Heidelpay Channel - Oxid Payment Methods"  
-0009201: different modcfg version in composer.josn & InstallRoutine  
-0000000: Inactive channel configuration was displayed in the frontend, if an active oxid-paymenttype-assignment exists  
-0000000: OT payments are not redirecting, if user switch to OrderController and send order:execute again  
-0000000: navigation on other language causes admin template language to standard (0)  
-0000000: fixed use saved data doesn't work in wave -> missing post order execute parameter  
+---
 
-## 6.1.0.1
+## 6.1.1.1 - (2020-01-09)
+### fixed
+- 0009389: Modulversion 6.1.1.0 - Installation unvollständig (falsche Versionsnummer in Installationsroutine)
+
+---
+
+## 6.1.1.0 - (2020-01-03)
+### added
+- 0008760: add Wave Theme support
+
+### changed
+- 0000000: iDeal + Przelewy24 orders with no incoming payment and no "after lifetime action" will set to NOT_FINISHED after span of life  
+- 0000000: missing active check of channel provider data integrated  
+- 0000000: Initialization of JavaScript (web integration) heidelpayInstance may only be created once  
+
+###fixed
+- 0005712: Distinction between test and live configuration when assigning "Heidelpay Channel - Oxid Payment Methods"  
+- 0009201: different modcfg version in composer.josn & InstallRoutine  
+- 0000000: Inactive channel configuration was displayed in the frontend, if an active oxid-paymenttype-assignment exists  
+- 0000000: OT payments are not redirecting, if user switch to OrderController and send order:execute again  
+- 0000000: navigation on other language causes admin template language to standard (0)  
+- 0000000: fixed use saved data doesn't work in wave -> missing post order execute parameter  
+
+---
+
+## 6.1.0.1 - (2019-10-07)
+### fixed
 0009155: 6.1.0.0: Too few arguments to function D3\Heidelpay\Controllers\Admin\Order\Heidelpay::isBasicLicence()  
 0000000: 6.1.0.0: incorrect redirect to mydomain.tld/modules/d3/heidelpay/public/redirect -> should be redirect to payment/start page  
 
-## 6.1.0.0
+---
+
+## 6.1.0.0 - (2019-09-25)
+
+**Minor version upgrade notice: there are some backward-incompatible changes to this release.**
+
 **0000000: [ Important ] the setup routine has a backwards compatibility break (BC break)! Only module configurations greater than or equal to modul version 6.0.0.0 will be fully migrated!**  
 0000000: [ Configuration ] rebuild channel configuration see: [(6.1.0.0) Umstellung der Konfiguration](https://docs.oxidmodule.com/Heidelpay/6.1.0.0/changelog/Channel_Rekonfiguration.html)  
 0000000: [ Refactor ] \D3\Heidelpay\Models\Factory class refactored to a factory pattern  
@@ -31,7 +55,9 @@ title: Changelog
 0000000: [ Bug ] additional redirect parameters will not add in redirect url of the public response file's (like utm_nooverride=1)  
 0000000: [ Info ] replaced https://faq.oxidmodule.com/ links with https://faq.d3data.de  
 
-## 6.0.3.1
+---
+
+## 6.0.3.1 - (2019-06-07)
 0008863: 6.0.3.0 Fehler bei nicht Heidelpay zugeordneten Zahlungsarten - keine Bestellung möglich  
 0000000: [cronjob collectPayments] parameter FRONTEND.ENABLED=true causing a order delete for Przelewy24 and iDeal payments  
 0000000: [cronjob collectPayments] set referenceid before temporaray order is finalized  
@@ -39,19 +65,25 @@ title: Changelog
 0000000: replaced deprecated method "getShopEdition" for request parameter  
 0000000: changing url in metadata to https://docs.oxidmodule.com/Heidelpay/  
 
-## 6.0.3.0
+---
+
+## 6.0.3.0 - (2019-05-09)
 0008145: OT Zahlungsarten auf Länder und Währung einschränken  
 0008577: Exception bei dem Versenden von d3SendHPErrorMessage  
 0008263: Daux.io Umsetzung Heidelpay  
 0000000: neue Zahlungsart B2B Rechnungskauf hinzugefügt
 
-## 6.0.2.3
+---
+
+## 6.0.2.3 - (2019-03-08)
 0008253: alte Trusted Shops Käuferschutz Kompatibilität entfernen  
 0000000: Collation der Admin Sprachdateien auf UTF-8 gesetzt  
 0008158: Zahlungstyp Billsafe entfernen  
 0000000: [ Refactor ] \D3\Heidelpay\Models\Containers\Parameter
 
-## 6.0.2.2
+---
+
+## 6.0.2.2 - (2019-01-09)
 0008210: Transaktions-Fehlermeldung im Tab Order/Heidelpay anzeigen lassen  
 0008237: [ Blocker ] Fehlermeldung beim Bestellabschluss  
 0000000: Neues Model Models\Actions\Finalize  
@@ -59,13 +91,17 @@ title: Changelog
 0000000: [ Refactor ] \D3\Heidelpay\Models\Containers\Criterions\*  
 0000000: [ Refactor ] Umbenennung der \D3\Heidelpay\Models\Actions\* Eigenschaften and Methoden  
 
-## 6.0.2.1
+---
+
+## 6.0.2.1 - (2019-01-03)
 0008148: [ Push ] E-Mail bei fehlender Bestellung  
 0008154: Anzeige der Push Benachrichtigungs URL im Admin  
 0008155: [ EE ] Updatescript für gespeicherte Kundendaten bereit stellen  
 0008156: divs in flow templates ergänzen  
 
-## 6.0.2.0
+---
+
+## 6.0.2.0 - (2018-12-05)
 0007899: Push Notifications integriert  
 0000000: WAITING Status auf PENDING gestellt  
 0007921: Feldbegrenzungen in der Basket Api validieren  
@@ -75,21 +111,29 @@ title: Changelog
 0007483: FONTEND.ENABLED sollte immer übertragen werden  
 0006751: WAITING Status an Bestellung weitergebe
 
-## 6.0.1.3
+---
+
+## 6.0.1.3 - (2018-11-01)
 0008030: IBAN Anfangsbuchstaben müssen immer groß geschrieben werden  
 0007945: Doppelklick führt zu doppelten Bestellungen/Abbuchungen  
 0007906: Endlosschleife in automatischer Installation
 
-## 6.0.1.2
+---
+
+## 6.0.1.2 - (2018-08-20)
 0007856: 6.0.3 / 6.1.0 veraltete obsolete dynvalues wurden validiert (Bankeinzug + Giropay)
 
-## 6.0.1.1
+---
+
+## 6.0.1.1 - (2018-08-08)
 0007756: EPS - Ablehnung da falsches Land übertragen wurde - ACCOUNT.COUNTRY  
 0007812: Änderungen Flow 3.0.2 übernehmen (OXID Compilation 6.1.0)  
 0007820: Freigabe 6.1.0  
 0007817: Mobile theme Unterstützung entfernen
  
-## 6.0.1.0
+---
+
+## 6.0.1.0 - (2018-05-22)
 0005802: Postfinance Integration  
 0007283: EasyCredit Korrekturen  
 0007214: d3hpprepaymentdata::getTransaction selektiert falsch bei gesichert. Rechnungskauf  
@@ -98,10 +142,17 @@ title: Changelog
 0007388: Umfirmierung der Heidelberger Payment GmbH in heidelpay (GmbH)  
 0000000: extended logging of initial ngw requests  
 
-## 6.0.0.1
+---
+
+## 6.0.0.1 - (2018-04-26)
 0007418: fixed d3/modcfg::d3counter calls have to be case sensitive     
 
-## 6.0.0.0
+---
+
+## 6.0.0.0 - (2018-03-19)
+
+**Minor version upgrade notice: there are some backward-incompatible changes to this release.**
+
 0000000: migration to oxid-esales/oxideshop-ce v6.1.0 | dropping support below v6.1.0  
 0000000: fixed error was shown on changing currency marked viewconfig…  
 0000000: added d3transactionlog to bankaccount (prepayment)  
@@ -113,6 +164,8 @@ title: Changelog
 0000000: using oxids metadata version 2.0  
 0000000: using namespaces  
 0000000: using composer installation
+
+---
 
 ## 5.3.0.0
 0006668: Easycredit implementieren  

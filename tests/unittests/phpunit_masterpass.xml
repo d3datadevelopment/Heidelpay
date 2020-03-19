@@ -1,0 +1,7 @@
+<phpunit>
+    <testsuites>
+        <testsuite name="masterpass">
+            <file>unit/modules/d3/d3heidelpay/models/generators/basketTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

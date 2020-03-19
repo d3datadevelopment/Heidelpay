@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Response version="1.0">
+    <Transaction source="XML" channel="31HA07BC815DEA2098CCA5A7332203C6" response="SYNC" mode="CONNECTOR_TEST">
+        <Identification>
+            <TransactionID>589__@@2013-11-15 15:53:07</TransactionID>
+            <UniqueID>31HA07BC812AA9C518E25BBA2FCEB08F</UniqueID>
+            <ShortID>2484.5359.0530</ShortID>
+            <Source>HPC</Source>
+        </Identification>
+        <Processing code="IV.PA.80.00">
+            <Timestamp>2013-11-15 14:53:10</Timestamp>
+            <Result>ACK</Result>
+            <Status code="80">WAITING</Status>
+            <Reason code="00">Transaction Pending</Reason>
+            <Return code="000.200.000">Transaction pending</Return>
+            <Redirect url="https://test.ctpe.net/payment/threedsecure/authenticationSimulation.jsp">
+                <Parameter name="test_usage">2513.0828.1888 HPC TEST-Merchant (3D-secure)</Parameter>
+                <Parameter name="test_amount">54,70 EUR</Parameter>
+                <Parameter name="MD">ff8080814306423a014306677f9c2a55</Parameter>
+                <Parameter name="TermUrl">https://test.ctpe.net/payment/threedsecure;jsessionid=.sbg-vm-ps01?ndcid=8a90818a266b715c012670524c390236_31HA07BC81863D9EA99754503E98AD1C_CTPE_randf2e7a7d868fe3fd9</Parameter>
+                <Parameter name="PaReq">eJxVUltPwjAU/iuEZ10v627k0AQkERJRFGL0iZSujEW2QVcE/PW246Z9Ot/5zvU7hdlKKzWYKrnTisNY1bXIVCtPu+3Dsgjm0Zx4PqOY4jaHSe9NbTl8K13nVcmJhz0K6AJtspYrURoOQm77o2fOIkYYBnSGUCg9GnDcvAAHYZJgEt0nDhI/AXTioRSF4sOqNmtRpq0nkwJqXCCrXWn0kbPYFr0A2Ok1Xxmz6SC03++9grKFyGpPVgUgxwG6DTbZOau2tQ55yunj4mc5VdlsSNE7GUj6kY0nva9R//WzC8hFQCqM4hTjCIckaBHW8aMOjQE1fhCFG4ITjO+w2/MEYeO69K6co/66wGqtVSmPPHbqXBGow6YqlY2wql5tSFUt+ct0bJs6C9BtiYeh01oaq1oYB3HkUxL5hFAWUKd6Q7iqudWJEBw2ZR0A5FLR+aDofHZr/fsOv54Frac=</Parameter>
+                <Parameter name="test_cc">**** **** **** 1111</Parameter>
+            </Redirect>
+            <Risk score="0"/>
+        </Processing>
+        <Payment code="IV.PA">
+            <Clearing>
+                <Amount>33.80</Amount>
+                <Currency>EUR</Currency>
+                <Descriptor>2484.5359.0530 HPC TEST-Merchant (3D-secure)</Descriptor>
+                <Date>2013-11-15 14:53:10</Date>
+                <Support>+49 (0) 6543210123</Support>
+            </Clearing>
+            <Presentation>
+                <Amount>33.80</Amount>
+                <Currency>EUR</Currency>
+                <Usage></Usage>
+            </Presentation>
+        </Payment>
+        <Account>
+            <Expiry/>
+            <Brand>PAYPAL</Brand>
+        </Account>
+        <Customer>
+            <Name>
+                <Given>Paul</Given>
+                <Family>Positiv</Family>
+                <Company></Company>
+            </Name>
+            <Address>
+                <Street>stollbergerstraße 23</Street>
+                <Zip>49084</Zip>
+                <City>Osnabrück</City>
+                <State></State>
+                <Country>DE</Country>
+            </Address>
+            <Contact>
+                <Email>d3test1@shopmodule.com</Email>
+                <Mobile></Mobile>
+                <Phone></Phone>
+            </Contact>
+        </Customer>
+        <Frontend>
+            <ResponseUrl>
+                https://test-heidelpay.hpcgw.net/sgw/authresult;jsessionid=CEB760B673F667422B54CD57BCFAA32B.worker11
+            </ResponseUrl>
+            <SessionID>c4b9aa2e0df6b33ae2e5c8e8968e01a9__@@3dsframe__@@0__@@8bba705e__@@DEB3D3FA__@@1
+            </SessionID>
+        </Frontend>
+        <Analysis>
+            <Criterion name="POS_01.POSITION">1</Criterion>
+            <Criterion name="POS_01.PERCENT_VAT">19.00</Criterion>
+            <Criterion name="POS_01.AMOUNT_UNIT_GROSS">2990</Criterion>
+            <Criterion name="POS_01.AMOUNT_GROSS">2990</Criterion>
+            <Criterion name="POS_01.ARTICLE_TYPE">goods</Criterion>
+            <Criterion name="POS_01.ARTICLE_NUMBER">3503</Criterion>
+            <Criterion name="POS_01.TEXT">Kuyichi Ledergürtel JEVER</Criterion>
+            <Criterion name="POS_01.UNIT"></Criterion>
+            <Criterion name="POS_01.QUANTITY">1</Criterion>
+            <Criterion name="POS_02.POSITION">2</Criterion>
+            <Criterion name="POS_02.PERCENT_VAT">19.00</Criterion>
+            <Criterion name="POS_02.AMOUNT_UNIT_GROSS">390</Criterion>
+            <Criterion name="POS_02.AMOUNT_GROSS">390</Criterion>
+            <Criterion name="POS_02.ARTICLE_TYPE">shipment</Criterion>
+            <Criterion name="POS_02.ARTICLE_NUMBER">-</Criterion>
+            <Criterion name="POS_02.TEXT">Versandkosten</Criterion>
+            <Criterion name="POS_02.UNIT"></Criterion>
+            <Criterion name="POS_02.QUANTITY">1</Criterion>
+        </Analysis>
+        <RequestTimestamp>2013-11-15 14:53:10</RequestTimestamp>
+        <Authentication type="3DSecure">
+            <ResultIndicator>05</ResultIndicator>
+        </Authentication>
+    </Transaction>
+</Response>

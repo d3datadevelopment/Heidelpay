@@ -1,0 +1,8 @@
+<phpunit bootstrap="../../../../bootstrap.php">
+    <testsuites>
+        <testsuite name="pci3">
+            <directory>unit/modules/d3/d3heidelpay/models/containers</directory>
+            <directory>unit/modules/d3/d3heidelpay/models/generators</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
