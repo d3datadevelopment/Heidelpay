@@ -34,7 +34,7 @@
     }
   },
   "require": {
-    "php": "7.1 - 7.2", "ext-ionCube-Loader": "*",
+    "php": "7.1 - 7.3", "ext-ionCube-Loader": "*",
     "lib-curl": ">=7.34.0",
     "lib-openssl": ">=1.0.1",
     "ext-curl": "*",
@@ -44,8 +44,8 @@
     "ext-simplexml": "*",
     "ext-bcmath": "*",
     "ext-json": "*",
-    "oxid-esales/oxideshop-metapackage-ce": "~6.0.1 || ~6.1.0",
-    "d3/modcfg": ">=5.2.0.2 <5.3"
+    "oxid-esales/oxideshop-ce": "6.0 - 6.3",
+    "d3/modcfg": ">=5.2.0.2 < 5.4"
   },
   "autoload": {
     "psr-4": {
