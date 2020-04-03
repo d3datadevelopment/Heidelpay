@@ -556,30 +556,35 @@ class Order extends Order_parent
      */
     public function finalizeOrder(Basket $oxBasket, $oxUser, $blRecalculatingOrder = false)
     {
-        $paymentId = $oxBasket->getPaymentId();
-        $payment = oxNew( OxidPayment::class);
-        $payment->load($paymentId);
+        try {
+            $paymentId = $oxBasket->getPaymentId();
+            $payment = oxNew( OxidPayment::class);
+            $payment->load($paymentId);
 
-        /** @var Factory $factory */
-        $factory              = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
-        /** @var Viewconfig $heidelpayViewConfig */
-        $heidelpayViewConfig = oxNew(
-            Viewconfig::class,
-            d3_cfg_mod::get('d3heidelpay'),
-            Registry::get(Registry::class),
-            $factory
-        );
-        $settings = $heidelpayViewConfig->getSettings();
+            /** @var Factory $factory */
+            $factory              = oxNew(Factory::class, d3_cfg_mod::get('d3heidelpay'));
+            /** @var Viewconfig $heidelpayViewConfig */
+            $heidelpayViewConfig = oxNew(
+                Viewconfig::class,
+                d3_cfg_mod::get('d3heidelpay'),
+                Registry::get(Registry::class),
+                $factory
+            );
+            $settings = $heidelpayViewConfig->getSettings();
 
-        $heidelPayment = $settings->getPayment($payment);
+            $heidelPayment = $settings->getPayment($payment);
 
-        if ($heidelPayment instanceof Secured) {
-            /** @var HPPaymentController $paymentController */
-            $paymentController = oxNew(PaymentController::class);
-            if (false == $paymentController->isHeidelpayInvoiceSecuredAllowed($oxBasket)) {
-                return self::ORDER_STATE_PAYMENTERROR;
+            if ($heidelPayment instanceof Secured) {
+                /** @var HPPaymentController $paymentController */
+                $paymentController = oxNew(PaymentController::class);
+                if (false == $paymentController->isHeidelpayInvoiceSecuredAllowed($oxBasket)) {
+                    return self::ORDER_STATE_PAYMENTERROR;
+                }
             }
+        } catch (PaymentNotReferencedToHeidelpayException $e) {
+            // ignore exception, because it's handled already before
         }
+
 
         $return             = parent::finalizeOrder($oxBasket, $oxUser, $blRecalculatingOrder);
         $registry           = Registry::get(Registry::class);

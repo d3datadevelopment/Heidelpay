@@ -2,6 +2,16 @@
 title: Changelog
 ---
 
+## 6.1.1.3 - (2020-04-03)
+### changed
+- ermöglicht Einsatz mit ModulConnector 5.3
+- ermöglicht Installation in Projekten ohne "oxid-esales/oxideshop-metapackage-ce"
+
+### fixed
+- Abbruch bei Verwendung nicht zu Heidelpay zugewiesener Zahlart korrigiert
+
+---
+
 ## 6.1.1.2 - (2020-03-19)
 ### fixed
 - 0009550: Manipulationsprävention bei Zahlung mit abgesichertem Rechnungskauf integriert
