@@ -1,6 +1,9 @@
 ---
 title: Changelog
 ---
+## 6.1.2.0 - (2020-05-12)
+### added
+- 0009705: Freigabe OXID 6.2
 
 ## 6.1.1.3 - (2020-04-03)
 ### changed

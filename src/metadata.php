@@ -10,9 +10,6 @@ use D3\Heidelpay\Controllers\Admin\Settings;
 use D3\Heidelpay\Modules\Application\Controller;
 use D3\Heidelpay\Modules\Application\Model;
 use D3\Heidelpay\Modules\Core;
-use D3\Heidelpay\Setup\CleanupRoutine;
-use D3\Heidelpay\Setup\InstallRoutine;
-use D3\Heidelpay\Setup\UpdateRoutine;
 use D3\ModCfg\Application\Model\d3counter;
 use D3\ModCfg\Application\Model\d3utils;
 use D3\ModCfg\Application\Model\Install\d3install;
@@ -31,18 +28,14 @@ $aModule = array(
         'en' => '',
     ),
     'thumbnail'      => 'picture.png',
-    'version'        => '6.1.1.3',
+    'version'        => '6.1.2.0',
     'author'         => 'D&sup3; Data Development, Inh. Thomas Dartsch',
     'email'          => 'support@shopmodule.com',
     'url'            => 'https://docs.oxidmodule.com/Heidelpay/',
     'events'         => array(
         'onActivate' => d3install::class . '::checkUpdateStart',
     ),
-    'd3SetupClasses' => array(
-        InstallRoutine::class,
-        CleanupRoutine::class,
-        UpdateRoutine::class,
-    ),
+
     'extend'         => array(
         d3counter::class                         => Core\Counter::class,
         OxidCore\Email::class                    => Core\Email::class,
