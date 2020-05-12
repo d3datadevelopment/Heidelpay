@@ -1,5 +1,5 @@
 ---
-title: Shopanpassungen installierren
+title: Shopanpassungen installieren
 ---
 
 Ob Shopanpassungen notwendig sind, ist von der Versionsänderung des Moduls abhängig.
