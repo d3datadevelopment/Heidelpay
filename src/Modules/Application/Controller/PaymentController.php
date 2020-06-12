@@ -9,6 +9,7 @@ use D3\Heidelpay\Models\Payment\Directdebit\Secured as DirectdebitSecured;
 use D3\Heidelpay\Models\Payment\Easycredit;
 use D3\Heidelpay\Models\Payment\Exception\PaymentNotReferencedToHeidelpayException;
 use D3\Heidelpay\Models\Payment\Ideal;
+use D3\Heidelpay\Models\Payment\Eps;
 use D3\Heidelpay\Models\Payment\Invoice\Secured;
 use D3\Heidelpay\Models\Payment\Invoice\Unsecured;
 use D3\Heidelpay\Models\Payment\Payment as HeidelpayAbstractPayment;
@@ -208,6 +209,7 @@ class PaymentController extends PaymentController_parent
             $heidelPayment instanceof Easycredit
                 || $heidelPayment instanceof Przelewy24
                 || $heidelPayment instanceof Ideal
+                || $heidelPayment instanceof Eps
                 || $heidelPayment instanceof Paypal
                 || $heidelPayment instanceof DirectdebitSecured
                 || $heidelPayment instanceof Secured
@@ -429,6 +431,7 @@ class PaymentController extends PaymentController_parent
         $this->addTplParam('blD3HeidelpayAllowPostFinance', $this->isPaymentAllowedForCountryAndCurrency('CH', 'CHF'));
         $this->addTplParam('blD3HeidelpayAllowPrzelewy24', $this->isPaymentAllowedForCountryAndCurrency('PL', 'PLN'));
         $this->addTplParam('blD3HeidelpayAllowIdeal', $this->isPaymentAllowedForCountryAndCurrency('NL', 'EUR'));
+        $this->addTplParam('blD3HeidelpayAllowEPS', $this->isPaymentAllowedForCountryAndCurrency('AT', 'EUR'));
         $this->addTplParam('iD3HeidelpayInvoiceSecuredLimits', $this->getInvoiceSecuredLimits());
         $this->addTplParam('blD3HeidelpayHasSameAdresses', $this->d3HeidelpayHasSameAdresses());
         $this->addTplParam(

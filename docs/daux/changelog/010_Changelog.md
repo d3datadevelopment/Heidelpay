@@ -1,9 +1,24 @@
 ---
 title: Changelog
 ---
+
+## 6.1.2.1 - (2020-06-15)
+### fixed
+- korrigiert Fragezeichen in Rückgabewert der execute-Methoden (führte zu ungültiger Redirect URL)
+- 0009794: erzwingt neue Session im iDeal Cron Script (führt zu Fehlern, wenn z.B. auf während der Bearbeitung der ersten Bestellung der Warenkorb neu aufgebaut werden muss - nötig z.B. bei Gutscheinverwendung)
+- EPS nicht auswählbar - blD3HeidelpayAllowEPS fehlt
+- verwendet optimierte Logik, um in externen Aufrufen die bootstrap-Datei finden zu können
+
+### changed
+- Bestellschritt3: Aufpreis bei Zahlarten ausblenden wenn 0
+
+---
+
 ## 6.1.2.0 - (2020-05-12)
 ### added
 - 0009705: Freigabe OXID 6.2
+
+---
 
 ## 6.1.1.3 - (2020-04-03)
 ### changed

@@ -22,8 +22,8 @@
             <label for="payment_[{$sPaymentID}]"><b>[{$paymentmethod->oxpayments__oxdesc->value}]</b></label>
             [{include file="d3_heidelpay_views_tpl_payment_img.tpl" sImageUrl=$sFullImageUrl sBrandIdent=$sBrandIdent}]
             [{if false == $blD3HeidelpayAllowEPS}]
-                <sup id="d3HeidelayPrzelewy24Notice"
-                     class="alert alert-danger">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_IDEAL_NOTICE"}]</sup>
+                <sup id="d3HeidelayEpsNotice"
+                     class="alert alert-danger">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_EPS_NOTICE"}]</sup>
             [{/if}]
         </dt>
         <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">

@@ -3,6 +3,7 @@
 use D3\Heidelpay\Controllers\Response;
 use D3\ModCfg\Application\Model\Configuration\d3_cfg_mod;
 use D3\ModCfg\Application\Model\Log\d3log;
+use OxidEsales\ComposerPlugin\Installer\Package\ShopPackageInstaller;
 use OxidEsales\Eshop\Core\Registry;
 
 if (isset($_POST['CRITERION_force_sid'])) {
@@ -33,17 +34,40 @@ if (isset($_POST['CRITERION_cutsomerip'])) {
 if (false == defined('D3_HEIDELPAY_PUBLIC_FILE')) {
     define('D3_HEIDELPAY_PUBLIC_FILE', basename(__FILE__));
 }
-/**
- * Returns shop base path.
- *
- * @return string
- */
-function getShopBasePath()
-{
-    return realpath(dirname(__FILE__).'/../../../../').'/';
+
+require_once(__DIR__.'/../../../../../vendor/autoload.php');
+
+$bootstrapFileName = getenv('ESHOP_BOOTSTRAP_PATH');
+if (!empty($bootstrapFileName)) {
+    $bootstrapFileName = realpath(trim(getenv('ESHOP_BOOTSTRAP_PATH')));
+} else {
+    $count = 0;
+    $bootstrapFileName = '../../../'. ShopPackageInstaller::SHOP_SOURCE_DIRECTORY .'/bootstrap.php';
+    $currentDirectory = __DIR__ . '/';
+    while ($count < 5) {
+        $count++;
+        if (file_exists($currentDirectory . $bootstrapFileName)) {
+            $bootstrapFileName = $currentDirectory . $bootstrapFileName;
+            break;
+        }
+        $bootstrapFileName = '../' . $bootstrapFileName;
+    }
 }
 
-require_once getShopBasePath()."/bootstrap.php";
+if (!(file_exists($bootstrapFileName) && !is_dir($bootstrapFileName))) {
+    $items = [
+        "Unable to find eShop bootstrap.php file.",
+        "You can override the path by using ESHOP_BOOTSTRAP_PATH environment variable.",
+        "\n"
+    ];
+
+    $message = implode(" ", $items);
+
+    die($message);
+}
+
+require_once($bootstrapFileName);
+
 ksort($_POST);
 try {
     d3_cfg_mod::get('d3heidelpay')->d3getLog()->log(

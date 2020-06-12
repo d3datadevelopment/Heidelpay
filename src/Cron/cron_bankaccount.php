@@ -3,6 +3,7 @@
 use Doctrine\DBAL\DBALException;
 use OxidEsales\Eshop\Core\Exception\StandardException;
 use OxidEsales\Eshop\Core\Registry;
+use OxidEsales\ComposerPlugin\Installer\Package\ShopPackageInstaller;
 
 $aParams = array();
 
@@ -25,17 +26,38 @@ if ($argv && is_array($argv) && $argc) {
     $aParams['exec'] = "url";
 }
 
-/**
- * Returns shop base path.
- *
- * @return string
- */
-function getShopBasePath()
-{
-    return realpath(dirname(__FILE__) . '/../../../../') . '/';
+require_once(__DIR__.'/../../../../../vendor/autoload.php');
+
+$bootstrapFileName = getenv('ESHOP_BOOTSTRAP_PATH');
+if (!empty($bootstrapFileName)) {
+    $bootstrapFileName = realpath(trim(getenv('ESHOP_BOOTSTRAP_PATH')));
+} else {
+    $count = 0;
+    $bootstrapFileName = '../../../'. ShopPackageInstaller::SHOP_SOURCE_DIRECTORY .'/bootstrap.php';
+    $currentDirectory = __DIR__ . '/';
+    while ($count < 5) {
+        $count++;
+        if (file_exists($currentDirectory . $bootstrapFileName)) {
+            $bootstrapFileName = $currentDirectory . $bootstrapFileName;
+            break;
+        }
+        $bootstrapFileName = '../' . $bootstrapFileName;
+    }
 }
 
-require_once getShopBasePath() . "/bootstrap.php";
+if (!(file_exists($bootstrapFileName) && !is_dir($bootstrapFileName))) {
+    $items = [
+        "Unable to find eShop bootstrap.php file.",
+        "You can override the path by using ESHOP_BOOTSTRAP_PATH environment variable.",
+        "\n"
+    ];
+
+    $message = implode(" ", $items);
+
+    die($message);
+}
+
+require_once($bootstrapFileName);
 
 /** @var D3\Heidelpay\Models\Bankaccount $oResponse */
 $oResponse = oxNew(D3\Heidelpay\Models\Bankaccount::class);

@@ -143,6 +143,7 @@ $aLang     = array(
     'D3HEIDELPAY_PAYMENT_POSTFINANCE_NOTICE'                       => 'This payment method require Austria (CH) as invoice Country and CHF as currency .',
     'D3HEIDELPAY_PAYMENT_PRZELEWY24_NOTICE'                        => 'This payment method require Poland (PL) as invoice Country and PLN as currency.',
     'D3HEIDELPAY_PAYMENT_IDEAL_NOTICE'                             => 'This payment method require Nederlands (NL) as invoice Country and EUR as currency.',
+    'D3HEIDELPAY_PAYMENT_EPS_NOTICE'                               => 'This payment method require Austria (AT) as invoice Country and EUR as currency.',
     'D3HEIDELPAY_PAYMENT_EASYCREDIT_NOTICE'                        => 'This payment method require Germany (DE) as invoice Country and EUR as currency, also a total basket amount between %s and %s Euro.',
     "D3_Heidelpay_REDIRECT_NOSCRIPT"                               => "Click here if you are not redirected.",
     'D3PAYMENT_EXT_STOREDUID_NEW_CARD'                             => 'use a new card',
