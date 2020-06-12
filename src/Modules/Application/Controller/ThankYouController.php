@@ -7,6 +7,7 @@ use D3\Heidelpay\Models\Factory;
 use D3\Heidelpay\Models\Payment\Btobbillpurchase;
 use D3\Heidelpay\Models\Payment\Exception\PaymentNotReferencedToHeidelpayException;
 use D3\Heidelpay\Models\Payment\Ideal;
+use D3\Heidelpay\Models\Payment\Eps;
 use D3\Heidelpay\Models\Payment\Invoice\Secured;
 use D3\Heidelpay\Models\Payment\Invoice\Unsecured;
 use D3\Heidelpay\Models\Payment\Prepayment;
@@ -101,7 +102,7 @@ class ThankYouController extends ThankYouController_parent
         $settings = $factory->getSettings();
         $heidelpayment = $settings->getPayment($payment);
 
-        if (false == ($heidelpayment instanceof Ideal || $heidelpayment instanceof Przelewy24)) {
+        if (false == ($heidelpayment instanceof Ideal || $heidelpayment instanceof Eps || $heidelpayment instanceof Przelewy24)) {
             parent::init();
             return;
         }

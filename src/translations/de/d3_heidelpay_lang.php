@@ -143,6 +143,7 @@ $aLang     = array(
     'D3HEIDELPAY_PAYMENT_POSTFINANCE_NOTICE'                       => 'Diese Zahlungsart benötigt als Rechnungsland Schweiz (CH) und CHF als Währung.',
     'D3HEIDELPAY_PAYMENT_PRZELEWY24_NOTICE'                        => 'Diese Zahlungsart benötigt als Rechnungsland Polen (PL) und PLN als Währung.',
     'D3HEIDELPAY_PAYMENT_IDEAL_NOTICE'                             => 'Diese Zahlungsart benötigt als Rechnungsland Niederlande (NL) und EUR als Währung.',
+    'D3HEIDELPAY_PAYMENT_EPS_NOTICE'                               => 'Diese Zahlungsart benötigt als Rechnungsland Österreich (AT) und EUR als Währung.',
     'D3HEIDELPAY_PAYMENT_NOTSAMEADDRESS_NOTICE'                    => 'Keine abweichende Lieferadresse möglich, bitte prüfen Sie Ihre Angaben zur Lieferadresse.',
     'D3HEIDELPAY_PAYMENT_EASYCREDIT_NOTICE'                        => 'Diese Zahlungsart benötigt als Rechnungsland Deutschland (DE) und EUR als Währung, sowie einen Gesamtbetrag zwischen %s und %s Euro und darf nicht in Kombination mit Packstation verwendet werden.',
     'D3HEIDELPAY_PAYMENT_BTOBBILLPURCHASESECURED_NOTICE'           => 'Diese Zahlungsart benötigt als Rechnungsland Deutschland (DE) oder Österreich (AT)), sowie einen Gesamtbetrag zwischen %s und %s Euro und darf nicht in Kombination mit Packstation verwendet werden.',
