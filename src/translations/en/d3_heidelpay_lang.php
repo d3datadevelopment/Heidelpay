@@ -232,4 +232,15 @@ If necessary switch the D³ Logging (/Heidelpay/Settings/Settings for module log
     'D3HEIDELPAY_PAYMENT_COMPANY_EXECUTIVE_HOMESTREET'                                         => 'street address',
     'D3HEIDELPAY_PAYMENT_COMPANY_EXECUTIVE_INFOS'          => 'infos about the company holder',
     'D3HEIDELPAY_PAYMENT_COMPANY_INFOS'                    => 'infos about the company',
+
+    //#9797 idents included [24.09.2020|mb]
+    'D3HEIDELPAY_PAYMENT_COMPANY_DATE'                                                          => 'Date',
+    'D3HEIDELPAY_PAYMENT_COMPANY_RESULT'                                                        => 'Result',
+    'D3HEIDELPAY_PAYMENT_COMPANY_CARDS'                                                         => 'Credit/Debit',
+    'D3HEIDELPAY_PAYMENT_COMPANY_METHOD'                                                        => 'Methode',
+    'D3HEIDELPAY_PAYMENT_COMPANY_PAYMENTTYPE'                                                   => 'Zahlungstyp',
+    'D3HEIDELPAY_PAYMENT_COMPANY_TXNID'                                                         => 'Txn-ID',
+    'D3HEIDELPAY_PAYMENT_COMPANY_UNIQUEID'                                                      => 'Unique ID',
+    'D3HEIDELPAY_PAYMENT_COMPANY_SHORTID'                                                       => 'Short-ID',
+
 );

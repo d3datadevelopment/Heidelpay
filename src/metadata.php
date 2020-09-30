@@ -21,14 +21,16 @@ $sMetadataVersion = '2.0';
 
 $aModule = array(
     'id'             => 'd3heidelpay',
-    'title'          => (class_exists('D3\ModCfg\Application\Model\d3utils') ? d3utils::getInstance()->getD3Logo() : 'D&sup3;') . ' Heidelpay',
+    'title'          => 
+        '<svg style="height:1em;width:1em"><image xlink:href="https://logos.oxidmodule.com/d3logo.svg" style="height:1em;width:1em" /></svg> '.
+        'Heidelpay',
     'description'    => array(
         'de' => 'heidelpay GmbH bietet als Zahlungsinstitut H&auml;ndlern ein Zahlungssystem f&uuml;r '
             . 'alle g&auml;ngigen Zahlungsverfahren f&uuml;r die Payment Abwicklung im Internet.',
         'en' => '',
     ),
     'thumbnail'      => 'picture.png',
-    'version'        => '6.1.2.1',
+    'version'        => '6.1.2.2',
     'author'         => 'D&sup3; Data Development, Inh. Thomas Dartsch',
     'email'          => 'support@shopmodule.com',
     'url'            => 'https://docs.oxidmodule.com/Heidelpay/',

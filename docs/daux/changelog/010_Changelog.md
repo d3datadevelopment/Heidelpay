@@ -2,6 +2,17 @@
 title: Changelog
 ---
 
+## 6.1.2.2 - (2020-09-30)
+### changed
+- Titellogo auf statischen Asset umgestellt
+- Logos für Amex, MasterCard, Paypal und VISA aktualisiert
+- übersetzbare Sparchbausteine für Bestellungsübersicht verwendet
+
+### fixed
+- falsche Konfigurations-ID korrigiert - dieser Fehler löste kein Fehlverhalten im Modul aus
+
+---
+
 ## 6.1.2.1 - (2020-06-15)
 ### fixed
 - korrigiert Fragezeichen in Rückgabewert der execute-Methoden (führte zu ungültiger Redirect URL)
