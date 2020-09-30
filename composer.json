@@ -34,7 +34,7 @@
     }
   },
   "require": {
-    "php": "7.1 - 7.3", "ext-ionCube-Loader": "*",
+    "php": "7.1 - 7.4", "ext-ionCube-Loader": "*",
     "lib-curl": ">=7.34.0",
     "lib-openssl": ">=1.0.1",
     "ext-curl": "*",
@@ -45,7 +45,7 @@
     "ext-bcmath": "*",
     "ext-json": "*",
     "oxid-esales/oxideshop-ce": "6.0 - 6.5",
-    "d3/modcfg": ">=5.3.0.0"
+    "d3/modcfg": "^5.3.0.0"
   },
   "autoload": {
     "psr-4": {

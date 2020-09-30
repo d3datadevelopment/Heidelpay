@@ -242,4 +242,14 @@ Schalten Sie ggf. das D³ Logging (/Heidelpay/Einstellungen/Einstellungen zu Mod
     'D3HEIDELPAY_PAYMENT_COMPANY_AT'                                                           => 'Österreich',
     'D3HEIDELPAY_PAYMENT_COMPANY_EXECUTIVE_INFOS'                                              => 'Angaben zum Inhaber',
     'D3HEIDELPAY_PAYMENT_COMPANY_INFOS'                                                        => 'Angabe zum Unternehmen',
+
+    //#9797 idents included [24.09.2020|mb]
+    'D3HEIDELPAY_PAYMENT_COMPANY_DATE'                                                         => 'Datum',
+    'D3HEIDELPAY_PAYMENT_COMPANY_RESULT'                                                       => 'Ergebnis',
+    'D3HEIDELPAY_PAYMENT_COMPANY_CARDS'                                                        => 'Credit/Debit',
+    'D3HEIDELPAY_PAYMENT_COMPANY_METHOD'                                                       => 'Methode',
+    'D3HEIDELPAY_PAYMENT_COMPANY_PAYMENTTYPE'                                                  => 'Zahlungstyp',
+    'D3HEIDELPAY_PAYMENT_COMPANY_TXNID'                                                        => 'Txn-ID',
+    'D3HEIDELPAY_PAYMENT_COMPANY_UNIQUEID'                                                     => 'Unique ID',
+    'D3HEIDELPAY_PAYMENT_COMPANY_SHORTID'                                                      => 'Short-ID',
 );

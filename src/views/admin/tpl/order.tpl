@@ -76,14 +76,14 @@
                 [{if !empty($transactions)}]
                     <table border="0" class="d3hptransactions box" id="d3hptransactions">
                         <tr>
-                            <th colspan="3">Ergebnis</th>
-                            <th>Datum</th>
-                            <th>Credit/Debit</th>
-                            <th>Methode</th>
-                            <th>Zahlungstyp</th>
-                            <th>Txn-ID</th>
-                            <th>Unique ID</th>
-                            <th>Short ID</th>
+                            <th colspan="3">[{oxmultilang ident="D3HEIDELPAY_PAYMENT_COMPANY_RESULT"}]</th>
+                            <th>[{oxmultilang ident="D3HEIDELPAY_PAYMENT_COMPANY_DATE"}]</th>
+                            <th>[{oxmultilang ident="D3HEIDELPAY_PAYMENT_COMPANY_CARDS"}]</th>
+                            <th>[{oxmultilang ident="D3HEIDELPAY_PAYMENT_COMPANY_METHOD"}]</th>
+                            <th>[{oxmultilang ident="D3HEIDELPAY_PAYMENT_COMPANY_PAYMENTTYPE"}]</th>
+                            <th>[{oxmultilang ident="D3HEIDELPAY_PAYMENT_COMPANY_TXNID"}]</th>
+                            <th>[{oxmultilang ident="D3HEIDELPAY_PAYMENT_COMPANY_UNIQUEID"}]</th>
+                            <th>[{oxmultilang ident="D3HEIDELPAY_PAYMENT_COMPANY_SHORTID"}]</th>
                         </tr>
                         [{foreach from=$transactions item='transaction' key='index' name='transactions'}]
 
