@@ -2,6 +2,10 @@
 title: Changelog
 ---
 
+## 6.0.3.2 - 2021-01-11
+0000000: korrigiert Fragezeichen in Rückgabewert der execute-Methoden (führte zu ungültiger Redirect URL)
+0000000: keine Weiterleitung zur 3DS-Eingabe bei Nutzung der NGW-Schnittstelle möglich
+---
 ## 6.0.3.1
 0008863: 6.0.3.0 Fehler bei nicht Heidelpay zugeordneten Zahlungsarten - keine Bestellung möglich
 0000000: [cronjob collectPayments] parameter FRONTEND.ENABLED=true causing a order delete for Przelewy24 and iDeal payments 

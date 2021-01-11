@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Test Suite</title>
+</head>
+<body>
+<table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
+<tr><td><b>Test Suite</b></td></tr>
+<tr><td><a href="cases/settings_SetupEnvironmentVariables.html">settings_SetupEnvironmentVariables</a></td></tr>
+
+
+<tr><td><a href="cases/settings_setup3dsChannels.html">settings_setup3dsChannels</a></td></tr>
+
+<tr><td><a href="cases/settings_DefaultTransTypeAuth.html">settings_DefaultTransTypeAuth</a></td></tr>
+<tr><td><a href="cases/creditcard_step4_NoStoredData_3ds.html">creditcard_step4_NoStoredData_3ds</a></td></tr>
+<tr><td><a href="cases/settings_DefaultTransTypePreauth.html">settings_DefaultTransTypePreauth</a></td></tr>
+<tr><td><a href="cases/creditcard_step4_NoStoredData_3ds.html">creditcard_step4_NoStoredData_3ds</a></td></tr>
+
+<tr><td><a href="cases/settings_setupNon3dsChannels.html">settings_setupNon3dsChannels</a></td></tr>
+
+<tr><td><a href="cases/settings_DefaultTransTypeAuth.html">settings_DefaultTransTypeAuth</a></td></tr>
+<tr><td><a href="cases/creditcard_step4_NoStoredData_non3ds.html">creditcard_step4_NoStoredData_non3ds</a></td></tr>
+<tr><td><a href="cases/settings_DefaultTransTypePreauth.html">settings_DefaultTransTypePreauth</a></td></tr>
+<tr><td><a href="cases/creditcard_step4_NoStoredData_non3ds.html">creditcard_step4_NoStoredData_non3ds</a></td></tr>
+
+<tr><td><a href="cases/settings_setup3dsChannels.html">settings_setup3dsChannels</a></td></tr>
+
+<tr><td><a href="cases/settings_DefaultTransTypeAuth.html">settings_DefaultTransTypeAuth</a></td></tr>
+<tr><td><a href="cases/debitcard_afterstep4_NoStoredData_3ds.html">debitcard_afterstep4_NoStoredData_3ds</a></td></tr>
+<tr><td><a href="cases/settings_DefaultTransTypePreauth.html">settings_DefaultTransTypePreauth</a></td></tr>
+<tr><td><a href="cases/debitcard_afterstep4_NoStoredData_3ds.html">debitcard_afterstep4_NoStoredData_3ds</a></td></tr>
+
+<tr><td><a href="cases/settings_setupNon3dsChannels.html">settings_setupNon3dsChannels</a></td></tr>
+
+<tr><td><a href="cases/settings_DefaultTransTypeAuth.html">settings_DefaultTransTypeAuth</a></td></tr>
+<tr><td><a href="cases/debitcard_afterstep4_NoStoredData_non3ds.html">debitcard_afterstep4_NoStoredData_non3ds</a></td></tr>
+<tr><td><a href="cases/settings_DefaultTransTypePreauth.html">settings_DefaultTransTypePreauth</a></td></tr>
+<tr><td><a href="cases/debitcard_afterstep4_NoStoredData_non3ds.html">debitcard_afterstep4_NoStoredData_non3ds</a></td></tr>
+
+<tr><td><a href="cases/invoice.html">invoice</a></td></tr>
+
+<tr><td><a href="cases/prepayment.html">prepayment</a></td></tr>
+
+<tr><td><a href="cases/settings_nonSEPAmode.html">settings_nonSEPAmode</a></td></tr>
+<tr><td><a href="cases/directdebit.html">directdebit</a></td></tr>
+
+<tr><td><a href="cases/settings_SEPAmode.html">settings_SEPAmode</a></td></tr>
+<tr><td><a href="cases/settings_setupGiropayChannels.html">settings_setupGiropayChannels</a></td></tr>
+<tr><td><a href="cases/giropay.html">giropay</a></td></tr>
+
+<tr><td><a href="cases/sofortueberweisung.html">sofortueberweisung</a></td></tr>
+
+<tr><td><a href="cases/settings_setupPayPalChannels.html">settings_setupPayPalChannels</a></td></tr>
+<tr><td><a href="cases/paypal.html">paypal</a></td></tr>
+
+</tbody></table>
+</body>
+</html>

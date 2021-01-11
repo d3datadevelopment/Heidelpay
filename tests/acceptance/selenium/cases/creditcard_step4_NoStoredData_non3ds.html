@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>heidelpay_cc_step3</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+    <thead>
+    <tr><td rowspan="1" colspan="3">heidelpay_cc_step3</td></tr>
+    </thead><tbody>
+<tr>
+    <td>open</td>
+    <td>?force_sid=reset</td>
+    <td></td>
+</tr>
+<tr>
+    <td>submitAndWait</td>
+    <td>css=form[name=&quot;tobasketnewItems_1&quot;]</td>
+    <td></td>
+</tr>
+<tr>
+    <td>click</td>
+    <td>css=#minibasketIcon</td>
+    <td></td>
+</tr>
+<tr>
+    <td>clickAndWait</td>
+    <td>css=#basketFlyout a.submitButton</td>
+    <td></td>
+</tr>
+<tr>
+    <td>type</td>
+    <td>css=#optionLogin input[name=&quot;lgn_usr&quot;]</td>
+    <td>${customerUserName}</td>
+</tr>
+<tr>
+    <td>type</td>
+    <td>css=#optionLogin input[name=&quot;lgn_pwd&quot;]</td>
+    <td>${customerPassword}</td>
+</tr>
+<tr>
+    <td>submitAndWait</td>
+    <td>css=#optionLogin form[name=&quot;login&quot;]</td>
+    <td></td>
+</tr>
+<tr>
+    <td>clickAndWait</td>
+    <td>css=#userNextStepBottom</td>
+    <td></td>
+</tr>
+<tr>
+    <td>click</td>
+    <td>css=#payment_${oxidCreditCardPayment}</td>
+    <td></td>
+</tr>
+<tr>
+    <td>clickAndWait</td>
+    <td>css=#paymentNextStepBottom</td>
+    <td></td>
+</tr>
+<tr>
+    <td>waitForElementPresent</td>
+    <td>css=#orderConfirmAgbBottom</td>
+    <td></td>
+</tr>
+<tr>
+    <td>submitAndWait</td>
+    <td>css=#orderConfirmAgbBottom</td>
+    <td></td>
+</tr>
+<tr>
+    <td>select</td>
+    <td>name=ACCOUNT.BRAND</td>
+    <td>label=${creditCardTestBrand}</td>
+</tr>
+<tr>
+    <td>type</td>
+    <td>name=ACCOUNT.NUMBER</td>
+    <td>${creditCardTestNumber}</td>
+</tr>
+<tr>
+    <td>select</td>
+    <td>name=ACCOUNT.YEAR</td>
+    <td>label=2023</td>
+</tr>
+<tr>
+    <td>type</td>
+    <td>name=ACCOUNT.VERIFICATION</td>
+    <td>123</td>
+</tr>
+<tr>
+    <td>clickAndWait</td>
+    <td>css=#paymentNextStepBottom</td>
+    <td></td>
+</tr>
+<tr>
+    <td>waitForElementPresent</td>
+    <td>css=li.step5.activeLast</td>
+    <td></td>
+</tr>
+<tr>
+    <td>clickAndWait</td>
+    <td>id=logoutLink</td>
+    <td></td>
+</tr>
+</tbody></table>
+</body>
+</html>
+

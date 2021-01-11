@@ -1,10 +1,10 @@
 {
     "title": "<i class='fab fa-d3 d3fa-color-blue'></i> heidelpay",
-    "moduleversion": "6.0.3.1",
+    "moduleversion": "6.0.3.2",
     "titledesc": "für den Oxid eShop",
     "author": "D³ Data Development",
-    "moduledate": "06.06.2019",
-    "editors": "KH / TD",
+    "moduledate": "11.01.2021",
+    "editors": "",
     "tagline": "",
     "image": "",
     "ignore": {
